@@ -1,4 +1,4 @@
-# Arch Boot USB Setup
+# Arch Setup
 
 ## Preamble: Set up VS Code on Personal Computer
 
@@ -9,6 +9,14 @@
 - This font ugly AF too
 
 - Anyway...
+
+- Eventually I ran into the "clipboard" issue I've run into on every new VS Code+Vim install
+
+  - <https://stackoverflow.com/a/61066089>
+
+  - The bit to add to my VS Code settings was:
+
+    - `"vim.useSystemClipboard": true`
 
 ## Part 1: Create Persistent Arch USB
 
@@ -271,7 +279,7 @@ grub-install: error: efibootmgr failed to register the boot entry: Block device 
 
 ---
 
-### Sidebar: Name Changes in Unix
+### Deadname Detour: Name Changes in Unix
 
 - Turns out, it is far easier than in real life.
 
@@ -302,6 +310,8 @@ usermod -m -d /home/newname newname
 
 - Now everything is working again!
 
+- (the old username still shows up in an `ls -al`, not sure if that is fixable)
+
 ---
 
 - Hmm, reading the docs for usermod showed me the `-l` option to change a user's name, might as well use that on this laptop's install to make it a bit more pleasant to use before it gets nuked...
@@ -316,8 +326,102 @@ usermod -a -G wheel,games,audio aileen
 
 - I think this is the point at which I need to re-do my dotfiles enough to push them to git, so I can just clone them in the USB device
 
+---
+
+### Dotfile Detour: Return to Version Control
+
+- I have an old copy of my dotfiles in an old GitHub repo, but I'd like to have a fresh and shiny version to actually maintain between multiple devices
+
+  - It looks like I already removed the git-ness of the version on my old Arch laptop...
+
+- I started at the top of the directories and immediately ran into trouble - it seems I've been editing a different version of my new tab page than what is in the dotfiles dir
+
+- I think the definitive version of that is actually on my Windows PC, because it shuffles between a number of images
+
+  - Heck, the version on Github might even be newer!
+
+- Alright, just not gonna add that to the dotfiles repo for now...
+
+- Not something to do immediately, but I should add my VS Code settings to the dotfiles repo as well
+
+  - Probably once I get the dotfiles repo cloned to my work PC
+
+- I deleted most of the stuff I had, because it is software I don't intend to use...but I'd like to keep it around, I guess
+
+  - Some stuff was so broken I figured I didn't need to copy it at all, or there was a newer version to copy from elsewhere.
+
+- [Here's the repo!](https://github.com/amorgan101010/dotfiles)
+
+---
+
+- Now that my dotfiles are in git, I should set up git in the USB device
+
+- Hmm, I installed `stow` and `git`, and the latter complained about my local settings. Seems I don't have a language set!
+
+- I recall that being fairly simple, I think I just have to uncomment a line somewhere
+
+- I need to set up an SSH key for my USB user
+
+  - That requires installing the package `openssh`
+
+  - Then, it is necessary to run the command `ssh-keygen`
+
+- I added the persistent USB's git key to GitHub
+
+- I'm not sure, but I think the USB has the same name as the host (my old laptop)
+
+  - I guess I'll be able to check a bit better on my laptop
+
+- Speaking of checking on my laptop, I should get networking working with wifi...which I know is a horrible pain
+
+- Anyway, I got my dotfiles cloned into the USB
+
+- I also successfully stowed my .zsh stuff
+
+  - Then I realized I don't actually have oh-my-zsh installed...
+  
+  - Following my [usual guide](https://medium.com/wearetheledger/oh-my-zsh-made-for-cli-lovers-installation-guide-3131ca5491fb), I also had to install `curl`
+
+    - The pertinent command is `sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"`, which has a typo in the guide
+
+- The Oh-My-Zsh install went without a hitch!
+
+  - Well, it renamed my stowed file and made its own `.zshrc`, but that was easy to undo
+
+- Now my persistent USB has the pretty prompt and plugins I expect!!
+
+  - Blessed autocomplete...
+
+  - Actually, I still have to install the plugins, which requires cloning some repos
+
+  - I would also like to tweak my prompt slightly
+
+    - That tweak can be added to my dotfiles, I think
+
+- Oh-my-Zsh plugins are installed to `~/.oh-my-zsh/custom/plugins`
+
+- The commands I ended up needing to run were:
+
+  - `git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting`
+
+  - `git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions`
+
 ## TODO
 
 - USB GUI!
 
   - Might be a squeeze, I've only got 3.6G free and I've still gotta install most things
+
+- Craft a script that does everything I've described to a given device
+
+  - Make one that partitions the device and sets up the filesystems
+
+  - Another that does the pacstrapping, but with all the packages I've described in one go (if that is possible without errors)
+
+  - Yet another for setting up GRUB for at least GPT
+
+    - I don't think I even have a device to test MBR on...
+
+  - One that sets up groups and makes a user
+
+  - Then one that clones my dotfiles, installs Oh My Zsh, and stows everything
