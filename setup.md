@@ -66,6 +66,8 @@
 
   - `sudo swapon /dev/sdb2`
 
+- (I skipped the "select mirrors" part of this process, because it is tedious and I already did it once a few years ago)
+
 - And finally, installing the basics (and a few of my own goodies) with:
 
   - `sudo pacstrap /mnt base linux linux-firmware vim man-db man-pages texinfo`
@@ -155,6 +157,8 @@ grub-install: error: efibootmgr failed to register the boot entry: Block device 
 
 - I also hadn't uploaded any SSH keys to my new Git account yet, which was as easy as copying my existing pub key into a settings window
 
+- I can confirm that my issue with git on the command line was just because I hadn't added any files
+
 ---
 
 - Alright, back to troubleshooting the boot media
@@ -162,4 +166,52 @@ grub-install: error: efibootmgr failed to register the boot entry: Block device 
 - Gonna put my big laptop on ~~a table somewhere~~ my bed...
 
 - Good news - it is booting to the GRUB CI on the USB, when I select it in the boot menu
+
+- Bad news - I think this is about where I quit last time.
+
+  - But I've paced myself better and I'm taking notes this time!
+
+- [I ignored a warning in the "configure GRUB" section, here's the solution that was immediately after the warning](https://bbs.archlinux.org/viewtopic.php?pid=1225067#p1225067)
+
+- The gist was "remount everything" (I mounted the EFI system partition to `/mnt/efi` rather than the suggested `/mnt/boot`), then `chroot` back in
+
+  - Once inside, I remade my config file, explicitly specifying an output directory this time
+
+  - `grub-mkconfig -o /boot/grub/grub.cfg`
+
+- That definitely spit out some different stuff this time around
+
+- Guess it is time to give it another try!
+
+- Woot woot, I got my arch USB to boot!
+
+  - It...immediately failed, but it got past grub
+
+- It is failing almost immediately into the startup process, on the error ""
+
+  - Welp, I spoke too soon, it just sat on *some* error message about saving the backlight settings...
+
+  - I went to look and copy the error message, and it had dropped me into the login screen since I last checked
+
+  - I'd like to know what that was about (and resolve it), but it seems unimportant for now
+
+- Since I know it boots, I guess the next best course of action is...chrooting in and installing additional packages?
+
+- I can't base my USB's packages on the existing laptop install, because it is bursting with cruft and probably exceeds the available space
+
+  - Once I get the USB working consistently, I'll want to export all the packages that were necessary to do so into a list that goes in this repo (and probably an install script)
+
+- Alright, the USB has been moved back to my Arch laptop for chrooting
+
+## Part 2: Persistent USB Setup
+
+- Might as well start a new sub-heading, to distinguish this from the work necessary to "install" a bootable instance of Arch
+
+  - This describes the work necessary to make that installation useful
+
+- First things first, I need to set up some basic stuff like a user...
+
+  - Heck, I've gotta give the root user a password
+
+  - I always forget how to do this basic-ass stuff
 
