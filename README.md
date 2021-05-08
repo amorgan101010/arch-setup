@@ -396,9 +396,46 @@ usermod -a -G wheel,games,audio aileen
 
 - I might've gone a bit overkill on the script, but it was good practice!
 
-  - And now working on this is a breeze...?
+  - And now working on this is a breeze...? \</sarcasm>
   
   - I guess the script will be handy for mounting targets devices, once the newly named LiminalArch starts doing installs instead of receiving them
+
+  - As a side thought, if I start to run out of space on this device I can just use it to set up a bigger one!
+
+- Back to the install itself!
+
+- I'm realizing that my mounting script is one tiny sliver of my list of scripts below needed for automating this, so that's cool
+
+- Hmm, locale, that's something in need of doing
+
+  - [V Easy](https://wiki.archlinux.org/title/Installation_guide#Localization)
+
+  - I ended up making it a bit more complex for myself by figuring out how to uncomment the line from `/etc/locale.gen` with `sed`
+
+    - Another little bit of future scripting ready to go!
+
+    - Sources:
+
+      - <https://www.reddit.com/r/linuxquestions/comments/bo7kd3/how_to_use_sed_to_change_uncomment_the_second/>
+
+      - <https://stackoverflow.com/questions/24889346/how-to-uncomment-a-line-that-contains-a-specific-string-using-sed/24889374>
+
+  - Commands I did:
+
+```bash
+# Put this in a script with some variables...
+sed -i '1,/en_US.UTF-8 UTF-8/!{s/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/}' /etc/locale.gen
+
+locale-gen
+
+echo "LANG=en_US.UTF-8" >> /etc/locale.conf
+```
+
+- I already did the very next thing on the list, but for completeness of the guide I should include creating the hostname file
+
+```bash
+echo "LiminalArch" >> /etc/hostname
+```
 
 ## TODO
 
@@ -410,6 +447,10 @@ usermod -a -G wheel,games,audio aileen
 
   - Make one that partitions the device and sets up the filesystems
 
+  - ~~Another that mounts the newly set up partitions~~
+
+    - This script is also handy for re-mounting a device that was set up by the installer!
+
   - Another that does the pacstrapping, but with all the packages I've described in one go (if that is possible without errors)
 
   - Yet another for setting up GRUB for at least GPT
@@ -419,3 +460,5 @@ usermod -a -G wheel,games,audio aileen
   - One that sets up groups and makes a user
 
   - Then one that clones my dotfiles, installs Oh My Zsh, and stows everything
+
+  - One that sets up locale
