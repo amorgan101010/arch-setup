@@ -193,11 +193,6 @@ grub-install: error: efibootmgr failed to register the boot entry: Block device 
 
 - Alright, the USB has been moved back to my Arch laptop for chrooting
 
-## Part 2: Persistent USB Setup
-
-- Might as well start a new sub-heading, to distinguish this from the work necessary to "install" a bootable instance of Arch
-
-  - This describes the work necessary to make that installation useful
 
 - First things first, I need to set up some basic stuff like a user...
 
@@ -433,15 +428,71 @@ echo "LANG=en_US.UTF-8" >> /etc/locale.conf
 
 - I already did the very next thing on the list, but for completeness of the guide I should include creating the hostname file
 
+  - Plus the hosts, which I *hadn't* done yet
+
 ```bash
 echo "LiminalArch" >> /etc/hostname
+
+echo "127.0.0.1 localhost" >> /etc/hosts
+echo "::1 localhost" >> /etc/hosts
+echo "127.0.1.1 LiminalArch.localdomain LiminalArch" >> /etc/hosts
 ```
 
+- I'm now at the actual end of the Installation Guide
+
+  - I think the line is pretty blurred, but whatev
+
+  - Now it is time to move on to General Recommendations!
+
+## Part 2: Make It Useable in a Modern sense
+
+- I'm getting bored, so I will follow [a guide for installing GNOME](https://phoenixnap.com/kb/arch-linux-gnome)
+
+  - I guess that could be considered K.I.S.S.
+
+  - Best to do the boring but functional thing for now!
+
+  - Since I have been *using* GNOME for a while, it only makes sense to start from there
+
+```bash
+# Install X Window System (all components)
+pacman -S xorg xorg-server
+
+# Install GNOME (all components, default sources)
+pacman -S gnome
+```
+
+- I remember this part of the process being way way harder the first time around
+
+  - probably because the Arch Wiki branches off down a thousand different paths when you want to do something like use i3 on top of XFCE with a custom greeter
+
+  - Hence, GNOME
+
+  - I'm rambling because installing GNOME is taking a hefty amount of time
+
+- When I get to the part of all this where I make an install script, I'll probably want to use a local pacman repo
+
+  - Then it is offline!
+
+  - [Here's the wiki page about how to do it](https://wiki.archlinux.org/title/Offline_installation)
+
+  - I'm not quite sure how to do that sort of thing fluently with pacman repos yet
+  
+    - I have a vague memory of setting up a local pacman repo for a package I built, so it would get updated with everything else
+
+    - I know that is one of the benefits of pacman...
+
+- While I wait, I guess I can work on the scripting
+
 ## TODO
+
+- USB Networking with WiFi
 
 - USB GUI!
 
   - Might be a squeeze, I've only got 3.6G free and I've still gotta install most things
+
+  - Nah, Gnome is fine
 
 - Craft a script that does everything I've described to a given device
 
