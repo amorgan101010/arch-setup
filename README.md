@@ -406,6 +406,18 @@ usermod -a -G wheel,games,audio aileen
 
   - `git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions`
 
+- I'm sick of re-mounting the device over and over again, so I am going to write a lil script that does it
+
+- I just installed a package called `shellcheck` (in the laptop, for now) that integrates with a VS Code plugin of the same name
+
+  - It immediately caught an issue in the shebang, so it was a worthwhile install!
+
+- I might've gone a bit overkill on the script, but it was good practice!
+
+  - And now working on this is a breeze...?
+  
+  - I guess the script will be handy for mounting targets devices, once the newly named LiminalArch starts doing installs instead of receiving them
+
 ## TODO
 
 - USB GUI!
