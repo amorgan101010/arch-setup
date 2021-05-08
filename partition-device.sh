@@ -24,7 +24,7 @@ Help()
 ################################################################################
 PartitionDevice()
 {
-    DEVICE_PATH=$1;
+    DEVICE_PATH="$1";
 
     # All of the following should be done by...blocks?
     # IDK, whatever avoids rounding issues and misalignment
@@ -44,7 +44,8 @@ PartitionDevice()
 
     # Root should be the remaining space
     # (Not gonna deal with a separate home partition)
-    ROOT_SIZE=$DEVICE_SIZE-$EFI_SIZE-$SWAP_SIZE;
+    # Is this how you subtract in bash? IDK yet
+    ROOT_SIZE="$DEVICE_SIZE"-"$EFI_SIZE"-"$SWAP_SIZE";
 
     # I am realizing now that this is probably going to be hard
     # and also maybe dangerous to automate...even skipping to

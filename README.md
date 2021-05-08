@@ -494,11 +494,19 @@ pacman -S gnome
 
   - Nah, Gnome is fine
 
-- Craft a script that does everything I've described to a given device
+- Craft a script that does everything I've described to a given device (`install.sh`)
 
-  - Make one that partitions the device and sets up the filesystems
+  - Make one that partitions the device (`partition-device.sh`)
 
-  - ~~Another that mounts the newly set up partitions~~
+    - In progress, probably gonna be tricky
+  
+  - One that sets up the filesystems (`format-device.sh`)
+
+    - Easy, assuming correct input
+
+    - Not actually tested...
+
+  - ~~Another that mounts the newly set up partitions~~ (`mount-device.sh`)
 
     - This script is also handy for re-mounting a device that was set up by the installer!
 

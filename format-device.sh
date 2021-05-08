@@ -1,7 +1,4 @@
 #!/bin/bash
-source ./partition-device.sh
-source ./format-device.sh
-source ./mount-device.sh
 
 ################################################################################
 # Help                                                                         #
@@ -10,14 +7,31 @@ source ./mount-device.sh
 Help()
 {
     # Display Help
-    echo "Installs Arch. Must be root."
+    echo "Format partitions on a device in preparation for installing Arch. Must be root."
     echo
-    echo "Syntax: ./install.sh DEVICE_PATH [-h]"
+    echo "Syntax: ./format-device.sh DEVICE_PATH [-h]"
     echo "options:"
     echo "-h     Print this Help."
-    echo "# Ex: Install to a device"
-    echo "sudo ./install.sh /dev/sdb"
+    echo "# Ex: Format a device"
+    echo "sudo ./format-device.sh /dev/sdb"
     echo
+}
+
+################################################################################
+################################################################################
+# FormatDevice                                                                 #
+################################################################################
+################################################################################
+FormatDevice()
+{
+    DEVICE_PATH="$1";
+    EFI_PATH="${DEVICE_PATH}1";
+    ROOT_PATH="${DEVICE_PATH}3";
+    SWAP_PATH="${DEVICE_PATH}2";
+
+    sudo mkfs.fat -F32 "$EFI_PATH"
+    sudo mkswap "$SWAP_PATH"
+    sudo mkfs.ext4 "$ROOT_PATH"
 }
 
 ################################################################################
@@ -37,12 +51,4 @@ while getopts ":h,U" option; do
     esac
 done
 
-DEVICE_PATH="$1"
-
-# Right now, this does nothing
-# Do your own dang partitioning!
-PartitionDevice "$DEVICE_PATH"
-
-FormatDevice "$DEVICE_PATH"
-
-MountDevice "$DEVICE_PATH"
+FormatDevice "$@"
