@@ -10,7 +10,7 @@
 
 - Anyway...
 
-## Create Persistent Arch USB
+## Part 1: Create Persistent Arch USB
 
 - I think I can use GParted for this
 
@@ -18,13 +18,13 @@
 
   - Is that...`cparted`?
 
-- I think it is `cgdisk`
+- It is `cgdisk`
 
-  - Which is a TUI version of `fdisk`
+  - Which is a TUI version of ~~`fdisk`~~ `gdisk`
 
 - Ahh, when I say TUI I think I'm thinking of Curses
 
-- I've deleted all the space currently on the disk
+- I've deleted all the partitions currently on the 8GB flash drive
 
 - Now I'm trying to copy the example layout from the Arch Wiki: <https://wiki.archlinux.org/title/Partitioning#Example_layouts>
 
@@ -134,3 +134,32 @@ grub-install: error: efibootmgr failed to register the boot entry: Block device 
   - The question is, was that just the version of GRUB installed on the laptop itself, failing to boot?
 
 - I guess I might need to set up my beefy laptop somewhere else so I can try booting on it to ensure portability
+
+---
+
+### Documentation Detour: Setting up Git
+
+- Might as well do this sooner rather than later
+
+- Had to update my global git config to have the proper name and email
+
+- Also, couldn't push for a minute from the command line...
+
+  - I think it was because I hadn't actually committed this file yet
+
+  - I ended up doing it all with VS Code, which was actually really easy
+
+  - Turns out life is easiest working from a Unix system
+
+  - Using GitHub in VS Code also probably helped, keeping it all in the family
+
+- I also hadn't uploaded any SSH keys to my new Git account yet, which was as easy as copying my existing pub key into a settings window
+
+---
+
+- Alright, back to troubleshooting the boot media
+
+- Gonna put my big laptop on ~~a table somewhere~~ my bed...
+
+- Good news - it is booting to the GRUB CI on the USB, when I select it in the boot menu
+
