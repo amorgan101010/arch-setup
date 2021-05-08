@@ -215,3 +215,109 @@ grub-install: error: efibootmgr failed to register the boot entry: Block device 
 
   - I always forget how to do this basic-ass stuff
 
+- That was easy-peasy, with the command `passwd root`
+
+- Now, to create a user...I know there is a `useradd` command
+
+- Well, before I go and make a user, I can set up my `wheel` group
+
+- This'll pretty much be a matter of copy-pasting what is in my current system's sudoers file
+
+- Oh yeah, it is a matter of uncommenting a line in the default sudoers file
+
+  - Which is edited, of course, with the command `visudo` (must be root, as it'll warn you)
+
+- LOL, I tried to run `visudo` and it didn't work because there's nothing at `/usr/bin/vi`
+
+  - I know I installed Vim, I'm surprised vi doesn't come along for the ride
+
+  - I installed it, I'd prefer not to mess with root's default editor right now
+
+    - And maybe it is best to keep root using the slimmest possible version?
+
+- The line that must be uncommented is (for me):
+
+  - `%wheel ALL=(ALL) ALL`
+
+- Oh SNAP, in the process of doing this I accidentally messed up my local sudoers file
+
+  - Ahh, phew, `visudo` validates the changes when you quit the editor, it just didn't accept the garbage I pasted in there
+
+- Back on track, I uncommented the lined in the chroot's sudoers
+
+  - Now I can immediately add my newly created user to that group
+
+  - What other groups does my current install user belong to? I seem to recall there being audio groups and such
+
+    - `games wheel audio essays docker`
+
+      - I'll add myself to the `docker` group if/when I install Docker
+
+      - `essays` is a group I made to share a directory between two users and isn't necessary
+
+      - I prefer to use `wheel` over `sudo` as my sudoers group name, for a reason I've forgotten
+
+- I'm also gonna install `zsh` before setting up my non-root user, because I can specify that as their shell during user creation
+
+  - God bless the website `cheat.sh`, which I'm using to look up `useradd` examples
+
+  - I should set up my alias for curling that site in the new user ASAP!
+
+- I made my user, gave them a home, set their shell, and...forgot to add them to wheel on the first pass
+
+  - Easy fix though!
+
+  - ...Once I remembered the command to modify an existing user, `usermod`
+
+---
+
+### Sidebar: Name Changes in Unix
+
+- Turns out, it is far easier than in real life.
+
+```bash
+usermod -l newname oldname
+usermod -m -d /home/newname newname
+```
+
+- Some stuff seems to have been broken, though...
+
+  - Oh-My-Zsh doesn't seem to be properly configured now
+
+  - My custom new tab page's path had to be updated in the chrome extension
+
+- I think I need to re-`stow` my dotfiles after moving home directories, but I've forgotten exactly how to do that
+
+  - Perhaps I should...stop doing that
+
+  - Or, redo it as part of this project
+
+    - Yes!
+
+  - But for now, I just want oh-my-zsh to work on my old install...
+
+- It had nothing to do with `stow`, I had a hard-coded home path in my `.zshrc` file
+
+  - I permanently fixed that by updating it to use the environment variable `$HOME`
+
+- Now everything is working again!
+
+---
+
+- Hmm, reading the docs for usermod showed me the `-l` option to change a user's name, might as well use that on this laptop's install to make it a bit more pleasant to use before it gets nuked...
+
+- All in all, the commands to set up the user were:
+
+```bash
+useradd --create-home --shell /usr/bin/zsh aileen
+passwd aileen
+usermod -a -G wheel,games,audio aileen
+```
+
+- I think this is the point at which I need to re-do my dotfiles enough to push them to git, so I can just clone them in the USB device
+
+## TODO
+
+- USB GUI!
+
+  - Might be a squeeze, I've only got 3.6G free and I've still gotta install most things
