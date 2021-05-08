@@ -7,47 +7,49 @@
 Help()
 {
     # Display Help
-    echo "Mount a portable device for use with arch-chroot. Must be root."
+    echo "Partition a device in preparation for installing Arch. Must be root."
     echo
-    echo "Syntax: ./mount-device.sh DEVICE_PATH [-h|U]"
+    echo "Syntax: ./partition-device.sh DEVICE_PATH [-h]"
     echo "options:"
     echo "-h     Print this Help."
-    echo "-U     Unmount the device at /mnt."
-    echo "# Ex: Mount a device"
-    echo "sudo ./mount-device.sh /dev/sdb"
-    echo "# Ex: Unmount a device"
-    echo "sudo ./mount-device.sh /dev/sdb -U"
+    echo "# Ex: Partition a device"
+    echo "sudo ./partition-device.sh /dev/sdb"
     echo
 }
 
 ################################################################################
-# Mount                                                                         #
 ################################################################################
-Mount()
+# PartitionDevice                                                              #
+################################################################################
+################################################################################
+PartitionDevice()
 {
-    # Mount the device partitions to /mnt and turn on swap
-    DEVICE_PATH="$1";
-    EFI_PATH="${DEVICE_PATH}1";
-    ROOT_PATH="${DEVICE_PATH}3";
-    SWAP_PATH="${DEVICE_PATH}2";
+    DEVICE_PATH=$1;
 
-    mount "$ROOT_PATH" /mnt
-    mount "$EFI_PATH" /mnt/efi
-    swapon "$SWAP_PATH"
-}
+    # All of the following should be done by...blocks?
+    # IDK, whatever avoids rounding issues and misalignment
 
-################################################################################
-# Unmount                                                                         #
-################################################################################
-Unmount()
-{
-    # Unmount the device partitions and turn off swap at /mnt
-    # I'm making an assumption about the order of arguments
-    DEVICE_PATH="$1";
-    SWAP_PATH="${DEVICE_PATH}2";
+    # Figure out size of device
+    DEVICE_SIZE=8G;
 
-    umount -R /mnt
-    swapoff "$SWAP_PATH"
+    # Figure out partition sizes based on device size
+
+    # EFI is probably fine to hard-code
+    EFI_SIZE=260M;
+
+    # SWAP should probably be based on disk size
+    # Maybe no more than 1/8th total size
+    # Min 512M, max of...IDK, whatever is suggested
+    SWAP_SIZE=1G;
+
+    # Root should be the remaining space
+    # (Not gonna deal with a separate home partition)
+    ROOT_SIZE=$DEVICE_SIZE-$EFI_SIZE-$SWAP_SIZE;
+
+    # I am realizing now that this is probably going to be hard
+    # and also maybe dangerous to automate...even skipping to
+    # scripting filesystem formatting would be a tiny bit safer...
+    # Even that could have catastrophic potential, given bad input.
 }
 
 ################################################################################
@@ -61,13 +63,10 @@ while getopts ":h,U" option; do
         h) # display Help
             Help
             exit;;
-        U) # attempt to unmount device
-            Unmount "$@"
-            exit;;
         *) # something invalid entered; display Help
             Help
             exit;;
     esac
 done
 
-Mount "$@"
+PartitionDevice "$@"
