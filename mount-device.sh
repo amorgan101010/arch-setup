@@ -70,4 +70,5 @@ while getopts ":h,U" option; do
     esac
 done
 
+# This doesn't seem to work with -U now, fix later
 Mount "$@"

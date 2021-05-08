@@ -484,6 +484,16 @@ pacman -S gnome
 
 - While I wait, I guess I can work on the scripting
 
+- Just as I was getting bored of scripting, the GNOME install finished!
+
+- All that was left to do in the chroot was enabling the greeter with:
+
+  - `sudo systemctl start gdm.service`
+
+- I unfortunately discovered a new bug in the unmounting part of the mount script :/
+
+- But, GNOME works perfectly on the first attempt!!
+
 ## TODO
 
 - USB Networking with WiFi
