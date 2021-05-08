@@ -1,23 +1,5 @@
 # Arch Setup
 
-## Preamble: Set up VS Code on Personal Computer
-
-- This is where I am now!
-
-- I can't seem to actually download the files I shared with myself via email, but I've at least got the basics.
-
-- This font ugly AF too
-
-- Anyway...
-
-- Eventually I ran into the "clipboard" issue I've run into on every new VS Code+Vim install
-
-  - <https://stackoverflow.com/a/61066089>
-
-  - The bit to add to my VS Code settings was:
-
-    - `"vim.useSystemClipboard": true`
-
 ## Part 1: Create Persistent Arch USB
 
 - I think I can use GParted for this
