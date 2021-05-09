@@ -700,6 +700,12 @@ rm -rf yay
 
 - Fix any errors during the USB's boot
 
+- Figure out a way to add my VS Code extensions to my dotfiles
+
+- Figure out how to use a better config path for the version of VS Code that's available in the Community package repo
+
+  - Right now it is `Code - OSS` with a space!
+
 - ~~USB Networking with WiFi~~
 
 - ~~USB GUI!~~
