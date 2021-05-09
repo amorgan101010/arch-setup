@@ -798,6 +798,40 @@ rm -rf yay
 
 - Ahh well, time to move on to...making that Windows USB into the first install?
 
+  - Sweet, that USB is actually ~16G!
+
+- However, I am going to take another stab at partitioning, with hardcoded sizes
+
+  - Turns out the proper tool to do it in a script is `sgdisk`
+
+- I forgot how whiz-bang Back to the Future is, it has been a distracting few hours
+
+- The `sgdisk` man page suggests 550M for swap, and they probably know more than me so I'll take that suggestion
+
+  - It has excellent docs, actually!
+
+- Alright, I *think* I have the partitioning process scripted out with `sgdisk`
+
+  - Right now it is using hardcoded EFI and swap sizes, then filling the rest of the device
+
+  - I think being able to specify a separate home directory is when specifying sizes will be more important
+
+    - Or installing to something other than a USB when it comes to swap, I guess
+
+- There is surely a better way to handle options in bash than what I'm doing currently with absolute indexes for parameters, but I don't know it yet...
+
+- I suppose I'll...
+
+  - test out the script with commented out actions
+
+    - Seems to log the right stuff
+
+      - Sidenote, I should stick some context into my logs (manually, obvs)
+
+  - test out each command manually
+
+  - Run it O_o
+
 ## TODO
 
 - [Add Gnome Tweaks and themes to Dotfiles repo](https://unix.stackexchange.com/questions/426322/how-do-i-use-the-plain-text-mode-of-dconf/426348#426348)
