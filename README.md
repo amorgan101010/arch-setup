@@ -494,6 +494,18 @@ pacman -S gnome
 
 - But, GNOME works perfectly on the first attempt!!
 
+- Guess where I'm writing from?
+
+  - Inside the USB!
+
+  - I plugged in my Playstation Ethernet...
+
+- I am almost out of space on the installer, but I guess I'm also done with the big stuff
+
+  - I would like to get `yay` up and running so I can install VS Code and Chrome
+
+  - If anything is gonna fill up the rest of the space, it is that...
+
 ## TODO
 
 - USB Networking with WiFi
