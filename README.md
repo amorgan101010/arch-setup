@@ -782,6 +782,22 @@ rm -rf yay
 
 - The `-y` option is now present!
 
+- Well, I've put it off as long as possible...time to write the partitioning script
+
+  - I've been distracted by watching the Back to the Future Trilogy
+
+- Once again, when I get to a partitioning script I really start to lose interest...probably because I did the whole thing with cgdisk before?
+
+  - I *guess* I'll learn the gdisk commands...
+
+  - Nahh, I'll assume the disk is already partitioned the way I expect and go from there
+
+- I must admit to feeling a bit disheartened after googling "arch install script" and finding this:
+
+  - <https://gist.github.com/magnunleno/3641682>
+
+- Ahh well, time to move on to...making that Windows USB into the first install?
+
 ## TODO
 
 - [Add Gnome Tweaks and themes to Dotfiles repo](https://unix.stackexchange.com/questions/426322/how-do-i-use-the-plain-text-mode-of-dconf/426348#426348)

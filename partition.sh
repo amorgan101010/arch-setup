@@ -7,50 +7,71 @@
 Help()
 {
     # Display Help
-    echo "Partition a device in preparation for installing Arch. Must be root."
+    echo "Format partitions on a device in preparation for installing Arch. Must be root."
     echo
-    echo "Syntax: ./partition-device.sh DEVICE_PATH [-h]"
+    echo "Syntax: ./partition.sh"
+    echo "  [-r [ROOT_SIZE]]"
+    echo "  [-e [EFI_SIZE]]"
+    echo "  [-s [SWAP_SIZE]]"
+    echo "  [-H [HOME_SIZE]]"
+    echo "  [-h|y] DEVICE_PATH"
+    echo
     echo "options:"
-    echo "-h     Print this Help."
-    echo "# Ex: Partition a device"
-    echo "sudo ./partition-device.sh /dev/sdb"
+    echo "-r  Specify the root partition size in GB."
+    echo "-e  Specify the EFI System partition size in MB."
+    echo "-H  Create a home directory, optionally specifying size in GB."
+    echo "-s  Partition a swap partition as well as system and root, optionally specifying its size in MB."
+    echo "-h  Print this Help."
+    echo
+    echo "# Ex: Partition a device with EFI and root, answering prompts to specify sizes."
+    echo "sudo ./partition.sh /dev/sdb"
+    echo
+    echo "# Ex: Partition a device with EFI and root, specifying sizes and skipping prompts."
+    echo "sudo ./partition.sh -e 260 -r 6 /dev/sdb"
+    echo
+    echo "# Ex: Partition a device with EFI, root, swap, and home."
+    echo "sudo ./partition.sh -s -H /dev/sdb"
     echo
 }
 
 ################################################################################
 ################################################################################
-# PartitionDevice                                                              #
+# Partition                                                                    #
 ################################################################################
 ################################################################################
-PartitionDevice()
+Partition()
 {
-    DEVICE_PATH="$1";
+    echo "Received request to partition a device.";
 
-    # All of the following should be done by...blocks?
-    # IDK, whatever avoids rounding issues and misalignment
+    SWAP="$1";
+    OVERRIDE_PROMPT="$2";
+    DEVICE_PATH="${*: -1}";
 
-    # Figure out size of device
-    DEVICE_SIZE=8G;
+    EFI_PATH="${DEVICE_PATH}1";
+    ROOT_PATH="${DEVICE_PATH}3";
 
-    # Figure out partition sizes based on device size
+    if [ "$OVERRIDE_PROMPT" -eq 0 ]
+    then
+        PROMPT="Enter target path '$DEVICE_PATH' to confirm formatting (use -y to skip prompt): ";
 
-    # EFI is probably fine to hard-code
-    EFI_SIZE=260M;
+        read -p "$PROMPT" CONFIRMATION;
+        if [ "$CONFIRMATION" != "$DEVICE_PATH" ]
+        then
+            exit;
+        fi;
+    fi;
 
-    # SWAP should probably be based on disk size
-    # Maybe no more than 1/8th total size
-    # Min 512M, max of...IDK, whatever is suggested
-    SWAP_SIZE=1G;
+    echo "Formatting EFI system partition as FAT32 at $EFI_PATH.";
+    #sudo mkfs.fat -F32 "$EFI_PATH";
+    echo "Formatting root partition as ext4 at $ROOT_PATH.";
+    #sudo mkfs.ext4 "$ROOT_PATH";
 
-    # Root should be the remaining space
-    # (Not gonna deal with a separate home partition)
-    # Is this how you subtract in bash? IDK yet
-    ROOT_SIZE="$DEVICE_SIZE"-"$EFI_SIZE"-"$SWAP_SIZE";
-
-    # I am realizing now that this is probably going to be hard
-    # and also maybe dangerous to automate...even skipping to
-    # scripting filesystem formatting would be a tiny bit safer...
-    # Even that could have catastrophic potential, given bad input.
+    if [ "$SWAP" -gt 0 ]
+    then
+        SWAP_PATH="${DEVICE_PATH}2";
+        echo "Formatting swap partition at $SWAP_PATH.";
+        #sudo mkswap "$SWAP_PATH";
+    fi;
 }
 
 ################################################################################
@@ -58,16 +79,25 @@ PartitionDevice()
 # Main                                                                         #
 ################################################################################
 ################################################################################
-# Source: https://opensource.com/article/19/12/help-bash-program
-while getopts ":h,U" option; do
+SWAP=0;
+OVERRIDE_PROMPT=0;
+DEVICE_PATH="${*: -1}";
+
+while getopts "hsy" option; do
     case $option in
         h) # display Help
-            Help
+            Help;
             exit;;
+        s) # Set SWAP flag
+            SWAP=1;
+            ;;
+        y) # Skip confirmation prompt
+            OVERRIDE_PROMPT=1;
+            ;;
         *) # something invalid entered; display Help
-            Help
+            Help;
             exit;;
-    esac
-done
+    esac;
+done;
 
-PartitionDevice "$@"
+Partition "$SWAP" "$OVERRIDE_PROMPT" "$DEVICE_PATH";
