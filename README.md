@@ -750,6 +750,22 @@ rm -rf yay
 
 - The mount and unmount scripts are both fully functional!
 
+- A quick QoL tweak to Gnome I have needed for literally years: <https://askubuntu.com/questions/69776/how-do-i-alt-tab-between-windows-using-gnome-3>
+
+  - Presumably, another binary thing stuck in that `dconf` directory
+
+- Time to bring the format script up to par with the rest
+
+  - I won't do it just yet, but this and the partitioning script are begging for a "home" flag that at least gives the *option* of a separate home directory
+
+- I'm pretty sure the format device script works, but I'm afraid to actually uncomment the actions
+
+  - I feel like it needs a prompt to do something as serious as formatting a partition...
+
+    - With a `-y` flag to override, of course!
+
+- Ugh, time to learn how to make user prompts...
+
 ## TODO
 
 - [Add Gnome Tweaks and themes to Dotfiles repo](https://unix.stackexchange.com/questions/426322/how-do-i-use-the-plain-text-mode-of-dconf/426348#426348)

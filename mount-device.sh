@@ -16,6 +16,7 @@ Help()
     echo
     echo "Ex: Mount a device."
     echo "% sudo ./mount-device.sh /dev/sdb"
+    echo
     echo "Ex: Mount a device and turn on swap."
     echo "% sudo ./mount-device.sh -s /dev/sdb"
     echo
