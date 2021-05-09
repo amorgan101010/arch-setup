@@ -9,15 +9,15 @@ Help()
     # Display Help
     echo "Unmounts the device at /mnt, optionally turning off swap at a given device path. Must be root."
     echo
-    echo "Syntax: ./unmount-device.sh [-h|s] [SWAP_PATH]"
+    echo "Syntax: ./unmount.sh [-h|s] [SWAP_PATH]"
     echo "options:"
     echo "-h     Print this Help."
     echo "-s     Use this along with a device partition path to turn off swap."
     echo
     echo "Ex: Unmount a device."
-    echo "% sudo ./unmount-device.sh"
+    echo "% sudo ./unmount.sh"
     echo "Ex: Unmount a device and turn off swap."
-    echo "% sudo ./unmount-device.sh -s /dev/sdb2"
+    echo "% sudo ./unmount.sh -s /dev/sdb2"
     echo
 }
 

@@ -9,16 +9,16 @@ Help()
     # Display Help
     echo "Mounts the specified device at /mnt, optionally turning on swap. Must be root."
     echo
-    echo "Syntax: ./mount-device.sh [-h|s] DEVICE_PATH"
+    echo "Syntax: ./mount.sh [-h|s] DEVICE_PATH"
     echo "options:"
     echo "-h     Print this Help."
     echo "-s     Turn on swap."
     echo
     echo "Ex: Mount a device."
-    echo "% sudo ./mount-device.sh /dev/sdb"
+    echo "% sudo ./mount.sh /dev/sdb"
     echo
     echo "Ex: Mount a device and turn on swap."
-    echo "% sudo ./mount-device.sh -s /dev/sdb"
+    echo "% sudo ./mount.sh -s /dev/sdb"
     echo
 }
 

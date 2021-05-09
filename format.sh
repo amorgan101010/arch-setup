@@ -9,16 +9,16 @@ Help()
     # Display Help
     echo "Format partitions on a device in preparation for installing Arch. Must be root."
     echo
-    echo "Syntax: ./format-device.sh [-h|s] DEVICE_PATH"
+    echo "Syntax: ./format.sh [-h|s] DEVICE_PATH"
     echo "options:"
     echo "-h     Print this Help."
     echo "-s     Format a swap partition as well as system and root."
     echo
     echo "# Ex: Format a device with EFI and root"
-    echo "sudo ./format-device.sh /dev/sdb"
+    echo "sudo ./format.sh /dev/sdb"
     echo
     echo "# Ex: Format a device with EFI, root, and swap"
-    echo "sudo ./format-device.sh -s /dev/sdb"
+    echo "sudo ./format.sh -s -y /dev/sdb"
     echo
 }
 
