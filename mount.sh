@@ -32,22 +32,25 @@ Mount()
     SWAP="$1";
     DEVICE_PATH="$2";
 
-    # TODO: Don't hardcode partition organization expectations
+    if [ "$SWAP" -gt 0 ]
+    then
+        SWAP_PATH="${DEVICE_PATH}2";
+        ROOT_PATH="${DEVICE_PATH}3";
+
+        echo "Turning on swap partition at $SWAP_PATH.";
+        swapon "$SWAP_PATH";
+    else
+        ROOT_PATH="${DEVICE_PATH}2";
+    fi;
+
     EFI_PATH="${DEVICE_PATH}1";
-    ROOT_PATH="${DEVICE_PATH}3";
-    echo "Mounting partitions of device at /mnt."
+
+    echo "Mounting partitions of device at /mnt.";
     echo "EFI System Partition: $EFI_PATH";
     echo "Root Partition: $ROOT_PATH";
 
     mount "$ROOT_PATH" /mnt;
     mount "$EFI_PATH" /mnt/efi;
-
-    if [ "$SWAP" -gt 0 ]
-    then
-        SWAP_PATH="${DEVICE_PATH}2";
-        echo "Turning on swap partition at $SWAP_PATH.";
-        swapon "$SWAP_PATH";
-    fi;
 }
 
 ################################################################################

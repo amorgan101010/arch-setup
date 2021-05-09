@@ -36,7 +36,6 @@ Format
     DEVICE_PATH="${*: -1}";
 
     EFI_PATH="${DEVICE_PATH}1";
-    ROOT_PATH="${DEVICE_PATH}3";
 
     if [ "$OVERRIDE_PROMPT" -eq 0 ]
     then
@@ -51,15 +50,20 @@ Format
 
     echo "Formatting EFI system partition as FAT32 at $EFI_PATH.";
     #sudo mkfs.fat -F32 "$EFI_PATH";
-    echo "Formatting root partition as ext4 at $ROOT_PATH.";
-    #sudo mkfs.ext4 "$ROOT_PATH";
 
     if [ "$SWAP" -gt 0 ]
     then
         SWAP_PATH="${DEVICE_PATH}2";
+        ROOT_PATH="${DEVICE_PATH}3";
+
         echo "Formatting swap partition at $SWAP_PATH.";
         #sudo mkswap "$SWAP_PATH";
+    else
+        ROOT_PATH="${DEVICE_PATH}2";
     fi;
+
+    echo "Formatting root partition as ext4 at $ROOT_PATH.";
+    #sudo mkfs.ext4 "$ROOT_PATH";
 }
 
 ################################################################################
