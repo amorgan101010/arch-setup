@@ -574,7 +574,131 @@ rm -rf yay
 
 - Alright, I think it is time to quit for the night. So much progress!
 
+- Back to it this morning!
+
+- I think it is getting to be time for prepping my laptop for the install
+
+  - [Here's a list of the packages I've explicitly installed on the old Arch install](./crumbling_arch_pkglist.txt)
+
+    - I made it with `pacman -Qqe >> list.txt`
+
+      - [The source of that command, which also has instructions for installing from that list and stripping out AUR packages and such](https://ostechnix.com/create-list-installed-packages-install-later-list-arch-linux/)
+
+  - [Here's one without the AUR](./crumbling_arch_pkglist_sans_aur.txt)
+
+    - Generated with `comm -12 <(pacman -Slq | sort) <(sort crumbling_arch_pkglist.txt) >> crumbling_arch_pkglist.txt`
+
+    - I think `pacman -Slq | sort` is generating the list of AUR packages
+
+    - TIL I learned about `comm` (common lines?)
+
+  - Fewer than I expected! Obviously, we won't need all the XFCE stuff
+
+- A question I need to answer soon: should I return to doing a dual boot on this laptop, with Windows and Linux?
+
+  - TBH, I'm not sure if there is any benefit...
+
+  - However, I would like to set up the persistent USB to have the `osprober` package or whatever so other OSes show up in GRUB
+
+- A side issue: the old USB 2.0 device I'm using is proving to be a poor choice.
+
+  - Not enough space
+
+  - I/O too slow for web browsing
+
+- I don't have anything bigger, but I do have a 3.0 device that contains a Windows installer right now
+
+  - There's not much point in preserving that, as it is surely years out of date by now
+
+  - I will NEED to make a new one ASAP, because making Windows 10 install media outside of Windows is a fool's errand
+
+- I'm realizing that I probably shouldn't be deleting the repos for my AUR packages...
+
+  - They get updated by updating those repos, I think
+
+  - That is one area where Auracle feels pretty weak...
+
+---
+
+### Design Detour: Learning a bit about GNOME
+
+- I'm on a terribly unfocused detour, installing a slimmer toolbar in my current laptop
+
+  - Not worth the space for the installer
+
+  - Well, it's only 4M...but it's also just some random "cool ranch guy" who made it
+
+- I think the laptop might be missing whatever package allows for Gnome UI tweaking...
+
+  - The appropriately named gnome tweak tool
+
+    - `gnome-tweaks`
+
+    - It is also quite small, 1M
+
+  - Apparently it has been superseded by GNOME Extensions (`gnome-shell-extensions`)
+
+    - This is why people complain about GNOME, I think
+
+- Gnome Shell Extensions immediately made my mouse unusable for anything other than clicking a balloon popped up...
+
+  - I had to go to a TTY and kill it
+
+  - I...don't really feel good about using it now
+
+    - It was very bad seeming, in the way that "app/extension stores" in Linux usually are
+
+- I went back to `gnome-tweaks`, and the AUR theme `gtk-theme-minwaita`
+
+  - Specifically, the Dark OSX option. Much better!
+
+- It seems that making my installer automatically use the Dark OSX theme is harder than I thought...
+
+  - GNOME tweaks are stored in a binary database located in `~/.config/dconf`
+
+  - [I found a thread about exporting that to a text file that can be synced](https://unix.stackexchange.com/questions/426322/how-do-i-use-the-plain-text-mode-of-dconf/426348#426348)
+
+    - Seems more like a future task, once the essentials are scripted out
+
+---
+
+- I think I understand the AUR and why they warn you about it much better this time around
+
+  - When I was using Yay and not paying attention to sources, I was treating Cool Ranch Dude's git repo with the same deference as an official Arch one
+
+  - That being said...I still feel like the installer scripts should have the option of installing Yay
+
+    - it's big, but it is nice to be able to do stuff in the same syntax as Pacman if I've got the space
+
+    - Maybe I'll learn Go to justify it...
+
+## Part 3: Script It!
+
+- I've already done this too many times, and until now without bothering to take any notes. Let's automate it!
+
+- Yesterday I started working on a few scripts that aren't quite there
+
+  - A partitioning one that is just a bunch of comments
+
+  - A formatting one that is simple but untested
+
+  - A mounting one that mostly works, though my optional "unmount" flag doesn't
+
+    - I think the simplest solution for that particular problem is to make it a separate unmounting script
+
+  - An overarching install script that calls the others
+
+- I'd like to be able to specify (or check, I guess) if the target device is a USB drive
+
+  - I don't think I'm going to make any swap space on future USBs, it isn't really necessary when the USB I/O is slower than writing to an SSD
+
+    - (that is anecdotal)
+
 ## TODO
+
+- [Add Gnome Tweaks and themes to Dotfiles repo](https://unix.stackexchange.com/questions/426322/how-do-i-use-the-plain-text-mode-of-dconf/426348#426348)
+
+- Fix any errors during the USB's boot
 
 - ~~USB Networking with WiFi~~
 
