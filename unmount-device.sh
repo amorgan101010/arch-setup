@@ -9,7 +9,7 @@ Help()
     # Display Help
     echo "Unmounts the device at /mnt, optionally turning off swap at a given device path. Must be root."
     echo
-    echo "Syntax: ./unmount-device.sh [-h|s] [DEVICE_PATH]"
+    echo "Syntax: ./unmount-device.sh [-h|s] [SWAP_PATH]"
     echo "options:"
     echo "-h     Print this Help."
     echo "-s     Use this along with a device partition path to turn off swap."
@@ -26,14 +26,14 @@ Help()
 ################################################################################
 Unmount()
 {
-    echo "Received request to unmount an Arch device.";
+    echo "Received request to unmount device at /mnt.";
 
-    USB_DEVICE="$1";
+    SWAP="$1";
     SWAP_PATH="$2";
 
     echo "Unmounting partitions of device at /mnt."
     umount -R /mnt
-    if [ "$USB_DEVICE" -gt 0 ]
+    if [ "$SWAP" -gt 0 ]
     then
         echo "Turning off swap partition of device at $SWAP_PATH.";
         swapoff "$SWAP_PATH";
@@ -51,7 +51,7 @@ Unmount()
 # ...what streaming service is that trilogy on?
 # Sick, Netflix!
 SWAP=0;
-SWAP_PATH="$2";
+SWAP_PATH="${*: -1}";
 
 while getopts ":h:s" option; do
     case $option in

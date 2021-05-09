@@ -686,13 +686,69 @@ rm -rf yay
 
     - I think the simplest solution for that particular problem is to make it a separate unmounting script
 
-  - An overarching install script that calls the others
+  - An over*arch*ing install script that calls the others
 
 - I'd like to be able to specify (or check, I guess) if the target device is a USB drive
 
   - I don't think I'm going to make any swap space on future USBs, it isn't really necessary when the USB I/O is slower than writing to an SSD
 
     - (that is anecdotal)
+
+- First things first, I'm splitting out the unmount device command into a separate thing
+
+  - I'm converting the `-U` flag to represent a USB device
+
+- I need to...learn how to do an `if` in bash
+
+  - Re-learn, I guess
+
+  - Also gotta re-learn how to do user prompts, which I think would be more elegant
+
+    - Why let the user enter bad data?
+
+- I'm regretting deleting my old `scripts` directory in setting up the dotfiles, I think I had a `dd_helper` that has examples of both those things
+
+  - BRB, digging up another copy
+
+    - ...Huh, that script isn't in the git repo I thought it was
+
+    - Oh well, whatever
+
+- I'm making progress, learning a bit about assigning variables based on flags and evaluating booleans in ifs
+
+- AHHH, I think my issues are because I was specifying the option after my argument, it couldn't parse it
+
+  - Easy fix!
+
+- Cool, I think the unmounting script is almost finished...and it should be a good example for updating the others
+
+- Gotta cite my sources, the scripts will need a bibliography of random google results I've smashed together:
+
+  - <https://ryanstutorials.net/bash-scripting-tutorial/bash-if-statements.php>
+
+  - <https://stackoverflow.com/questions/31974550/boolean-cli-flag-using-getopts-in-bash>
+
+  - <https://www.mkssoftware.com/docs/man1/getopts.1.asp>
+
+- Booleans have been giving me trouble, so I think I'll use good ol' 0s and 1s
+
+  - That did the trick!
+
+- Alright, the unmounting script seems to be all there!
+
+- Now it is time to apply all those lessons to the mounting script, blech!
+
+- It'd be nice to have a dry mode for all these scripts, but they're small enough that I can comment out the actual actions while testing
+
+  - Speaking of testing, I'm not sure how you'd unit test scripts like this...
+
+- I'm going to assume the device path is always the last option, so I can add more flags without having to do rewrites
+
+  - Source for how to do so: <https://www.cyberciti.biz/faq/linux-unix-bsd-apple-osx-bash-get-last-argument/>
+
+- That'll allow me to set up a dry mode at some point!
+
+- The mount and unmount scripts are both fully functional!
 
 ## TODO
 
