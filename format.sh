@@ -24,10 +24,10 @@ Help()
 
 ################################################################################
 ################################################################################
-# FormatDevice                                                                 #
+# Format
 ################################################################################
 ################################################################################
-FormatDevice()
+Format
 {
     echo "Received request to format a (hopefully) freshly partitioned device.";
 
@@ -88,4 +88,4 @@ while getopts "hsy" option; do
     esac;
 done;
 
-FormatDevice "$SWAP" "$OVERRIDE_PROMPT" "$DEVICE_PATH";
+Format "$SWAP" "$OVERRIDE_PROMPT" "$DEVICE_PATH";
