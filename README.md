@@ -498,7 +498,7 @@ pacman -S gnome
 
   - Inside the USB!
 
-  - I plugged in my Playstation Ethernet...
+  - I plugged in my PlayStation Ethernet...
 
 - I am almost out of space on the installer, but I guess I'm also done with the big stuff
 
@@ -506,15 +506,83 @@ pacman -S gnome
 
   - If anything is gonna fill up the rest of the space, it is that...
 
+  - Hmm, just using the browser in the device immediately ate up the rest of the space
+
+  - I should probably hold off on installing anything else until I can install to another device!
+
+    - Alas, I have nothing bigger than 8G right now...
+
+- On the bright side, GNOME seems to include the kitchen sink in a good way
+
+  - Once I enabled and started Network Manager, I had both Wifi and Ethernet available (and even bluetooth!)
+
+  - The inserted SD card also showed up, which I remember being much more painful to get working last time
+
+- The commands to set up Networking:
+
+```bash
+sudo systemctl start NetworkManager.service
+sudo systemctl enable NetworkManager.service
+```
+
+- I'll install `lynx` for all my browsing needs, that's only 7M...
+
+- I immediately blew my space savings installing the build dependencies for Yay...
+
+```bash
+pacman -S --needed git base-devel
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+cd ..
+rm -rf yay
+```
+
+- I have 74M, better use em wisely
+
+- I managed to free up a gig by clearing my pacman cache...not great for an installer, but I guess the whole "use the local cache" stuff can wait to be set up until there is a bigger USB.
+
+  - Ugh, Yay is yet again eating up a sizeable chunk of that space with its Go dependency
+
+    - Go is the second-largest thing in my whole install...
+
+- The `makepkg -si` command was failing because it couldn't download a Go package
+
+  - I think I fixed it by setting the env variable `GOPROXY="direct"`, or maybe it was a transient network issue
+
+  - Source for that env var: <https://stackoverflow.com/questions/61856164/net-http-tls-handshake-timeout-when-importing-mongo-driver-golang>
+
+- Unsurprisingly, Chrome is way too dang big
+
+- You know what? I'm gonna stop using Yay and start using the AUR the way Arch intended
+
+  - The stuff I did to install Yay is how to install any AUR package and set it up in pacman after
+
+- I will install the tool `auracle`, which should make the whole process a bit easier
+
+  - I accidentally uninstalled `yay` and `go` before installing `auracle`, so now I get to do it the truly manual way once more
+
+    - The repo I need to clone is the one hosted by Arch, not the GitHub repo (AKA Upstream)
+
+- Installing Fira Code font, because it showed up when I tried installing VS Code
+
+  - Gotta add `"editor.fontLigatures": true` to my VS Code `settings.json`
+
+  - Also, this made me realize it was time to add that file to my dotfiles, so I did!
+
+- Then I added my custom ZSH prompt, a tweaked version of GNZH
+
+- Alright, I think it is time to quit for the night. So much progress!
+
 ## TODO
 
-- USB Networking with WiFi
+- ~~USB Networking with WiFi~~
 
-- USB GUI!
+- ~~USB GUI!~~
 
   - Might be a squeeze, I've only got 3.6G free and I've still gotta install most things
 
-  - Nah, Gnome is fine
+  - Nah, Gnome is fine ("fine")
 
 - Craft a script that does everything I've described to a given device (`install.sh`)
 
