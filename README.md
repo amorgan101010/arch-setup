@@ -766,6 +766,22 @@ rm -rf yay
 
 - Ugh, time to learn how to make user prompts...
 
+  - Not too bad!
+
+    - Source: <https://ryanstutorials.net/bash-scripting-tutorial/bash-input.php>
+
+- ~~I'm really digging the `shellcheck` program and extension, it catches little stuff these tutorials don't have (like using `-r` instead of `-p`)~~
+
+  - Actually, that seems to have been misleading advice, sticking with `-p`
+
+- I made the prompt require the user type in the path of the device for extra caution
+
+  - Now I need a `-y` override for scripting...
+
+    - That'll be good practice at having multiple options
+
+- The `-y` option is now present!
+
 ## TODO
 
 - [Add Gnome Tweaks and themes to Dotfiles repo](https://unix.stackexchange.com/questions/426322/how-do-i-use-the-plain-text-mode-of-dconf/426348#426348)

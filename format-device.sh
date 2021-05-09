@@ -31,22 +31,34 @@ FormatDevice()
 {
     echo "Received request to format a (hopefully) freshly partitioned device.";
 
-    SWAP="$1"
-    DEVICE_PATH="$2";
+    SWAP="$1";
+    OVERRIDE_PROMPT="$2";
+    DEVICE_PATH="${*: -1}";
 
     EFI_PATH="${DEVICE_PATH}1";
     ROOT_PATH="${DEVICE_PATH}3";
 
+    if [ "$OVERRIDE_PROMPT" -eq 0 ]
+    then
+        PROMPT="Enter target path '$DEVICE_PATH' to confirm formatting (use -y to skip prompt): ";
+
+        read -p "$PROMPT" CONFIRMATION;
+        if [ "$CONFIRMATION" != "$DEVICE_PATH" ]
+        then
+            exit;
+        fi;
+    fi;
+
     echo "Formatting EFI system partition as FAT32 at $EFI_PATH.";
-    #sudo mkfs.fat -F32 "$EFI_PATH"
+    #sudo mkfs.fat -F32 "$EFI_PATH";
     echo "Formatting root partition as ext4 at $ROOT_PATH.";
-    #sudo mkfs.ext4 "$ROOT_PATH"
+    #sudo mkfs.ext4 "$ROOT_PATH";
 
     if [ "$SWAP" -gt 0 ]
     then
         SWAP_PATH="${DEVICE_PATH}2";
         echo "Formatting swap partition at $SWAP_PATH.";
-        #sudo mkswap "$SWAP_PATH"
+        #sudo mkswap "$SWAP_PATH";
     fi;
 }
 
@@ -55,12 +67,11 @@ FormatDevice()
 # Main                                                                         #
 ################################################################################
 ################################################################################
-# Source: https://opensource.com/article/19/12/help-bash-program
-
 SWAP=0;
+OVERRIDE_PROMPT=0;
 DEVICE_PATH="${*: -1}";
 
-while getopts ":h:s" option; do
+while getopts "hsy" option; do
     case $option in
         h) # display Help
             Help;
@@ -68,10 +79,13 @@ while getopts ":h:s" option; do
         s) # Set SWAP flag
             SWAP=1;
             ;;
+        y) # Skip confirmation prompt
+            OVERRIDE_PROMPT=1;
+            ;;
         *) # something invalid entered; display Help
             Help;
             exit;;
     esac;
 done;
 
-FormatDevice "$SWAP" "$DEVICE_PATH"
+FormatDevice "$SWAP" "$OVERRIDE_PROMPT" "$DEVICE_PATH";
