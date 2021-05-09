@@ -508,9 +508,15 @@ pacman -S gnome
 
 ## TODO
 
-- USB Networking with WiFi
+- Figure out a way to add my VS Code extensions to my dotfiles
 
-- USB GUI!
+- Figure out how to use a better config path for the version of VS Code that's available in the Community package repo
+
+  - Right now it is `Code - OSS` with a space!!
+
+- ~~USB Networking with WiFi~~
+
+- ~~USB GUI!~~
 
   - Might be a squeeze, I've only got 3.6G free and I've still gotta install most things
 
