@@ -50,7 +50,7 @@ Format()
     fi;
 
     echo "(format.sh) Formatting EFI system partition as FAT32 at '$EFI_PATH'.";
-    #sudo mkfs.fat -F32 "$EFI_PATH";
+    sudo mkfs.fat -F32 "$EFI_PATH";
 
     if [ "$SWAP" -gt 0 ]
     then
@@ -58,13 +58,13 @@ Format()
         ROOT_PATH="${DEVICE_PATH}3";
 
         echo "(format.sh) Formatting swap partition at '$SWAP_PATH'.";
-        #sudo mkswap "$SWAP_PATH";
+        sudo mkswap "$SWAP_PATH";
     else
         ROOT_PATH="${DEVICE_PATH}2";
     fi;
 
     echo "(format.sh) Formatting root partition as ext4 at '$ROOT_PATH'.";
-    #sudo mkfs.ext4 "$ROOT_PATH";
+    sudo mkfs.ext4 "$ROOT_PATH";
 }
 
 ################################################################################

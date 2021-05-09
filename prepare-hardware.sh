@@ -55,7 +55,7 @@ echo "(prepare-hardware.sh) Attempting to partition '$DEVICE_PATH'.";
 ./partition.sh "$FLAGS" "$DEVICE_PATH";
 
 echo "(prepare-hardware.sh) Attempting to format '$DEVICE_PATH'.";
-#./format.sh "$FLAGS" "$DEVICE_PATH";
+./format.sh "$FLAGS" "$DEVICE_PATH";
 
 echo "(prepare-hardware.sh) Attempting to mount '$DEVICE_PATH' to '/mnt'.";
 #./mount.sh "$FLAGS" "$DEVICE_PATH";
