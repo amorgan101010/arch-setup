@@ -9,10 +9,11 @@ Help()
     # Display Help
     echo "Format partitions on a device in preparation for installing Arch. Must be root."
     echo
-    echo "Syntax: ./format.sh [-h|s] DEVICE_PATH"
+    echo "Syntax: ./format.sh [-h|sy] DEVICE_PATH"
     echo "options:"
-    echo "-h     Print this Help."
-    echo "-s     Format a swap partition as well as system and root."
+    echo "-s  Format a swap partition as well as system and root."
+    echo "-y  Skip prompts."
+    echo "-h  Print this Help."
     echo
     echo "# Ex: Format a device with EFI and root"
     echo "sudo ./format.sh /dev/sdb"
@@ -27,9 +28,9 @@ Help()
 # Format
 ################################################################################
 ################################################################################
-Format
+Format()
 {
-    echo "Received request to format a (hopefully) freshly partitioned device.";
+    echo "(format.sh) Received request to format a (hopefully) freshly partitioned device.";
 
     SWAP="$1";
     OVERRIDE_PROMPT="$2";
@@ -39,7 +40,7 @@ Format
 
     if [ "$OVERRIDE_PROMPT" -eq 0 ]
     then
-        PROMPT="Enter target path '$DEVICE_PATH' to confirm formatting (use -y to skip prompt): ";
+        PROMPT="(format.sh) Enter target path '$DEVICE_PATH' to confirm formatting (use -y to skip prompt): ";
 
         read -p "$PROMPT" CONFIRMATION;
         if [ "$CONFIRMATION" != "$DEVICE_PATH" ]
@@ -48,7 +49,7 @@ Format
         fi;
     fi;
 
-    echo "Formatting EFI system partition as FAT32 at $EFI_PATH.";
+    echo "(format.sh) Formatting EFI system partition as FAT32 at '$EFI_PATH'.";
     #sudo mkfs.fat -F32 "$EFI_PATH";
 
     if [ "$SWAP" -gt 0 ]
@@ -56,13 +57,13 @@ Format
         SWAP_PATH="${DEVICE_PATH}2";
         ROOT_PATH="${DEVICE_PATH}3";
 
-        echo "Formatting swap partition at $SWAP_PATH.";
+        echo "(format.sh) Formatting swap partition at '$SWAP_PATH'.";
         #sudo mkswap "$SWAP_PATH";
     else
         ROOT_PATH="${DEVICE_PATH}2";
     fi;
 
-    echo "Formatting root partition as ext4 at $ROOT_PATH.";
+    echo "(format.sh) Formatting root partition as ext4 at '$ROOT_PATH'.";
     #sudo mkfs.ext4 "$ROOT_PATH";
 }
 

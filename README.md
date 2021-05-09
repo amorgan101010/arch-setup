@@ -58,6 +58,8 @@
 
 - (I skipped the "select mirrors" part of this process, because it is tedious and I already did it once a few years ago)
 
+  - Future Aileen here: I'm not sure that I ever actually copied my mirrors file over though...
+
 - And finally, installing the basics (and a few of my own goodies) with:
 
   - `sudo pacstrap /mnt base linux linux-firmware vim man-db man-pages texinfo`
@@ -254,6 +256,8 @@ grub-install: error: efibootmgr failed to register the boot entry: Block device 
 
   - ...Once I remembered the command to modify an existing user, `usermod`
 
+- Hmm, reading the docs for usermod showed me the `-l` option to change a user's name, might as well use that on this laptop's install to make it a bit more pleasant to use before it gets nuked...
+
 ---
 
 ### Deadname Detour: Name Changes in Unix
@@ -290,8 +294,6 @@ usermod -m -d /home/newname newname
 - (the old username still shows up in an `ls -al`, not sure if that is fixable)
 
 ---
-
-- Hmm, reading the docs for usermod showed me the `-l` option to change a user's name, might as well use that on this laptop's install to make it a bit more pleasant to use before it gets nuked...
 
 - All in all, the commands to set up the user were:
 
@@ -443,6 +445,8 @@ echo "127.0.1.1 LiminalArch.localdomain LiminalArch" >> /etc/hosts
   - I think the line is pretty blurred, but whatev
 
   - Now it is time to move on to General Recommendations!
+
+- **TODO: Copy over my existing pacman mirrors file**
 
 ## Part 2: Make It Useable in a Modern sense
 
@@ -831,6 +835,26 @@ rm -rf yay
   - test out each command manually
 
   - Run it O_o
+
+- Down the line, I think the confirmation prompts need to be moved up a few layers...at least to `prepare-hardware.sh`
+
+- Alas, I think the unmounting script has become deprecated...
+
+  - I almost feel like combining files would be beneficial to avoid repeating code everywhere...
+
+    - That seems more like something to do once every piece has been shown to work on its own!
+
+- Oh no, `mount` is ALSO deprecated!!
+
+  - Well, I'll make sure the first two work, then combine them
+
+- OH NO...I hadn't committed in a bit and I redirected into the wrong file...
+
+  - Well...it was working well and logging nicely...
+
+  - It was a lot faster the second time!
+
+@import "./dry_run_partition_and_format_silently_with_swap.log"
 
 ## TODO
 

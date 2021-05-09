@@ -11,8 +11,9 @@ Help()
     echo
     echo "Syntax: ./mount.sh [-h|s] DEVICE_PATH"
     echo "options:"
-    echo "-h     Print this Help."
-    echo "-s     Turn on swap."
+    echo "-s  Turn on swap."
+    echo "-y  Skip prompts."
+    echo "-h  Print this Help."
     echo
     echo "Ex: Mount a device."
     echo "% sudo ./mount.sh /dev/sdb"
@@ -27,7 +28,7 @@ Help()
 ################################################################################
 Mount()
 {
-    echo "Received request to mount a device.";
+    echo "(mount.sh) Received request to mount a device.";
 
     SWAP="$1";
     DEVICE_PATH="$2";
@@ -37,7 +38,7 @@ Mount()
         SWAP_PATH="${DEVICE_PATH}2";
         ROOT_PATH="${DEVICE_PATH}3";
 
-        echo "Turning on swap partition at $SWAP_PATH.";
+        echo "(mount.sh) Turning on swap partition at $SWAP_PATH.";
         swapon "$SWAP_PATH";
     else
         ROOT_PATH="${DEVICE_PATH}2";
@@ -45,9 +46,9 @@ Mount()
 
     EFI_PATH="${DEVICE_PATH}1";
 
-    echo "Mounting partitions of device at /mnt.";
-    echo "EFI System Partition: $EFI_PATH";
-    echo "Root Partition: $ROOT_PATH";
+    echo "(mount.sh) Mounting partitions of device at /mnt.";
+    #echo "(mount.sh) EFI System Partition: $EFI_PATH";
+    #echo "(mount.sh) Root Partition: $ROOT_PATH";
 
     mount "$ROOT_PATH" /mnt;
     mount "$EFI_PATH" /mnt/efi;

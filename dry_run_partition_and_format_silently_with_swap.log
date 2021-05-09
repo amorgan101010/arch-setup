@@ -1,0 +1,12 @@
+(prepare-hardware.sh) Attempting to partition '/dev/sdb'.
+(partition.sh) Received request to partition '/dev/sdb'.
+(partition.sh) Removing any existing partitioning from '/dev/sdb'.
+(partition.sh) partitioning EFI system partition at '/dev/sdb1'.
+(partition.sh) Partitioning swap at '/dev/sdb2'.
+(partition.sh) Partitioning root at '/dev/sdb3'; using remaining disk space.
+(prepare-hardware.sh) Attempting to format '/dev/sdb'.
+(format.sh) Received request to format a (hopefully) freshly partitioned device.
+(format.sh) Formatting EFI system partition as FAT32 at '/dev/sdb1'.
+(format.sh) Formatting swap partition at '/dev/sdb2'.
+(format.sh) Formatting root partition as ext4 at '/dev/sdb3'.
+(prepare-hardware.sh) Attempting to mount '/dev/sdb' to '/mnt'.

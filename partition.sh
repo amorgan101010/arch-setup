@@ -21,6 +21,7 @@ Help()
     echo "-e  Specify the EFI System partition size in MB."
     echo "-H  Create a home directory, optionally specifying size in GB."
     echo "-s  Partition swap as well as system and root, optionally specifying its size in MB."
+    echo "-y  Skip prompts."
     echo "-h  Print this Help."
     echo
     echo "# Ex: Partition a device with EFI and root, answering prompts to specify sizes."
@@ -41,8 +42,6 @@ Help()
 ################################################################################
 Partition()
 {
-    echo "Received request to partition a device.";
-
     SWAP="$1";
     OVERRIDE_PROMPT="$2";
     EFI_SIZE_MB="$3";
@@ -50,11 +49,13 @@ Partition()
     #ROOT_SIZE_GB="$5";
     DEVICE_PATH="${*: -1}";
 
+    echo "(partition.sh) Received request to partition '$DEVICE_PATH'.";
+
     EFI_PATH="${DEVICE_PATH}1";
 
     if [ "$OVERRIDE_PROMPT" -eq 0 ]
     then
-        PROMPT="Enter target path '$DEVICE_PATH' to confirm formatting (use -y to skip prompt): ";
+        PROMPT="(partition.sh) Enter target path '$DEVICE_PATH' to confirm formatting (use -y to skip prompt): ";
 
         read -p "$PROMPT" CONFIRMATION;
         if [ "$CONFIRMATION" != "$DEVICE_PATH" ]
@@ -63,10 +64,10 @@ Partition()
         fi;
     fi;
 
-    echo "Removing any existing partitioning from $DEVICE_PATH";
+    echo "(partition.sh) Removing any existing partitioning from '$DEVICE_PATH'.";
     #sgdisk --zap-all "$DEVICE_PATH";
 
-    echo "partitioning EFI system partition at $EFI_PATH.";
+    echo "(partition.sh) partitioning EFI system partition at '$EFI_PATH'.";
     #sudo sgdisk --new=0:+"$EFI_SIZE_MB"M --typecode=0:EF00 "$DEVICE_PATH";
 
 
@@ -75,13 +76,13 @@ Partition()
         SWAP_PATH="${DEVICE_PATH}2";
         ROOT_PATH="${DEVICE_PATH}3";
 
-        echo "Partitioning swap at $SWAP_PATH.";
+        echo "(partition.sh) Partitioning swap at '$SWAP_PATH'.";
         #sudo sgdisk --new=0:+"$SWAP_SIZE_MB"M --typecode=0:8200 "$DEVICE_PATH";
     else
         ROOT_PATH="${DEVICE_PATH}2";
     fi;
 
-    echo "Partitioning root at $ROOT_PATH; using remaining disk space.";
+    echo "(partition.sh) Partitioning root at '$ROOT_PATH'; using remaining disk space.";
 
     #sudo sgdisk --largest-new=0 --typecode=0:0700 "$DEVICE_PATH";
 }
