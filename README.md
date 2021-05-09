@@ -856,6 +856,58 @@ rm -rf yay
 
 @import "./dry_run_partition_and_format_silently_with_swap.log"
 
+- Alright, gonna glue the mount script into the format script
+
+  - WAIT!
+
+  - I should test the first two out before I do
+
+- I started a real run of the script and...
+
+  - Realized that I should *really* figure out how to output whatever that script command would output...
+
+  - I should've run them externally at least once, so I'd know if they're hanging or just taking a normal amount of time...
+
+  - I'm also...not sure how my script handles control C, aside from...not
+
+    - `htop` to the rescue
+
+- Alright, I am re-running the command and it just seems to be real slow
+
+- Ended up rebooting to make sure everything is in a nice state
+
+  - It seems to be that GPT really didn't like the fact it was a windows installer...
+
+- I cheated a little and deleted the existing data in `cgdisk`
+
+- Once I did that, `sgdisk --clear /dev/sdb` worked immediately (it hung before)
+
+- Creating the system partition also worked successfully!
+
+  - Well, not quite, I was mis-specifying the partition starts
+
+- As a side bar, my Arch laptop has both an EFI and a boot partition, and the latter appears to contain the windows boot loader
+
+  - That's a task for *way* down the line
+
+- All the commands work!
+
+  - The sectors aren't nicely aligned, though
+
+    - `cgdisk` shows it most clearly, but it is also displayed in the embedded info about the flash drive after running the `sgdisk` commands
+
+@import "./disk_info_after_manual_partitioning.txt"
+
+- I should also name the partitions, with (I think) `-c`
+
+  - Naming the partition didn't work with the `--largest-new` option, so I just used the equivalent `--new` arguments
+
+- The partitioning script is fully functional!!
+
+@import "./partition_silently_with_swap.log"
+
+- Also, as a side note, it already outputs the output of the commands, it just wasn't earlier because the command was hanging...
+
 ## TODO
 
 - [Add Gnome Tweaks and themes to Dotfiles repo](https://unix.stackexchange.com/questions/426322/how-do-i-use-the-plain-text-mode-of-dconf/426348#426348)

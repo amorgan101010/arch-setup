@@ -1,0 +1,14 @@
+Disk /dev/sdb: 30031250 sectors, 14.3 GiB
+Model: Ultra           
+Sector size (logical/physical): 512/512 bytes
+Disk identifier (GUID): E2A22CE7-D8D2-4B22-8219-5C6929B4EB5C
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 30031216
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 4061 sectors (2.0 MiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048         1126400   549.0 MiB   EF00  
+   2         1128448         2177023   512.0 MiB   8200  
+   3         2177024        30031216   13.3 GiB    8300  

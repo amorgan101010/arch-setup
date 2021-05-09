@@ -55,7 +55,7 @@ Partition()
 
     if [ "$OVERRIDE_PROMPT" -eq 0 ]
     then
-        PROMPT="(partition.sh) Enter target path '$DEVICE_PATH' to confirm formatting (use -y to skip prompt): ";
+        PROMPT="(partition.sh) Enter target path '$DEVICE_PATH' to confirm partitioning (use -y to skip prompt): ";
 
         read -p "$PROMPT" CONFIRMATION;
         if [ "$CONFIRMATION" != "$DEVICE_PATH" ]
@@ -65,10 +65,11 @@ Partition()
     fi;
 
     echo "(partition.sh) Removing any existing partitioning from '$DEVICE_PATH'.";
-    #sgdisk --zap-all "$DEVICE_PATH";
+    sgdisk --mbrtogpt "$DEVICE_PATH";
+    sgdisk --clear "$DEVICE_PATH";
 
     echo "(partition.sh) partitioning EFI system partition at '$EFI_PATH'.";
-    #sudo sgdisk --new=0:+"$EFI_SIZE_MB"M --typecode=0:EF00 "$DEVICE_PATH";
+    sgdisk --new=0:0:"$EFI_SIZE_MB"M --typecode=0:EF00 --change-name=0:efi "$DEVICE_PATH";
 
 
     if [ "$SWAP" -gt 0 ]
@@ -77,14 +78,14 @@ Partition()
         ROOT_PATH="${DEVICE_PATH}3";
 
         echo "(partition.sh) Partitioning swap at '$SWAP_PATH'.";
-        #sudo sgdisk --new=0:+"$SWAP_SIZE_MB"M --typecode=0:8200 "$DEVICE_PATH";
+        sgdisk --new=0:0:+"$SWAP_SIZE_MB"M --typecode=0:8200 --change-name=0:swap "$DEVICE_PATH";
     else
         ROOT_PATH="${DEVICE_PATH}2";
     fi;
 
     echo "(partition.sh) Partitioning root at '$ROOT_PATH'; using remaining disk space.";
 
-    #sudo sgdisk --largest-new=0 --typecode=0:0700 "$DEVICE_PATH";
+    sgdisk --new=0:0:0 --typecode=0:0700 --change-name=0:root "$DEVICE_PATH";
 }
 
 ################################################################################

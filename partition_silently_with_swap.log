@@ -1,0 +1,16 @@
+(partition.sh) Received request to partition '/dev/sdb'.
+(partition.sh) Removing any existing partitioning from '/dev/sdb'.
+The operation has completed successfully.
+The operation has completed successfully.
+(partition.sh) partitioning EFI system partition at '/dev/sdb1'.
+Setting name!
+partNum is 0
+The operation has completed successfully.
+(partition.sh) Partitioning swap at '/dev/sdb2'.
+Setting name!
+partNum is 1
+The operation has completed successfully.
+(partition.sh) Partitioning root at '/dev/sdb3'; using remaining disk space.
+Setting name!
+partNum is 2
+The operation has completed successfully.
