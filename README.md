@@ -966,6 +966,14 @@ rm -rf yay
 
 - I guess seeing if what I have now builds is as good a test as any!
 
+- A note from after booting in:
+
+  - I think all the repo cloning into my home directory has to be done as my non-root user
+
+- It is still failing on repo cloning, but just about everything else still works!
+
+  - I should enable the desktop manager /greeter way earlier, so a failure to clone doesn't prevent it from being enabled
+
 ## TODO
 
 - [Add Gnome Tweaks and themes to Dotfiles repo](https://unix.stackexchange.com/questions/426322/how-do-i-use-the-plain-text-mode-of-dconf/426348#426348)

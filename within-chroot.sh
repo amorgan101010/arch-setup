@@ -44,6 +44,9 @@ locale-gen;
 
 echo "LANG=en_US.UTF-8" >> /etc/locale.conf;
 
+echo "(within-chroot.sh) Setting time zone.";
+ln -sf /usr/share/zoneinfo/America/Detroit /etc/localtime;
+
 echo "(within-chroot.sh) Setting up hosts and hostname.";
 
 echo "TargetArch" >> /etc/hostname;
@@ -76,32 +79,32 @@ echo -e "%wheel ALL=(ALL) ALL" > /etc/sudoers.d/99_wheel;
 echo "(within-chroot.sh) Creating default non-root user.";
 useradd --create-home --shell /usr/bin/zsh --groups wheel,games,audio aileen;
 
-echo "(within-chroot.sh) Retrieving dotfiles.";
-cd /home/aileen||exit;
-git clone https://github.com/amorgan101010/dotfiles.git /home/aileen/dotfiles;
-
-echo "(within-chroot.sh) Installing oh-my-zsh and plugins.";
-# TODO: specify output location of curled script
-sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --keep-zshrc --unattended;
-git clone https://github.com/zsh-users/zsh-syntax-highlighting /home/aileen/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting;
-git clone https://github.com/zsh-users/zsh-autosuggestions /home/aileen/.oh-my-zsh/custom/plugins/zsh-autosuggestions;
-cd /home/aileen/dotfiles||exit;
-stow oh-my-zsh;
-
-echo "(within-chroot.sh) Building basic AUR helper auracle.";
-mkdir /home/aileen/.aur;
-cd /home/aileen/.aur||exit;
-git clone https://aur.archlinux.org/auracle-git.git /home/aileen/.aur;
-cd /home/aileen/.aur/auracle-git||exit;
-makepkg -si
-
-# TODO: Add a check for an explicit flag to install yay(?)
-
 echo "(within-chroot.sh) Installing X Windows System, GNOME DE, and misc graphical software.";
 pacman -S --noconfirm - < /gui-pkglist.txt;
 
-echo "(within-chroot.sh) Starting Greeter.";
-sudo systemctl start gdm.service;
+echo "(within-chroot.sh) Enabling Greeter.";
+sudo systemctl enable gdm.service;
+
+echo "(within-chroot.sh) Retrieving dotfiles.";
+cd /home/aileen||exit;
+su - aileen -c "git clone https://github.com/amorgan101010/dotfiles.git /home/aileen/dotfiles";
+
+echo "(within-chroot.sh) Installing oh-my-zsh and plugins.";
+# TODO: specify output location of curled script
+su - aileen -c "sh -c \"$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)\" \"\" --keep-zshrc --unattended";
+su - aileen -c "git clone https://github.com/zsh-users/zsh-syntax-highlighting /home/aileen/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting";
+su - aileen -c "git clone https://github.com/zsh-users/zsh-autosuggestions /home/aileen/.oh-my-zsh/custom/plugins/zsh-autosuggestions";
+cd /home/aileen/dotfiles||exit;
+su - aileen -c "stow oh-my-zsh";
+
+echo "(within-chroot.sh) Building basic AUR helper auracle.";
+su - aileen -c "mkdir /home/aileen/.aur";
+cd /home/aileen/.aur||exit;
+su - aileen -c "git clone https://aur.archlinux.org/auracle-git.git /home/aileen/.aur";
+cd /home/aileen/.aur/auracle-git||exit;
+su - aileen -c "makepkg -si";
+
+# TODO: Add a check for an explicit flag to install yay(?)
 
 echo "(within-chroot.sh) Set user password.";
 passwd aileen;
