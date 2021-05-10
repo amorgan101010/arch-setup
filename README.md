@@ -854,7 +854,7 @@ rm -rf yay
 
   - It was a lot faster the second time!
 
-@import "./dry_run_partition_and_format_silently_with_swap.log"
+@import "./logs/dry_run_partition_and_format_silently_with_swap.log"
 
 - Alright, gonna glue the mount script into the format script
 
@@ -896,7 +896,7 @@ rm -rf yay
 
     - `cgdisk` shows it most clearly, but it is also displayed in the embedded info about the flash drive after running the `sgdisk` commands
 
-@import "./disk_info_after_manual_partitioning.txt"
+@import "./logs/disk_info_after_manual_partitioning.txt"
 
 - I should also name the partitions, with (I think) `-c`
 
@@ -904,7 +904,7 @@ rm -rf yay
 
 - The partitioning script is fully functional!!
 
-@import "./partition_silently_with_swap.log"
+@import "./logs/partition_silently_with_swap.log"
 
 - Also, as a side note, it already outputs the output of the commands, it just wasn't earlier because the command was hanging...
 
@@ -916,7 +916,7 @@ rm -rf yay
 
 - `prepare-hardware.sh` is fully operational!
 
-@import "./prepare_hardware_complete.log"
+@import "./logs/prepare_hardware_complete.log"
 
 - So, what now?
 
@@ -933,6 +933,9 @@ rm -rf yay
 - The `pacstrap` step works!
 
 - It is time to `arch-chroot` in...
+
+- How do I handle that in a script?
+
 
 ## TODO
 
