@@ -936,6 +936,7 @@ rm -rf yay
 
 - How do I handle that in a script?
 
+- About how I expected, a second script for inside the chroot
 
 ## TODO
 

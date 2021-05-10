@@ -7,18 +7,17 @@
 Help()
 {
     # Display Help
-    echo "Prepares hardware to install Arch. Must be root."
+    echo "Commands to run within a freshly set up Arch chroot. Must be root."
     echo
-    echo "Syntax: ./install.sh [-h|sly] DEVICE_PATH"
+    echo "Syntax: ./within-chroot.sh [-h|y]"
     echo
     echo "options:"
     echo "-y  Skip prompts."
     echo "-s  Format a swap partition as well as system and root."
-    echo "-l  Install minimum recommended packages (base, linux, linux-firmware)."
     echo "-h  Print this Help."
     echo
-    echo "# Ex: Prepare a device for installing Arch."
-    echo "% sudo ./install.sh /dev/sdb"
+    echo "# Ex: Run commands to prepare new Arch install from within."
+    echo "% sudo ./within-chroot.sh"
     echo
 }
 
@@ -28,23 +27,15 @@ Help()
 ################################################################################
 ################################################################################
 
-SWAP_FLAG="";
 SKIP_FLAG="";
-LITE=0;
 DEVICE_PATH="${*: -1}";
 
 # TODO1: Add a top-level -y option
-while getopts "hsyl" option; do
+while getopts "hy" option; do
     case $option in
         h) # display Help
             Help;
             exit;;
-        s) # Set SWAP flag
-            SWAP_FLAG="s";
-            ;;
-        l) # Set LITE flag
-            LITE=1;
-            ;;
         y) # Set SKIP flag
             SKIP_FLAG="y";
             ;;
@@ -54,25 +45,6 @@ while getopts "hsyl" option; do
     esac
 done
 
-FLAGS="-$SWAP_FLAG$SKIP_FLAG"
+FLAGS="-$SKIP_FLAG"
 
-echo "(prepare-hardware.sh) Attempting to partition '$DEVICE_PATH'.";
-./partition.sh "$FLAGS" "$DEVICE_PATH";
-
-echo "(prepare-hardware.sh) Attempting to format '$DEVICE_PATH'.";
-./format.sh "$FLAGS" "$DEVICE_PATH";
-
-echo "(prepare-hardware.sh) Attempting to mount '$DEVICE_PATH' to '/mnt'.";
-./mount.sh "$FLAGS" "$DEVICE_PATH";
-
-echo "(prepare-hardware.sh) Pacstrapping!"
-if [ "$LITE" -gt 0 ]
-then
-    pacstrap /mnt base linux linux-firmware;
-else
-    pacstrap /mnt < ./base-pkglist.txt;
-fi;
-
-cp ./within-chroot.sh /mnt/;
-
-arch-chroot /mnt ./within-chroot.sh;
+echo "(within-chroot.sh) Doing chroot stuff.";
