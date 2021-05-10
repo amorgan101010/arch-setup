@@ -66,13 +66,19 @@ echo "(prepare-hardware.sh) Attempting to mount '$DEVICE_PATH' to '/mnt'.";
 ./mount.sh "$FLAGS" "$DEVICE_PATH";
 
 echo "(prepare-hardware.sh) Pacstrapping!"
-if [ "$LITE" -gt 0 ]
-then
-    pacstrap /mnt base linux linux-firmware;
-else
-    pacstrap /mnt < ./base-pkglist.txt;
-fi;
+#if [ "$LITE" -gt 0 ]
+#then
+    #pacstrap /mnt base linux linux-firmware grub efibootmgr networkmanager;
+#else
+    #pacstrap /mnt < ./base-pkglist.txt;
+#fi;
+
+pacstrap /mnt base linux linux-firmware;
+
+genfstab -U /mnt >> /mnt/etc/fstab;
 
 cp ./within-chroot.sh /mnt/;
+cp ./base-pkglist.txt /mnt/;
+cp ./gui-pkglist.txt /mnt/;
 
 arch-chroot /mnt ./within-chroot.sh;

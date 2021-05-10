@@ -938,6 +938,34 @@ rm -rf yay
 
 - About how I expected, a second script for inside the chroot
 
+- I don't want to keep waiting for pacstrapping to happen, I'm going to write down as much chroot stuff as possible and hope I get close on the first shot
+
+- Breaking the rules and editing sudoers with `sed`
+
+  - Source: <https://stackoverflow.com/questions/10420713/regex-pattern-to-edit-etc-sudoers-file>
+
+  - ...Nah
+
+- A safer solution: <https://www.reddit.com/r/archlinux/comments/9ms3ad/adding_wheel_allall_all_defaults_rootpw_into/>
+
+- I'm at the point this is becoming a real pain to test...
+
+- It made it to the second round of installs this time (and is still going)!
+
+- One change left to make to the script I forgot about:
+
+  - Setting the time zone
+
+  - Probably pretty similar to doing it in a Docker container, so NBD!
+
+- My first attempt to clone something with git also has a fingerprint prompt that needs skipping
+
+- It got almost all the way! But failed on cloning my Dotfiles and exited :/
+
+  - It should boot now, though!
+
+- I guess seeing if what I have now builds is as good a test as any!
+
 ## TODO
 
 - [Add Gnome Tweaks and themes to Dotfiles repo](https://unix.stackexchange.com/questions/426322/how-do-i-use-the-plain-text-mode-of-dconf/426348#426348)
@@ -960,28 +988,30 @@ rm -rf yay
 
 - Craft a script that does everything I've described to a given device (`install.sh`)
 
-  - Make one that partitions the device (`partition-device.sh`)
+  - ~~Make one that partitions the device (`partition-device.sh`)~~
 
     - In progress, probably gonna be tricky
   
-  - One that sets up the filesystems (`format-device.sh`)
+  - ~~One that sets up the filesystems (`format-device.sh`)~~
 
     - Easy, assuming correct input
 
-    - Not actually tested...
+    - ~~Not actually tested...~~
 
   - ~~Another that mounts the newly set up partitions~~ (`mount-device.sh`)
 
     - This script is also handy for re-mounting a device that was set up by the installer!
 
-  - Another that does the pacstrapping, but with all the packages I've described in one go (if that is possible without errors)
+  - ~~Another that does the pacstrapping, but with all the packages I've described in one go (if that is possible without errors)~~
 
-  - Yet another for setting up GRUB for at least GPT
+    - Ended up doing it in multiple passes to save time
+
+  - ~~Yet another for setting up GRUB for at least GPT~~
 
     - I don't think I even have a device to test MBR on...
 
-  - One that sets up groups and makes a user
+  - ~~One that sets up groups and makes a user~~
 
-  - Then one that clones my dotfiles, installs Oh My Zsh, and stows everything
+  - ~~Then one that clones my dotfiles, installs Oh My Zsh, and stows everything~~
 
-  - One that sets up locale
+  - ~~One that sets up locale~~

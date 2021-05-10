@@ -1,0 +1,6 @@
+xorg
+xorg-server
+gnome
+gnome-tweaks
+code
+shellcheck

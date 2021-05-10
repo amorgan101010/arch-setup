@@ -1,6 +1,5 @@
-base
 base-devel
-bash-completions
+curl
 efibootmgr
 git
 grub
@@ -13,9 +12,7 @@ man-pages
 networkmanager
 openssh
 stow
-sudo
 texinfo
 vi
 vim
 zsh
-zsh-completions
