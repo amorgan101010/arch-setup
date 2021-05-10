@@ -72,13 +72,15 @@ echo "(prepare-hardware.sh) Pacstrapping!"
 #else
     #pacstrap /mnt < ./base-pkglist.txt;
 #fi;
-
 pacstrap /mnt base linux linux-firmware;
 
+echo "(prepare-hardware.sh) Generating fstab."
 genfstab -U /mnt >> /mnt/etc/fstab;
 
+echo "(prepare-hardware.sh) Copying over essential installer files."
 cp ./within-chroot.sh /mnt/;
 cp ./base-pkglist.txt /mnt/;
 cp ./gui-pkglist.txt /mnt/;
+cp ./as-user.sh /mnt/;
 
 arch-chroot /mnt ./within-chroot.sh;

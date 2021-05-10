@@ -986,6 +986,8 @@ rm -rf yay
 
     - I'll try that, if nothing else it'll be cleaner to look at...
 
+- That totes did it, just a few more small path cleanup things!
+
 ## TODO
 
 - [Add Gnome Tweaks and themes to Dotfiles repo](https://unix.stackexchange.com/questions/426322/how-do-i-use-the-plain-text-mode-of-dconf/426348#426348)

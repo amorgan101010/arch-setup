@@ -83,11 +83,10 @@ echo "(within-chroot.sh) Installing X Windows System, GNOME DE, and misc graphic
 pacman -S --noconfirm - < /gui-pkglist.txt;
 
 echo "(within-chroot.sh) Enabling Greeter.";
-sudo systemctl enable gdm.service;
+systemctl enable gdm.service;
 
 echo "(within-chroot.sh) Running user script.";
-cd /home/aileen||exit;
-su - aileen -c "./as-user.sh";
+su - aileen -c "/bin/bash /as-user.sh";
 
 echo "(within-chroot.sh) Time to reboot and see if it works!.";
 exit;

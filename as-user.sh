@@ -47,12 +47,13 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting /home/aileen/.oh-
 git clone https://github.com/zsh-users/zsh-autosuggestions /home/aileen/.oh-my-zsh/custom/plugins/zsh-autosuggestions;
 cd /home/aileen/dotfiles||exit;
 stow oh-my-zsh;
+stow vs-code;
 
 echo "(as-user.sh) Building basic AUR helper auracle.";
 mkdir /home/aileen/.aur;
 cd /home/aileen/.aur||exit;
-git clone https://aur.archlinux.org/auracle-git.git /home/aileen/.aur;
-cd /home/aileen/.aur/auracle-git||exit;
+git clone https://aur.archlinux.org/auracle-git.git /home/aileen/.aur/auracle;
+cd /home/aileen/.aur/auracle||exit;
 makepkg -si;
 
 # TODO: Add a check for an explicit flag to install yay(?)
@@ -60,5 +61,4 @@ makepkg -si;
 echo "(as-user.sh) Set user password.";
 passwd aileen;
 
-echo "(as-user.sh) Time to reboot and see if it works!.";
 exit;
