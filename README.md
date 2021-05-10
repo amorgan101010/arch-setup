@@ -908,6 +908,16 @@ rm -rf yay
 
 - Also, as a side note, it already outputs the output of the commands, it just wasn't earlier because the command was hanging...
 
+- Hmm, re-running formatting on an already formatted disk causes a prompt that blocks me...
+
+  - Ahh, forgot to create `/mnt/efi` before trying to put something there
+
+- One last thing to fix, using `-F` when creating an `ext4` filesystem so it doesn't whine about a filesystem already being present
+
+- `prepare-hardware.sh` is fully operational!
+
+@import "./prepare_hardware_complete.log"
+
 ## TODO
 
 - [Add Gnome Tweaks and themes to Dotfiles repo](https://unix.stackexchange.com/questions/426322/how-do-i-use-the-plain-text-mode-of-dconf/426348#426348)

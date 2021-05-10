@@ -1,0 +1,39 @@
+(prepare-hardware.sh) Attempting to partition '/dev/sdb'.
+(partition.sh) Received request to partition '/dev/sdb'.
+(partition.sh) Removing any existing partitioning from '/dev/sdb'.
+The operation has completed successfully.
+The operation has completed successfully.
+(partition.sh) partitioning EFI system partition at '/dev/sdb1'.
+Setting name!
+partNum is 0
+The operation has completed successfully.
+(partition.sh) Partitioning swap at '/dev/sdb2'.
+Setting name!
+partNum is 1
+The operation has completed successfully.
+(partition.sh) Partitioning root at '/dev/sdb3'; using remaining disk space.
+Setting name!
+partNum is 2
+The operation has completed successfully.
+(prepare-hardware.sh) Attempting to format '/dev/sdb'.
+(format.sh) Received request to format partitions on '/dev/sdb'.
+(format.sh) Formatting EFI system partition as FAT32 at '/dev/sdb1'.
+mkfs.fat 4.2 (2021-01-31)
+(format.sh) Formatting swap partition at '/dev/sdb2'.
+Setting up swapspace version 1, size = 512 MiB (536866816 bytes)
+no label, UUID=c6b4139c-b62e-42ed-92d5-5fc4766c8d20
+(format.sh) Formatting root partition as ext4 at '/dev/sdb3'.
+Creating filesystem with 3481774 4k blocks and 871408 inodes
+Filesystem UUID: 785f4a2e-7b6f-4778-b0b9-e02db1b55e11
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208
+
+Allocating group tables:   0/107       done                            
+Writing inode tables:   0/107       done                            
+Creating journal (16384 blocks): done
+Writing superblocks and filesystem accounting information:   0/107       done
+
+(prepare-hardware.sh) Attempting to mount '/dev/sdb' to '/mnt'.
+(mount.sh) Received request to mount '/dev/sdb'.
+(mount.sh) Turning on swap at '/dev/sdb2'.
+(mount.sh) Mounting partitions of '/dev/sdb' at '/mnt'.

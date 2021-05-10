@@ -30,11 +30,11 @@ Help()
 ################################################################################
 Format()
 {
-    echo "(format.sh) Received request to format a (hopefully) freshly partitioned device.";
-
     SWAP="$1";
     OVERRIDE_PROMPT="$2";
     DEVICE_PATH="${*: -1}";
+
+    echo "(format.sh) Received request to format partitions on '$DEVICE_PATH'.";
 
     EFI_PATH="${DEVICE_PATH}1";
 
@@ -64,7 +64,7 @@ Format()
     fi;
 
     echo "(format.sh) Formatting root partition as ext4 at '$ROOT_PATH'.";
-    sudo mkfs.ext4 "$ROOT_PATH";
+    sudo mke2fs -t ext4 -F "$ROOT_PATH";
 }
 
 ################################################################################
@@ -72,6 +72,7 @@ Format()
 # Main                                                                         #
 ################################################################################
 ################################################################################
+
 SWAP=0;
 OVERRIDE_PROMPT=0;
 DEVICE_PATH="${*: -1}";
