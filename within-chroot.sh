@@ -85,29 +85,9 @@ pacman -S --noconfirm - < /gui-pkglist.txt;
 echo "(within-chroot.sh) Enabling Greeter.";
 sudo systemctl enable gdm.service;
 
-echo "(within-chroot.sh) Retrieving dotfiles.";
+echo "(within-chroot.sh) Running user script.";
 cd /home/aileen||exit;
-su - aileen -c "git clone https://github.com/amorgan101010/dotfiles.git /home/aileen/dotfiles";
-
-echo "(within-chroot.sh) Installing oh-my-zsh and plugins.";
-# TODO: specify output location of curled script
-su - aileen -c "sh -c \"$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)\" \"\" --keep-zshrc --unattended";
-su - aileen -c "git clone https://github.com/zsh-users/zsh-syntax-highlighting /home/aileen/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting";
-su - aileen -c "git clone https://github.com/zsh-users/zsh-autosuggestions /home/aileen/.oh-my-zsh/custom/plugins/zsh-autosuggestions";
-cd /home/aileen/dotfiles||exit;
-su - aileen -c "stow oh-my-zsh";
-
-echo "(within-chroot.sh) Building basic AUR helper auracle.";
-su - aileen -c "mkdir /home/aileen/.aur";
-cd /home/aileen/.aur||exit;
-su - aileen -c "git clone https://aur.archlinux.org/auracle-git.git /home/aileen/.aur";
-cd /home/aileen/.aur/auracle-git||exit;
-su - aileen -c "makepkg -si";
-
-# TODO: Add a check for an explicit flag to install yay(?)
-
-echo "(within-chroot.sh) Set user password.";
-passwd aileen;
+su - aileen -c "./as-user.sh";
 
 echo "(within-chroot.sh) Time to reboot and see if it works!.";
 exit;

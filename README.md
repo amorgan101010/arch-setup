@@ -974,6 +974,18 @@ rm -rf yay
 
   - I should enable the desktop manager /greeter way earlier, so a failure to clone doesn't prevent it from being enabled
 
+  - It should *eventually* happen after user creation, or be hidden behind a flag
+
+- The GUI part of the installer is HUGE!
+
+  - All the more reason to hide it behind a flag
+
+- The GUI installer pretty much "just works," but most of the stuff done as the non-root user fails...mainly the cloning of repos and the installation of Oh-My-ZSH/Auracle
+
+  - Perhaps I should create a third script of user-specific commands?
+
+    - I'll try that, if nothing else it'll be cleaner to look at...
+
 ## TODO
 
 - [Add Gnome Tweaks and themes to Dotfiles repo](https://unix.stackexchange.com/questions/426322/how-do-i-use-the-plain-text-mode-of-dconf/426348#426348)
