@@ -59,3 +59,6 @@ echo "(prepare-hardware.sh) Attempting to format '$DEVICE_PATH'.";
 
 echo "(prepare-hardware.sh) Attempting to mount '$DEVICE_PATH' to '/mnt'.";
 ./mount.sh "$FLAGS" "$DEVICE_PATH";
+
+echo "(prepare-hardware.sh) Pacstrapping!"
+pacstrap /mnt < ./base-pkglist.txt;

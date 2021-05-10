@@ -918,6 +918,22 @@ rm -rf yay
 
 @import "./prepare_hardware_complete.log"
 
+- So, what now?
+
+  - I guess...pacstrapping the essentials?
+
+- I can copy over my mirrorlist, which isn't actually done on the persistent USB I currently have
+
+  - It is at `/etc/pacman.d/mirrorlist`
+
+  - Wait, no, no need, `pacstrap` does that
+
+    - says so right in the guide, should've trusted past Aileen...
+
+- The `pacstrap` step works!
+
+- It is time to `arch-chroot` in...
+
 ## TODO
 
 - [Add Gnome Tweaks and themes to Dotfiles repo](https://unix.stackexchange.com/questions/426322/how-do-i-use-the-plain-text-mode-of-dconf/426348#426348)
