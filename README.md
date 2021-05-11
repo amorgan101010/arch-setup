@@ -958,6 +958,8 @@ rm -rf yay
 
   - Probably pretty similar to doing it in a Docker container, so NBD!
 
+### 2021-05-10
+
 - My first attempt to clone something with git also has a fingerprint prompt that needs skipping
 
 - It got almost all the way! But failed on cloning my Dotfiles and exited :/
@@ -988,7 +990,37 @@ rm -rf yay
 
 - That totes did it, just a few more small path cleanup things!
 
+- Got *so* close this time!
+
+- Just a few failures...
+
+  - Couldn't `stow oh-my-zsh` because there was already a `.zshrc` present
+
+    - Is the OMZ installer not respecting the flag I passed it or what?
+
+    - TBH, I should probably be using something from pacman rather than curling a random script...
+
+  - Couldn't make `auracle` because it prompts for sudo package
+
+    - Don't think I can run makepkg as root
+
+    - It suggests `either use the -S option to read from standard input or configure an askpass helper`
+
+- About all that is left is user-space (IDK if I am using that term correctly) setup, which feels like it can go into a new section.
+
+## Part 4. Refinement
+
+### 2021-05-11
+
+- Dishearteningly, I discovered yesterday that an official Arch Linux installer was released very recently :/
+
+  - <https://www.youtube.com/watch?v=F3t3yqUvWSo>
+
 ## TODO
+
+- Add dates to this document
+
+  - And maybe split the parts into separate files
 
 - [Add Gnome Tweaks and themes to Dotfiles repo](https://unix.stackexchange.com/questions/426322/how-do-i-use-the-plain-text-mode-of-dconf/426348#426348)
 
