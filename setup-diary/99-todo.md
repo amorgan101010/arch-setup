@@ -1,9 +1,11 @@
 <!-- markdownlint-disable MD041 -->
 ## TODO
 
+- Properly configure graphics card drivers in the USB installer
+
 - Add dates to this document
 
-  - And maybe split the parts into separate files
+  - ~~And maybe split the parts into separate files~~
 
 - [Add Gnome Tweaks and themes to Dotfiles repo](https://unix.stackexchange.com/questions/426322/how-do-i-use-the-plain-text-mode-of-dconf/426348#426348)
 

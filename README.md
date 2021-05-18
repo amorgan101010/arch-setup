@@ -10,4 +10,4 @@ Documenting the setup and scripting of my own Arch installer.
 
 - [Part 3: Script it!](./setup-diary/30-script-it.md)
 
-- [Part 3: Script it!](./setup-diary/30-script-it.md)
+- [Part 4: Refinement](./setup-diary/40-refinement.md)
