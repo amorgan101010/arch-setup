@@ -2,7 +2,7 @@
 
 Documenting the setup and scripting of my own Arch installer.
 
-## [The Journey](./setup-diary/full-setup-diary.md)
+## [The Journey](./setup-diary/00-full-setup-diary.md)
 
 - [Part 1: Create a Persistent USB](./setup-diary/10-create-persistent-usb.md)
 
