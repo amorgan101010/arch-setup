@@ -52,3 +52,23 @@
       - I wonder if BitBucket can render LaTeX? GitHub?
 
 - Anyway; on to a gooey flag!
+
+---
+
+@import "./41-driver-detour.md"
+
+---
+
+- Ideally at some point I will be able to actually re-do the install on my laptop
+
+  - I don't want to lose my current install as a reference, but it is broken in subtle ways that a reinstall will likely remedy...
+
+  - Now that my laptop has a usable battery, making it super pleasant to use is paramount!
+
+- My brain is overflowing with tasks that need prioritizing
+
+  - This leads to the metatask of needing to implement some sort of task management system
+
+- I've dabbled in Task Warrior...and I know of a few other custom systems!
+
+- Also, I think this particular repo's diary has outlived its usefulness for some tasks...I need a blog!

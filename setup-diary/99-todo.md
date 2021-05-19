@@ -1,6 +1,8 @@
 <!-- markdownlint-disable MD041 -->
 ## TODO
 
+- Figure out Bluetooth, somehow
+
 - Properly configure graphics card drivers in the USB installer
 
 - Add dates to this document
