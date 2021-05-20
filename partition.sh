@@ -42,23 +42,23 @@ Help()
 ################################################################################
 Partition()
 {
-    SWAP="$1";
-    OVERRIDE_PROMPT="$2";
-    EFI_SIZE_MB="$3";
-    SWAP_SIZE_MB="$4";
+    swap="$1";
+    override_prompt="$2";
+    efi_size_mb="$3";
+    swap_size_mb="$4";
     #ROOT_SIZE_GB="$5";
     device_path="${*: -1}";
 
     echo "(partition.sh) Received request to partition '$device_path'.";
 
-    EFI_PATH="${device_path}1";
+    efi_path="${device_path}1";
 
-    if [ "$OVERRIDE_PROMPT" -eq 0 ]
+    if [ "$override_prompt" -eq 0 ]
     then
-        PROMPT="(partition.sh) Enter target path '$device_path' to confirm partitioning (use -y to skip prompt): ";
+        prompt="(partition.sh) Enter target path '$device_path' to confirm partitioning (use -y to skip prompt): ";
 
-        read -p "$PROMPT" CONFIRMATION;
-        if [ "$CONFIRMATION" != "$device_path" ]
+        read -p "$prompt" confirmation;
+        if [ "$confirmation" != "$device_path" ]
         then
             exit;
         fi;
@@ -68,22 +68,22 @@ Partition()
     sgdisk --mbrtogpt "$device_path";
     sgdisk --clear "$device_path";
 
-    echo "(partition.sh) partitioning EFI system partition at '$EFI_PATH'.";
-    sgdisk --new=0:0:"$EFI_SIZE_MB"M --typecode=0:EF00 --change-name=0:efi "$device_path";
+    echo "(partition.sh) partitioning EFI system partition at '$efi_path'.";
+    sgdisk --new=0:0:"$efi_size_mb"M --typecode=0:EF00 --change-name=0:efi "$device_path";
 
 
-    if [ "$SWAP" -gt 0 ]
+    if [ "$swap" -gt 0 ]
     then
-        SWAP_PATH="${device_path}2";
-        ROOT_PATH="${device_path}3";
+        swap_path="${device_path}2";
+        root_path="${device_path}3";
 
-        echo "(partition.sh) Partitioning swap at '$SWAP_PATH'.";
-        sgdisk --new=0:0:+"$SWAP_SIZE_MB"M --typecode=0:8200 --change-name=0:swap "$device_path";
+        echo "(partition.sh) Partitioning swap at '$swap_path'.";
+        sgdisk --new=0:0:+"$swap_size_mb"M --typecode=0:8200 --change-name=0:swap "$device_path";
     else
-        ROOT_PATH="${device_path}2";
+        root_path="${device_path}2";
     fi;
 
-    echo "(partition.sh) Partitioning root at '$ROOT_PATH'; using remaining disk space.";
+    echo "(partition.sh) Partitioning root at '$root_path'; using remaining disk space.";
 
     sgdisk --new=0:0:0 --typecode=0:0700 --change-name=0:root "$device_path";
 }
@@ -93,25 +93,25 @@ Partition()
 # Main                                                                         #
 ################################################################################
 ################################################################################
-SWAP=0;
-OVERRIDE_PROMPT=0;
+swap=0;
+override_prompt=0;
 device_path="${*: -1}";
 
 # TODO1: Implement a prompt to override these
 # TODO2: Have size suggestions based on device space
-EFI_SIZE_MB=550;
-SWAP_SIZE_MB=512;
+efi_size_mb=550;
+swap_size_mb=512;
 
 while getopts "hsy" option; do
     case $option in
         h) # display Help
             Help;
             exit;;
-        s) # Set SWAP flag
-            SWAP=1;
+        s) # Set swap flag
+            swap=1;
             ;;
         y) # Skip confirmation prompt
-            OVERRIDE_PROMPT=1;
+            override_prompt=1;
             ;;
         *) # something invalid entered; display Help
             Help;
@@ -121,4 +121,4 @@ done;
 
 # Eventually, the $ROOT_SIZE_GB option will be restored
 # probably when home specification is set up
-Partition "$SWAP" "$OVERRIDE_PROMPT" "$EFI_SIZE_MB" "$SWAP_SIZE_MB" "$device_path";
+Partition "$swap" "$override_prompt" "$efi_size_mb" "$swap_size_mb" "$device_path";

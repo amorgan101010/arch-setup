@@ -36,7 +36,7 @@ while getopts "hsy" option; do
         h) # display Help
             Help;
             exit;;
-        s) # Set SWAP flag
+        s) # Set swap flag
             swap_flag="s";
             ;;
         y) # Set SKIP flag

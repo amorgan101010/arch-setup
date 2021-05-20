@@ -30,41 +30,41 @@ Help()
 ################################################################################
 Format()
 {
-    SWAP="$1";
-    OVERRIDE_PROMPT="$2";
+    swap="$1";
+    override_prompt="$2";
     device_path="${*: -1}";
 
     echo "(format.sh) Received request to format partitions on '$device_path'.";
 
-    EFI_PATH="${device_path}1";
+    efi_path="${device_path}1";
 
-    if [ "$OVERRIDE_PROMPT" -eq 0 ]
+    if [ "$override_prompt" -eq 0 ]
     then
-        PROMPT="(format.sh) Enter target path '$device_path' to confirm formatting (use -y to skip prompt): ";
+        prompt="(format.sh) Enter target path '$device_path' to confirm formatting (use -y to skip prompt): ";
 
-        read -p "$PROMPT" CONFIRMATION;
-        if [ "$CONFIRMATION" != "$device_path" ]
+        read -p "$prompt" confirmation;
+        if [ "$confirmation" != "$device_path" ]
         then
             exit;
         fi;
     fi;
 
-    echo "(format.sh) Formatting EFI system partition as FAT32 at '$EFI_PATH'.";
-    sudo mkfs.fat -F32 "$EFI_PATH";
+    echo "(format.sh) Formatting EFI system partition as FAT32 at '$efi_path'.";
+    sudo mkfs.fat -F32 "$efi_path";
 
-    if [ "$SWAP" -gt 0 ]
+    if [ "$swap" -gt 0 ]
     then
-        SWAP_PATH="${device_path}2";
-        ROOT_PATH="${device_path}3";
+        swap_path="${device_path}2";
+        root_path="${device_path}3";
 
-        echo "(format.sh) Formatting swap partition at '$SWAP_PATH'.";
-        sudo mkswap "$SWAP_PATH";
+        echo "(format.sh) Formatting swap partition at '$swap_path'.";
+        sudo mkswap "$swap_path";
     else
-        ROOT_PATH="${device_path}2";
+        root_path="${device_path}2";
     fi;
 
-    echo "(format.sh) Formatting root partition as ext4 at '$ROOT_PATH'.";
-    sudo mke2fs -t ext4 -F "$ROOT_PATH";
+    echo "(format.sh) Formatting root partition as ext4 at '$root_path'.";
+    sudo mke2fs -t ext4 -F "$root_path";
 }
 
 ################################################################################
@@ -73,8 +73,8 @@ Format()
 ################################################################################
 ################################################################################
 
-SWAP=0;
-OVERRIDE_PROMPT=0;
+swap=0;
+override_prompt=0;
 device_path="${*: -1}";
 
 while getopts "hsy" option; do
@@ -82,11 +82,11 @@ while getopts "hsy" option; do
         h) # display Help
             Help;
             exit;;
-        s) # Set SWAP flag
-            SWAP=1;
+        s) # Set swap flag
+            swap=1;
             ;;
         y) # Skip confirmation prompt
-            OVERRIDE_PROMPT=1;
+            override_prompt=1;
             ;;
         *) # something invalid entered; display Help
             Help;
@@ -94,4 +94,4 @@ while getopts "hsy" option; do
     esac;
 done;
 
-Format "$SWAP" "$OVERRIDE_PROMPT" "$device_path";
+Format "$swap" "$override_prompt" "$device_path";

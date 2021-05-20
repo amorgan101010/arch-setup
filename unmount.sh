@@ -9,7 +9,7 @@ Help()
     # Display Help
     echo "Unmounts the device at /mnt, optionally turning off swap at a given device path. Must be root."
     echo
-    echo "Syntax: ./unmount.sh [-h|s] [SWAP_PATH]"
+    echo "Syntax: ./unmount.sh [-h|s] [swap_path]"
     echo "options:"
     echo "-h     Print this Help."
     echo "-s     Use this along with a device partition path to turn off swap."
@@ -28,15 +28,15 @@ Unmount()
 {
     echo "Received request to unmount device at /mnt.";
 
-    SWAP="$1";
-    SWAP_PATH="$2";
+    swap="$1";
+    swap_path="$2";
 
     echo "Unmounting partitions of device at /mnt."
     umount -R /mnt
-    if [ "$SWAP" -gt 0 ]
+    if [ "$swap" -gt 0 ]
     then
-        echo "Turning off swap partition of device at $SWAP_PATH.";
-        swapoff "$SWAP_PATH";
+        echo "Turning off swap partition of device at $swap_path.";
+        swapoff "$swap_path";
     fi
 }
 
@@ -50,16 +50,16 @@ Unmount()
 # Booleans? Where we're going, we don't need booleans...
 # ...what streaming service is that trilogy on?
 # Sick, Netflix!
-SWAP=0;
-SWAP_PATH="${*: -1}";
+swap=0;
+swap_path="${*: -1}";
 
 while getopts ":h:s" option; do
     case $option in
         h) # display Help
             Help;
             exit;;
-        s) # Set SWAP flag
-            SWAP=1;
+        s) # Set swap flag
+            swap=1;
             ;;
         *) # something invalid entered; display Help
             Help;
@@ -67,4 +67,4 @@ while getopts ":h:s" option; do
     esac;
 done;
 
-Unmount "$SWAP" "$SWAP_PATH";
+Unmount "$swap" "$swap_path";

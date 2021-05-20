@@ -28,29 +28,29 @@ Help()
 ################################################################################
 Mount()
 {
-    SWAP="$1";
+    swap="$1";
     device_path="$2";
 
     echo "(mount.sh) Received request to mount '$device_path'.";
 
-    if [ "$SWAP" -gt 0 ]
+    if [ "$swap" -gt 0 ]
     then
-        SWAP_PATH="${device_path}2";
-        ROOT_PATH="${device_path}3";
+        swap_path="${device_path}2";
+        root_path="${device_path}3";
 
-        echo "(mount.sh) Turning on swap at '$SWAP_PATH'.";
-        swapon "$SWAP_PATH";
+        echo "(mount.sh) Turning on swap at '$swap_path'.";
+        swapon "$swap_path";
     else
-        ROOT_PATH="${device_path}2";
+        root_path="${device_path}2";
     fi;
 
-    EFI_PATH="${device_path}1";
+    efi_path="${device_path}1";
 
     echo "(mount.sh) Mounting partitions of '$device_path' at '/mnt'.";
 
-    mount "$ROOT_PATH" /mnt;
+    mount "$root_path" /mnt;
     mkdir /mnt/efi;
-    mount "$EFI_PATH" /mnt/efi;
+    mount "$efi_path" /mnt/efi;
 }
 
 ################################################################################
@@ -60,7 +60,7 @@ Mount()
 ################################################################################
 # Source: https://opensource.com/article/19/12/help-bash-program
 
-SWAP=0;
+swap=0;
 device_path="${*: -1}";
 
 while getopts "hsy" option; do
@@ -68,8 +68,8 @@ while getopts "hsy" option; do
         h) # display Help
             Help;
             exit;;
-        s) # Set SWAP flag
-            SWAP=1;
+        s) # Set swap flag
+            swap=1;
             ;;
         y) # Skip confirmation prompt (meaningless)
             ;;
@@ -79,4 +79,4 @@ while getopts "hsy" option; do
     esac;
 done;
 
-Mount "$SWAP" "$device_path";
+Mount "$swap" "$device_path";
