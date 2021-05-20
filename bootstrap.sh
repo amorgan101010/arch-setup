@@ -42,17 +42,17 @@ while getopts "hw" option; do
     esac
 done
 
-echo "(prepare-chroot.sh) Pacstrapping!"
+echo "(bootstrap.sh) Pacstrapping!"
 if [ "$write" -gt 0 ]; then
     pacstrap /mnt base linux linux-firmware;
 fi;
 
-echo "(prepare-chroot.sh) Generating fstab."
+echo "(bootstrap.sh) Generating fstab."
 if [ "$write" -gt 0 ]; then
     genfstab -U /mnt >> /mnt/etc/fstab;
 fi;
 
-echo "(prepare-chroot.sh) Copying essential installer files."
+echo "(bootstrap.sh) Copying essential installer files."
 if [ "$write" -gt 0 ]; then
     cp ./within-chroot.sh /mnt/;
     cp ./base-pkglist.txt /mnt/;
@@ -60,5 +60,5 @@ if [ "$write" -gt 0 ]; then
     cp ./as-user.sh /mnt/;
 fi;
 
-echo "(prepare-chroot.sh) Chroot preparations complete."
+echo "(bootstrap.sh) Chroot preparations complete."
 exit;

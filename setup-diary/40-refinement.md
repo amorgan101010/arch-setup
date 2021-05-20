@@ -196,3 +196,9 @@
       - ...but getting closer to my new goal of getting bash-savvy!
 
 - I'm gonna move the last bit of the prepare script into a new `bootstrap` script
+
+- If I wanted to make things a little less hardcoded, I'd pass in the root mount path to the bootstrap script
+
+  - TODO immediately after wiring the bootstrap script up
+
+- I also kinda want to set up my own custom logger that takes context and a message...

@@ -75,21 +75,8 @@ if [ "$write" -gt 0 ]; then
     ./mount.sh "$flags" "$device_path";
 fi;
 
-
-if [ "$write" -gt 0 ]; then
-    echo "(prepare-chroot.sh) Pacstrapping!"
-
-    pacstrap /mnt base linux linux-firmware;
-
-    echo "(prepare-chroot.sh) Generating fstab."
-    genfstab -U /mnt >> /mnt/etc/fstab;
-
-    echo "(prepare-chroot.sh) Copying essential installer files."
-    cp ./within-chroot.sh /mnt/;
-    cp ./base-pkglist.txt /mnt/;
-    cp ./gui-pkglist.txt /mnt/;
-    cp ./as-user.sh /mnt/;
-fi;
+echo "(prepare-chroot.sh) Attempting to bootstrap device with root at '/mnt'."
+./bootstrap.sh "-$write_flag";
 
 echo "(prepare-chroot.sh) Chroot preparations complete."
 exit;
