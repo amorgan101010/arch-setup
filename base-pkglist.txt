@@ -1,18 +1,33 @@
-base-devel
-curl
-efibootmgr
-git
-grub
-htop
-linux
-linux-firmware
-lynx
+# Documentation
+
 man-db
 man-pages
+texinfo
+
+# Networking
+
+curl
 networkmanager
 openssh
+
+# Nonessential Essentials
+
+git
+lynx
 stow
-texinfo
 vi
 vim
 zsh
+
+# Management
+
+htop
+tlp
+
+# System
+
+base-devel
+efibootmgr
+grub
+linux
+linux-firmware
