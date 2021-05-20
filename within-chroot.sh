@@ -58,7 +58,8 @@ echo "TargetArch" >> /etc/hostname;
 } >> /etc/hosts;
 
 echo "(within-chroot.sh) Installing non-GUI base packages.";
-pacman -S --noconfirm --needed - < /base-pkglist.txt;
+# Ignore comments
+grep -v "^#" /base-pkglist.txt | pacman -S --noconfirm --needed -;
 
 echo "(within-chroot.sh) Installing GRUB to EFI partition.";
 # TODO: Flag to specify removable
@@ -80,7 +81,9 @@ echo "(within-chroot.sh) Creating default non-root user.";
 useradd --create-home --shell /usr/bin/zsh --groups wheel,games,audio aileen;
 
 echo "(within-chroot.sh) Installing X Windows System, GNOME DE, and misc graphical software.";
-pacman -S --noconfirm --needed - < /gui-pkglist.txt;
+
+# Ignore comments
+grep -v "^#" /gui-pkglist.txt | pacman -S --noconfirm --needed -;
 
 echo "(within-chroot.sh) Enabling Greeter.";
 systemctl enable gdm.service;
