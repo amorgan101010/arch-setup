@@ -1,6 +1,16 @@
 <!-- markdownlint-disable MD041 -->
 ## TODO
 
+- Setup a task manager rather than continuing to use this list
+
+- Manage resizing on connecting and disconnecting a second monitor
+
+  - Meta task: see if this is a legacy issue caused by my old weird XFCE/i3 setup
+
+  - Bump up zoom by one click when using 2 monitors because they'll be further away
+
+  - Figure out why my cursor doesn't properly scale when they're connected and disconnected
+
 - Figure out Bluetooth, somehow
 
 - Properly configure graphics card drivers in the USB installer

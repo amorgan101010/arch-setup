@@ -7,9 +7,9 @@
 Help()
 {
     # Display Help
-    echo "Prepares hardware to install Arch and chroot in. Must be root."
+    echo "Installs Arch Linux, just the way I like it. Must be root."
     echo
-    echo "Syntax: ./prepare-chroot.sh [-h|sy] DEVICE_PATH"
+    echo "Syntax: ./install.sh [-h|sy] DEVICE_PATH"
     echo
     echo "options:"
     echo "-y  Skip prompts."
@@ -17,7 +17,7 @@ Help()
     echo "-h  Print this Help."
     echo
     echo "# Ex: Prepare a device for installing Arch."
-    echo "% sudo ./prepare-chroot.sh /dev/sdb"
+    echo "% sudo ./install.sh /dev/sdb"
     echo
 }
 
@@ -48,29 +48,15 @@ while getopts "hsy" option; do
     esac
 done
 
-FLAGS="-$SWAP_FLAG$SKIP_FLAG"
+FLAGS="-$SWAP_FLAG$SKIP_FLAG";
 
-echo "(prepare-chroot.sh) Attempting to partition '$DEVICE_PATH'.";
-./partition.sh "$FLAGS" "$DEVICE_PATH";
+echo "(install.sh) Attempting to install to '$DEVICE_PATH'.";
 
-echo "(prepare-chroot.sh) Attempting to format '$DEVICE_PATH'.";
-./format.sh "$FLAGS" "$DEVICE_PATH";
+echo "(install.sh) Attempting to prepare destination with 'prepare-chroot.sh'."
+./prepare-chroot.sh "$FLAGS" "$DEVICE_PATH";
 
-echo "(prepare-chroot.sh) Attempting to mount '$DEVICE_PATH' to '/mnt'.";
-./mount.sh "$FLAGS" "$DEVICE_PATH";
+echo "(install.sh) Attempting to enter chroot and set up system with 'within-chroot.sh'."
+arch-chroot /mnt ./within-chroot.sh;
 
-echo "(prepare-chroot.sh) Pacstrapping!"
-
-pacstrap /mnt base linux linux-firmware;
-
-echo "(prepare-chroot.sh) Generating fstab."
-genfstab -U /mnt >> /mnt/etc/fstab;
-
-echo "(prepare-chroot.sh) Copying essential installer files."
-cp ./within-chroot.sh /mnt/;
-cp ./base-pkglist.txt /mnt/;
-cp ./gui-pkglist.txt /mnt/;
-cp ./as-user.sh /mnt/;
-
-echo "(prepare-chroot.sh) Chroot preparations complete."
+echo "(install.sh) Time to reboot and see if it works!.";
 exit;

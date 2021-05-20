@@ -88,8 +88,7 @@ grep -v "^#" /gui-pkglist.txt | pacman -S --noconfirm --needed -;
 echo "(within-chroot.sh) Enabling Greeter.";
 systemctl enable gdm.service;
 
-echo "(within-chroot.sh) Running user script.";
+echo "(within-chroot.sh) Running user script as non-root user.";
 su - aileen -c "/bin/bash /as-user.sh";
 
-echo "(within-chroot.sh) Time to reboot and see if it works!.";
 exit;

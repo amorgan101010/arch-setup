@@ -142,3 +142,27 @@
   - I think it can be done with some combination of grepping, globbing, and redirecting
 
 - With that goal somewhere in mind, I'm removing the `LITE` flag from the script
+
+- Also, I want a higher-level "install" script that calls prepare-chroot to fully distinguish between the two
+
+- I think I need to improve my command parsing, at least at the top level of the install script
+
+  - I want to use long arguments!
+
+    - [I'm starting at this stack overflow post](https://stackoverflow.com/questions/12022592/how-can-i-use-long-options-with-the-bash-getopts-builtin)
+
+    - [...and immediately heading over to the nice resource linked within](http://mywiki.wooledge.org/BashFAQ/035)
+
+- I'm starting to think of what I could accomplish with error handling...
+
+  - I wonder if there is a way to do it in bash that isn't reinventing the wheel?
+
+  - If there isn't, is there a language that is good for doing this sort of stuff that does have error handling?
+
+- There seems to be a wealth of information about bash error handling, which is cool
+
+  - all I *really* need is to be able to throw!
+
+- [A SO Start](https://stackoverflow.com/questions/64786/error-handling-in-bash)
+
+- One thing I have immediately learned, thanks to a comments-section argument, is that I should be using lowercase variables
