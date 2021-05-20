@@ -2,5 +2,6 @@ xorg
 xorg-server
 gnome
 gnome-tweaks
+gparted
 code
 shellcheck

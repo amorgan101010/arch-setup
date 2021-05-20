@@ -72,3 +72,72 @@
 - I've dabbled in Task Warrior...and I know of a few other custom systems!
 
 - Also, I think this particular repo's diary has outlived its usefulness for some tasks...I need a blog!
+
+### 2021-05-19
+
+- I think it is getting pretty close to being time to eat my own dog food and actually re-do my laptop install (preserving my home directory, of course)
+
+  - Stuff is gonna break, what else is new?
+
+- I guess I'll want to do that home backup from an install USB
+
+  - Better bust out my blanks bag!
+
+  - I will also need to decide if I want to just copy, or do a full imaging
+
+    - The former sounds like less of a detour
+
+      - A...`dd`etour
+
+- I'm going to assume that this isn't going to be my final install...
+
+  - I don't want to figure it out right now, but the final install should definitely have a separate `/home` partition so it too can be backed up.
+
+- A sidebar, but at some point in my recent tweaks to my current Arch install, Gnome's file manager became my default and now USB devices automount 😕
+
+  - The shiny of GNOME is wearing off
+
+    - `bspwm` time 😎
+
+- On a more serious note, I've got yet another thing I'd like to do *at some point*
+
+  - Add comments documenting why I'm installing various packages in the package lists
+
+    - [Also, update the commands that read from those lists to handle comments](https://www.reddit.com/r/archlinux/comments/5tw1r0/can_i_get_pacman_to_install_list_of_packages_from/)
+
+- I tried pointing my script as-is at the USB device, fresh out of the bag, and it error'd
+
+  - I think it is unable to parse whatever partitioning the device came with
+
+  - Ideally, that sort of thing wouldn't need to be adjusted before running those commands
+  
+  - That said, I just re-made the partition table in Gparted because I already spent a weekend messing with partitions
+
+  - Gparted should definitely be part of my GUI package list...
+
+- I think doing a laptop reinstall is still a bit premature unfortunately...
+
+  - There'd be a lot of weird, messed up stuff, like a poorly installed grub
+
+- In a more manageable move, I've set up the comment ignoring in the install scripts
+
+- I suspect the AUR helper make step is failing because I am missing a necessary dependency
+
+  - If all the dependencies are installed, it shouldn't prompt me for a password and fail because there is no password
+
+- In adding comments to the package lists, I lose any sort of easy alphabetization
+
+- What if I had a separate file for each category, named something like `documentation.pkglist.txt`
+
+- Alternately, I could start to incorporate the note namespaces from [this article](https://www.kevinslin.com/notes/3dd58f62-fee5-4f93-b9f1-b0f0f59a9b64.html)
+
+  - `Gui.DesktopEnvironment.pkglist.txt`
+
+  - `Base.Documentation.pkglist.txt`
+
+- It probably wouldn't be too much of a pain to whip up a new script that "manages" the individual lists
+
+  - With a script like that, I might have more flexibility in selecting exactly what packages to install down the line
+
+
+  - I think it can be done with some combination of grepping, globbing, and redirecting
