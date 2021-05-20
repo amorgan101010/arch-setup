@@ -49,6 +49,7 @@ cd /home/aileen/dotfiles||exit;
 stow oh-my-zsh;
 stow vs-code;
 
+# TODO: Install the build dependencies first
 echo "(as-user.sh) Building basic AUR helper auracle.";
 mkdir /home/aileen/.aur;
 cd /home/aileen/.aur||exit;
@@ -61,4 +62,5 @@ makepkg -si;
 echo "(as-user.sh) Set user password.";
 passwd aileen;
 
+echo "(as-user.sh) Actions as user complete."
 exit;

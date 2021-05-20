@@ -166,3 +166,6 @@
 - [A SO Start](https://stackoverflow.com/questions/64786/error-handling-in-bash)
 
 - One thing I have immediately learned, thanks to a comments-section argument, is that I should be using lowercase variables
+
+  - Uppercase appears to be for ~~system~~ shell builtins and env vars only: <https://stackoverflow.com/questions/64786/error-handling-in-bash#comment7342157_185900>
+

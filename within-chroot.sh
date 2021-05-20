@@ -91,4 +91,5 @@ systemctl enable gdm.service;
 echo "(within-chroot.sh) Running user script as non-root user.";
 su - aileen -c "/bin/bash /as-user.sh";
 
+echo "(within-chroot.sh) Actions within chroot complete."
 exit;

@@ -32,18 +32,18 @@ Format()
 {
     SWAP="$1";
     OVERRIDE_PROMPT="$2";
-    DEVICE_PATH="${*: -1}";
+    device_path="${*: -1}";
 
-    echo "(format.sh) Received request to format partitions on '$DEVICE_PATH'.";
+    echo "(format.sh) Received request to format partitions on '$device_path'.";
 
-    EFI_PATH="${DEVICE_PATH}1";
+    EFI_PATH="${device_path}1";
 
     if [ "$OVERRIDE_PROMPT" -eq 0 ]
     then
-        PROMPT="(format.sh) Enter target path '$DEVICE_PATH' to confirm formatting (use -y to skip prompt): ";
+        PROMPT="(format.sh) Enter target path '$device_path' to confirm formatting (use -y to skip prompt): ";
 
         read -p "$PROMPT" CONFIRMATION;
-        if [ "$CONFIRMATION" != "$DEVICE_PATH" ]
+        if [ "$CONFIRMATION" != "$device_path" ]
         then
             exit;
         fi;
@@ -54,13 +54,13 @@ Format()
 
     if [ "$SWAP" -gt 0 ]
     then
-        SWAP_PATH="${DEVICE_PATH}2";
-        ROOT_PATH="${DEVICE_PATH}3";
+        SWAP_PATH="${device_path}2";
+        ROOT_PATH="${device_path}3";
 
         echo "(format.sh) Formatting swap partition at '$SWAP_PATH'.";
         sudo mkswap "$SWAP_PATH";
     else
-        ROOT_PATH="${DEVICE_PATH}2";
+        ROOT_PATH="${device_path}2";
     fi;
 
     echo "(format.sh) Formatting root partition as ext4 at '$ROOT_PATH'.";
@@ -75,7 +75,7 @@ Format()
 
 SWAP=0;
 OVERRIDE_PROMPT=0;
-DEVICE_PATH="${*: -1}";
+device_path="${*: -1}";
 
 while getopts "hsy" option; do
     case $option in
@@ -94,4 +94,4 @@ while getopts "hsy" option; do
     esac;
 done;
 
-Format "$SWAP" "$OVERRIDE_PROMPT" "$DEVICE_PATH";
+Format "$SWAP" "$OVERRIDE_PROMPT" "$device_path";

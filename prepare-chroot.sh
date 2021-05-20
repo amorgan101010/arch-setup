@@ -27,9 +27,9 @@ Help()
 ################################################################################
 ################################################################################
 
-SWAP_FLAG="";
-SKIP_FLAG="";
-DEVICE_PATH="${*: -1}";
+swap_flag="";
+skip_flag="";
+device_path="${*: -1}";
 
 while getopts "hsy" option; do
     case $option in
@@ -37,10 +37,10 @@ while getopts "hsy" option; do
             Help;
             exit;;
         s) # Set SWAP flag
-            SWAP_FLAG="s";
+            swap_flag="s";
             ;;
         y) # Set SKIP flag
-            SKIP_FLAG="y";
+            skip_flag="y";
             ;;
         *) # something invalid entered; display Help
             Help;
@@ -48,16 +48,16 @@ while getopts "hsy" option; do
     esac
 done
 
-FLAGS="-$SWAP_FLAG$SKIP_FLAG"
+flags="-$swap_flag$skip_flag"
 
-echo "(prepare-chroot.sh) Attempting to partition '$DEVICE_PATH'.";
-./partition.sh "$FLAGS" "$DEVICE_PATH";
+echo "(prepare-chroot.sh) Attempting to partition '$device_path'.";
+./partition.sh "$flags" "$device_path";
 
-echo "(prepare-chroot.sh) Attempting to format '$DEVICE_PATH'.";
-./format.sh "$FLAGS" "$DEVICE_PATH";
+echo "(prepare-chroot.sh) Attempting to format '$device_path'.";
+./format.sh "$flags" "$device_path";
 
-echo "(prepare-chroot.sh) Attempting to mount '$DEVICE_PATH' to '/mnt'.";
-./mount.sh "$FLAGS" "$DEVICE_PATH";
+echo "(prepare-chroot.sh) Attempting to mount '$device_path' to '/mnt'.";
+./mount.sh "$flags" "$device_path";
 
 echo "(prepare-chroot.sh) Pacstrapping!"
 

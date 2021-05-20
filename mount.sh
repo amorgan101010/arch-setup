@@ -29,24 +29,24 @@ Help()
 Mount()
 {
     SWAP="$1";
-    DEVICE_PATH="$2";
+    device_path="$2";
 
-    echo "(mount.sh) Received request to mount '$DEVICE_PATH'.";
+    echo "(mount.sh) Received request to mount '$device_path'.";
 
     if [ "$SWAP" -gt 0 ]
     then
-        SWAP_PATH="${DEVICE_PATH}2";
-        ROOT_PATH="${DEVICE_PATH}3";
+        SWAP_PATH="${device_path}2";
+        ROOT_PATH="${device_path}3";
 
         echo "(mount.sh) Turning on swap at '$SWAP_PATH'.";
         swapon "$SWAP_PATH";
     else
-        ROOT_PATH="${DEVICE_PATH}2";
+        ROOT_PATH="${device_path}2";
     fi;
 
-    EFI_PATH="${DEVICE_PATH}1";
+    EFI_PATH="${device_path}1";
 
-    echo "(mount.sh) Mounting partitions of '$DEVICE_PATH' at '/mnt'.";
+    echo "(mount.sh) Mounting partitions of '$device_path' at '/mnt'.";
 
     mount "$ROOT_PATH" /mnt;
     mkdir /mnt/efi;
@@ -61,7 +61,7 @@ Mount()
 # Source: https://opensource.com/article/19/12/help-bash-program
 
 SWAP=0;
-DEVICE_PATH="${*: -1}";
+device_path="${*: -1}";
 
 while getopts "hsy" option; do
     case $option in
@@ -79,4 +79,4 @@ while getopts "hsy" option; do
     esac;
 done;
 
-Mount "$SWAP" "$DEVICE_PATH";
+Mount "$SWAP" "$device_path";

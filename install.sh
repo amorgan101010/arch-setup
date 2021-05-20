@@ -27,20 +27,20 @@ Help()
 ################################################################################
 ################################################################################
 
-SWAP_FLAG="";
-SKIP_FLAG="";
-DEVICE_PATH="${*: -1}";
+swap_flag="";
+skip_flag="";
+device_path="${*: -1}";
 
 while getopts "hsy" option; do
     case $option in
         h) # display Help
             Help;
             exit;;
-        s) # Set SWAP flag
-            SWAP_FLAG="s";
+        s) # Set swap flag
+            swap_flag="s";
             ;;
-        y) # Set SKIP flag
-            SKIP_FLAG="y";
+        y) # Set skip flag
+            skip_flag="y";
             ;;
         *) # something invalid entered; display Help
             Help;
@@ -48,12 +48,12 @@ while getopts "hsy" option; do
     esac
 done
 
-FLAGS="-$SWAP_FLAG$SKIP_FLAG";
+flags="-$swap_flag$skip_flag";
 
-echo "(install.sh) Attempting to install to '$DEVICE_PATH'.";
+echo "(install.sh) Attempting to install to '$device_path'.";
 
 echo "(install.sh) Attempting to prepare destination with 'prepare-chroot.sh'."
-./prepare-chroot.sh "$FLAGS" "$DEVICE_PATH";
+./prepare-chroot.sh "$flags" "$device_path";
 
 echo "(install.sh) Attempting to enter chroot and set up system with 'within-chroot.sh'."
 arch-chroot /mnt ./within-chroot.sh;
