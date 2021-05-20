@@ -139,5 +139,6 @@
 
   - With a script like that, I might have more flexibility in selecting exactly what packages to install down the line
 
-
   - I think it can be done with some combination of grepping, globbing, and redirecting
+
+- With that goal somewhere in mind, I'm removing the `LITE` flag from the script
