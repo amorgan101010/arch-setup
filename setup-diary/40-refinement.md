@@ -169,3 +169,8 @@
 
   - Uppercase appears to be for ~~system~~ shell builtins and env vars only: <https://stackoverflow.com/questions/64786/error-handling-in-bash#comment7342157_185900>
 
+  - Done! Ended up using the VS code find and replace tool
+
+- I'm going to add a write flag to the installer and then pass it along
+
+- Without the flag, nothing happens other than logs
