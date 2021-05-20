@@ -174,3 +174,25 @@
 - I'm going to add a write flag to the installer and then pass it along
 
 - Without the flag, nothing happens other than logs
+
+### 2021-05-20
+
+- Alright, time to pass down the flag!
+
+- First up is `prepare-chroot.sh`
+
+- Gotta say, on a new day with (technically) fresh eyes, I'm really digging the choice to make variables snake/lower cased...
+
+- I either need to learn to use `getopts` properly or bite the bullet and roll my own argument parser (or maybe introduce external bash libraries?)
+
+  - AKA, the stuff I was reading about last night
+
+- `prepare-chroot` is actually the most involved, since it has a bunch of sub "modules" (that are really just other scripts)
+
+  - If I really do want to start being a bash pro, I'll probably want to source scripts rather than just running them like I would the command line
+
+    - Then again, that's probably getting away from the original intent of this repo, documenting my arch install
+
+      - ...but getting closer to my new goal of getting bash-savvy!
+
+- I'm gonna move the last bit of the prepare script into a new `bootstrap` script

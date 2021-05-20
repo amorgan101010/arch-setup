@@ -39,7 +39,7 @@ while getopts "hswy" option; do
         h) # display Help
             Help;
             exit;;
-        w) # Set swap flag
+        w) # Set write flag
             write_flag="w";
             write=1;
             ;;
@@ -58,9 +58,7 @@ done
 flags="-$swap_flag$skip_flag";
 
 # TODO: Replace flags with this as writing flag is implemented in children
-#flags_with_writing="-$swap_flag$write_flag$skip_flag";
-
-echo "(install.sh) Attempting to install to '$device_path'.";
+flags_with_writing="-$swap_flag$write_flag$skip_flag";
 
 if [ "$write" -gt 0 ]; then
     echo "(install.sh) Changes will be written, potential data loss imminent.";
@@ -68,10 +66,10 @@ else
     echo "(install.sh) Changes will NOT be written, logging intents only.";
 fi;
 
+echo "(install.sh) Attempting to install to '$device_path'.";
+
 echo "(install.sh) Attempting to prepare destination with 'prepare-chroot.sh'."
-if [ "$write" -gt 0 ]; then
-    ./prepare-chroot.sh "$flags" "$device_path";
-fi;
+./prepare-chroot.sh "$flags_with_writing" "$device_path";
 
 
 echo "(install.sh) Attempting to enter chroot and set up system with 'within-chroot.sh'."
