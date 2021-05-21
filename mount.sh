@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# shellcheck source=lib/log.sh
+. lib/log.sh
+
 ################################################################################
 # Help                                                                         #
 ################################################################################
@@ -31,14 +34,14 @@ Mount()
     swap="$1";
     device_path="$2";
 
-    echo "(mount.sh) Received request to mount '$device_path'.";
+    log "$context" "Received request to mount '$device_path'.";
 
     if [ "$swap" -gt 0 ]
     then
         swap_path="${device_path}2";
         root_path="${device_path}3";
 
-        echo "(mount.sh) Turning on swap at '$swap_path'.";
+        log "$context" "Turning on swap at '$swap_path'.";
         swapon "$swap_path";
     else
         root_path="${device_path}2";
@@ -46,7 +49,7 @@ Mount()
 
     efi_path="${device_path}1";
 
-    echo "(mount.sh) Mounting partitions of '$device_path' at '/mnt'.";
+    log "$context" "Mounting partitions of '$device_path' at '/mnt'.";
 
     mount "$root_path" /mnt;
     mkdir /mnt/efi;
@@ -61,6 +64,7 @@ Mount()
 # Source: https://opensource.com/article/19/12/help-bash-program
 
 swap=0;
+context=$(basename "$0");
 device_path="${*: -1}";
 
 while getopts "hsy" option; do

@@ -250,3 +250,35 @@ context=$(basename "$0");
   - But it is a start at using modules over scripts!
 
 - I think I can apply this pattern to a universal args parser!
+
+- A future plan, to be sure, but I was just thinking about how neat it would be to model synth patches...
+
+  - I think I am re-inventing the sequencer...
+  
+    - I think approaching a sequencer from this angle would be easier for me personally!
+
+    - My brain is overflowing with visions of totally sick Amiga-style demo software that could be interacted with live and spews out ascii art and such...
+
+- As far as updating the logging goes, I've learned how to replace from the current line to the end of the file in `vim`...
+
+```sed
+:.,$s/find/replace/g
+```
+
+- The big takeaway is replacing `%` with `.,$`
+
+  - Which feels *right* in a Unix way
+
+    - ...but it didn't work
+
+      - ...because I forgot the `s`
+
+- I'm kinda at the point in my VS Code proficiency where it'd be cool to easily save snippets at both the workspace and project level
+
+- I don't want to set up my new log lib in the scripts after I chroot in just yet, because I'd have to update what I copied in a bit
+
+  - I think I'll want to copy this whole dang repo into the new device
+
+    - Which will require updating every reference to a file after chrooting in...
+
+- I think I have reached the point where I am reinventing state

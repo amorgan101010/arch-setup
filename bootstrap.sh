@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# shellcheck source=lib/log.sh
+. lib/log.sh
+
 ################################################################################
 # Help                                                                         #
 ################################################################################
@@ -27,6 +30,7 @@ Help()
 ################################################################################
 
 write=0;
+context=$(basename "$0");
 
 while getopts "hw" option; do
     case $option in
@@ -42,17 +46,16 @@ while getopts "hw" option; do
     esac
 done
 
-echo "(bootstrap.sh) Pacstrapping!"
 if [ "$write" -gt 0 ]; then
     pacstrap /mnt base linux linux-firmware;
 fi;
 
-echo "(bootstrap.sh) Generating fstab."
+log "$context" "Generating fstab."
 if [ "$write" -gt 0 ]; then
     genfstab -U /mnt >> /mnt/etc/fstab;
 fi;
 
-echo "(bootstrap.sh) Copying essential installer files."
+log "$context" "Copying essential installer files."
 if [ "$write" -gt 0 ]; then
     cp ./within-chroot.sh /mnt/;
     cp ./base-pkglist.txt /mnt/;
@@ -60,5 +63,5 @@ if [ "$write" -gt 0 ]; then
     cp ./as-user.sh /mnt/;
 fi;
 
-echo "(bootstrap.sh) Chroot preparations complete."
+log "$context" "Chroot preparations complete."
 exit;

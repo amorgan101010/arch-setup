@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# shellcheck source=lib/log.sh
+. lib/log.sh
+
 ################################################################################
 # Help                                                                         #
 ################################################################################
@@ -47,16 +50,20 @@ Partition()
     efi_size_mb="$3";
     swap_size_mb="$4";
     #ROOT_SIZE_GB="$5";
+    context=$(basename "$0");
     device_path="${*: -1}";
 
-    echo "(partition.sh) Received request to partition '$device_path'.";
+    log "$context" "Received request to partition '$device_path'.";
 
     efi_path="${device_path}1";
 
     if [ "$override_prompt" -eq 0 ]
     then
-        prompt="(partition.sh) Enter target path '$device_path' to confirm partitioning (use -y to skip prompt): ";
+        prompt="($context) Enter target path '$device_path' to confirm partitioning (use -y to skip prompt): ";
 
+
+        # I can't figure out how to address this warning...
+        # shellcheck disable=SC2162
         read -p "$prompt" confirmation;
         if [ "$confirmation" != "$device_path" ]
         then
@@ -64,11 +71,11 @@ Partition()
         fi;
     fi;
 
-    echo "(partition.sh) Removing any existing partitioning from '$device_path'.";
+    log "$context" "Removing any existing partitioning from '$device_path'.";
     sgdisk --mbrtogpt "$device_path";
     sgdisk --clear "$device_path";
 
-    echo "(partition.sh) partitioning EFI system partition at '$efi_path'.";
+    log "$context" "partitioning EFI system partition at '$efi_path'.";
     sgdisk --new=0:0:"$efi_size_mb"M --typecode=0:EF00 --change-name=0:efi "$device_path";
 
 
@@ -77,13 +84,13 @@ Partition()
         swap_path="${device_path}2";
         root_path="${device_path}3";
 
-        echo "(partition.sh) Partitioning swap at '$swap_path'.";
+        log "$context" "Partitioning swap at '$swap_path'.";
         sgdisk --new=0:0:+"$swap_size_mb"M --typecode=0:8200 --change-name=0:swap "$device_path";
     else
         root_path="${device_path}2";
     fi;
 
-    echo "(partition.sh) Partitioning root at '$root_path'; using remaining disk space.";
+    log "$context" "Partitioning root at '$root_path'; using remaining disk space.";
 
     sgdisk --new=0:0:0 --typecode=0:0700 --change-name=0:root "$device_path";
 }

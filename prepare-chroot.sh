@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# shellcheck source=lib/log.sh
+. lib/log.sh
+
 ################################################################################
 # Help                                                                         #
 ################################################################################
@@ -32,9 +35,10 @@ swap_flag="";
 skip_flag="";
 write_flag="";
 write=0;
+context=$(basename "$0");
 device_path="${*: -1}";
 
-while getopts "hsy" option; do
+while getopts "hswy" option; do
     case $option in
         h) # display Help
             Help;
@@ -60,23 +64,23 @@ flags="-$swap_flag$skip_flag"
 # TODO: Replace flags with this as writing flag is implemented in children
 #flags_with_writing="-$swap_flag$write_flag$skip_flag";
 
-echo "(prepare-chroot.sh) Attempting to partition '$device_path'.";
+log "$context" "Attempting to partition '$device_path'.";
 if [ "$write" -gt 0 ]; then
     ./partition.sh "$flags" "$device_path";
 fi;
 
-echo "(prepare-chroot.sh) Attempting to format '$device_path'.";
+log "$context" "Attempting to format '$device_path'.";
 if [ "$write" -gt 0 ]; then
     ./format.sh "$flags" "$device_path";
 fi;
 
-echo "(prepare-chroot.sh) Attempting to mount '$device_path' to '/mnt'.";
+log "$context" "Attempting to mount '$device_path' to '/mnt'.";
 if [ "$write" -gt 0 ]; then
     ./mount.sh "$flags" "$device_path";
 fi;
 
-echo "(prepare-chroot.sh) Attempting to bootstrap device with root at '/mnt'."
+log "$context" "Attempting to bootstrap device with root at '/mnt'."
 ./bootstrap.sh "-$write_flag";
 
-echo "(prepare-chroot.sh) Chroot preparations complete."
+log "$context" "Chroot preparations complete."
 exit;

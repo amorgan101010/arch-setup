@@ -32,16 +32,18 @@ Format()
 {
     swap="$1";
     override_prompt="$2";
+    context=$(basename "$0");
     device_path="${*: -1}";
 
-    echo "(format.sh) Received request to format partitions on '$device_path'.";
+    log "$context" "Received request to format partitions on '$device_path'.";
 
     efi_path="${device_path}1";
 
     if [ "$override_prompt" -eq 0 ]
     then
-        prompt="(format.sh) Enter target path '$device_path' to confirm formatting (use -y to skip prompt): ";
+        prompt="($context) Enter target path '$device_path' to confirm formatting (use -y to skip prompt): ";
 
+        # shellcheck disable=SC2162
         read -p "$prompt" confirmation;
         if [ "$confirmation" != "$device_path" ]
         then
@@ -49,7 +51,7 @@ Format()
         fi;
     fi;
 
-    echo "(format.sh) Formatting EFI system partition as FAT32 at '$efi_path'.";
+    log "$context" "Formatting EFI system partition as FAT32 at '$efi_path'.";
     sudo mkfs.fat -F32 "$efi_path";
 
     if [ "$swap" -gt 0 ]
@@ -57,13 +59,13 @@ Format()
         swap_path="${device_path}2";
         root_path="${device_path}3";
 
-        echo "(format.sh) Formatting swap partition at '$swap_path'.";
+        log "$context" "Formatting swap partition at '$swap_path'.";
         sudo mkswap "$swap_path";
     else
         root_path="${device_path}2";
     fi;
 
-    echo "(format.sh) Formatting root partition as ext4 at '$root_path'.";
+    log "$context" "Formatting root partition as ext4 at '$root_path'.";
     sudo mke2fs -t ext4 -F "$root_path";
 }
 
