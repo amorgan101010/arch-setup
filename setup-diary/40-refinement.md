@@ -202,3 +202,51 @@
   - TODO immediately after wiring the bootstrap script up
 
 - I also kinda want to set up my own custom logger that takes context and a message...
+
+- Setting a context variable once based on the file name is WAY cleaner!
+
+```bash
+context=$(basename "$0");
+```
+
+- I just realized, creating my own Arch container would probably be as easy as pointing my scripts at a base image!!
+
+  - Which is good motivation for creating a non-gui option immediately
+
+- If I had a docker image, working on this would become significantly more portable
+
+  - It'd just be a matter of re-opening VS Code within the container!
+
+    - I would be pretty surprised if doing the `prepare-chroot` is possible without getting pretty in-depth
+
+- Typing out all this about Docker containers is also reminding me that I can pretty easily test `within-chroot` and beyond 
+
+- I could wrap the chroot-specific steps in yet another script, or I could add a chroot flag...
+
+  - I prefer the latter, but *yet again* I am in need of a better option parser
+
+- I guess keeping each file pretty small will help with picking one to start...
+
+- Oh, wait, I was implementing some context logging
+
+- I guess I want to make a file that has just a function I source elsewhere, rather than a script...
+
+  - what are the best practices for that?
+
+    - Is that a...lib?
+
+      - I think I will stick it in a folder with that name...it is one function in a library of them
+
+- *Anyway*, here's a nice resource for sourcing functions, which seems more appropriate for where I'm at: <https://linuxize.com/post/bash-source-command/>
+
+- I think I get the point of running the installer in a chroot now, it'd be cool to ignore everything outside my little test env
+
+- Had to add a custom argument to my shellcheck extension...
+
+  - <https://stackoverflow.com/questions/58587756/why-does-shellcheck-fail-when-a-source-file-is-representing-the-variables-at-the>
+
+- My `log.sh` module is nearly syntactically identical to the echoes I was already doing...
+
+  - But it is a start at using modules over scripts!
+
+- I think I can apply this pattern to a universal args parser!
