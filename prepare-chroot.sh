@@ -16,8 +16,8 @@ Help()
     echo
     echo "options:"
     echo "-s  Format a swap partition as well as system and root."
-    echo "-y  Skip prompts."
     echo "-w  write changes, rather than just logging intents."
+    echo "-y  Skip prompts."
     echo "-h  Print this Help."
     echo
     echo "# Ex: Prepare a device for installing Arch."
@@ -64,17 +64,13 @@ done
 flags="-$swap_flag$skip_flag"
 
 # TODO: Replace flags with this as writing flag is implemented in children
-#flags_with_writing="-$swap_flag$write_flag$skip_flag";
+flags_with_writing="-$swap_flag$write_flag$skip_flag";
 
 log "$context" "Attempting to partition '$device_path'.";
-if [ "$write" -gt 0 ]; then
-    ./partition.sh "$flags" "$device_path";
-fi;
+./partition.sh "$flags_with_writing" "$device_path";
 
 log "$context" "Attempting to format '$device_path'.";
-if [ "$write" -gt 0 ]; then
-    ./format.sh "$flags" "$device_path";
-fi;
+./format.sh "$flags_with_writing" "$device_path";
 
 log "$context" "Attempting to mount '$device_path' to '/mnt'.";
 if [ "$write" -gt 0 ]; then

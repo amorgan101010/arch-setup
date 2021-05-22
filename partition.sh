@@ -127,3 +127,6 @@ log "$context" "Partitioning root at '$root_path'; using remaining disk space.";
 if [ "$write" -gt 0 ]; then
     sgdisk --new=0:0:0 --typecode=0:0700 --change-name=0:root "$device_path";
 fi;
+
+log "$context" "Device partitioning complete."
+exit;
