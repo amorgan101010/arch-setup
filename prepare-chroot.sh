@@ -31,6 +31,9 @@ Help()
 ################################################################################
 ################################################################################
 
+BOLD=$(tput bold);
+UNFORMAT=$(tput sgr 0);
+
 swap_flag="";
 skip_flag="";
 write_flag="";
@@ -66,7 +69,7 @@ done
 # TODO: This seems like a good candidate for refactoring into something sourcable
 if [ "$override_prompt" -eq 0 ]
 then
-    prompt="($context) Enter target '$device_path' to confirm partitioning and formatting (-y to skip prompt): ";
+    prompt="($context) Enter target ${BOLD}$device_path${UNFORMAT} to confirm partitioning and formatting (-y to skip prompt): ";
 
     # shellcheck disable=SC2162
     read -p "$prompt" confirmation;
@@ -78,19 +81,19 @@ then
     skip_flag="y";
 fi;
 
-log "$context" "Attempting to partition '$device_path'.";
+log "$context" "Attempting to partition ${BOLD}$device_path${UNFORMAT}.";
 ./partition.sh "-$swap_flag$write_flag$skip_flag" "$device_path";
 
-log "$context" "Attempting to format '$device_path'.";
+log "$context" "Attempting to format ${BOLD}$device_path${UNFORMAT}.";
 ./format.sh "-$swap_flag$write_flag$skip_flag" "$device_path";
 
 # TODO: Make this configurable
 mount_path="/mnt"
 
-log "$context" "Attempting to mount '$device_path' to '$mount_path'.";
+log "$context" "Attempting to mount ${BOLD}$device_path${UNFORMAT} to ${BOLD}$mount_path${UNFORMAT}.";
 ./mount.sh "-$swap_flag$write_flag" "$device_path";
 
-log "$context" "Attempting to bootstrap device with root at '$mount_path'."
+log "$context" "Attempting to bootstrap device with root at ${BOLD}$mount_path${UNFORMAT}."
 ./bootstrap.sh "-$write_flag" "$mount_path";
 
 log "$context" "Chroot preparations complete."

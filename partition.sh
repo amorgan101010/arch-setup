@@ -45,6 +45,9 @@ Help()
 ################################################################################
 ################################################################################
 
+BOLD=$(tput bold);
+UNFORMAT=$(tput sgr 0);
+
 write=0;
 swap=0;
 override_prompt=0;
@@ -81,13 +84,13 @@ done;
 # probably when home specification is set up
 #Partition "$swap" "$override_prompt" "$efi_size_mb" "$swap_size_mb" "$device_path";
 
-log "$context" "Received request to partition '$device_path'.";
+log "$context" "Received request to partition ${BOLD}$device_path${UNFORMAT}.";
 
 efi_path="${device_path}1";
 
 if [ "$override_prompt" -eq 0 ]
 then
-    prompt="($context) Enter target path '$device_path' to confirm partitioning (use -y to skip prompt): ";
+    prompt="($context) Enter target path ${BOLD}$device_path${UNFORMAT} to confirm partitioning (use -y to skip prompt): ";
 
     # I can't figure out how to address this warning...
     # shellcheck disable=SC2162
@@ -98,14 +101,14 @@ then
     fi;
 fi;
 
-log "$context" "Removing any existing partitioning from '$device_path'.";
+log "$context" "Removing any existing partitioning from ${BOLD}$device_path${UNFORMAT}.";
 if [ "$write" -gt 0 ]; then
     wipefs --all "$device_path";
     sgdisk --mbrtogpt "$device_path";
     sgdisk --clear "$device_path";
 fi;
 
-log "$context" "partitioning EFI system partition at '$efi_path'.";
+log "$context" "partitioning EFI system partition at ${BOLD}$efi_path${UNFORMAT}.";
 if [ "$write" -gt 0 ]; then
 sgdisk --new=0:0:"$efi_size_mb"M --typecode=0:EF00 --change-name=0:efi "$device_path";
 fi;
@@ -115,7 +118,7 @@ then
     swap_path="${device_path}2";
     root_path="${device_path}3";
 
-    log "$context" "Partitioning swap at '$swap_path'.";
+    log "$context" "Partitioning swap at ${BOLD}$swap_path${UNFORMAT}.";
     if [ "$write" -gt 0 ]; then
         sgdisk --new=0:0:+"$swap_size_mb"M --typecode=0:8200 --change-name=0:swap "$device_path";
     fi;
@@ -123,7 +126,7 @@ else
     root_path="${device_path}2";
 fi;
 
-log "$context" "Partitioning root at '$root_path'; using remaining disk space.";
+log "$context" "Partitioning root at ${BOLD}$root_path${UNFORMAT} using remaining disk space.";
 if [ "$write" -gt 0 ]; then
     sgdisk --new=0:0:0 --typecode=0:0700 --change-name=0:root "$device_path";
 fi;

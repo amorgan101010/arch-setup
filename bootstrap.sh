@@ -29,6 +29,9 @@ Help()
 ################################################################################
 ################################################################################
 
+BOLD=$(tput bold);
+UNFORMAT=$(tput sgr 0);
+
 write=0;
 context=$(basename "$0");
 mount_path="${*: -1}";
@@ -47,7 +50,7 @@ while getopts "hw" option; do
     esac
 done
 
-log "$context" "Pacstrapping '$mount_path'."
+log "$context" "Pacstrapping ${BOLD}$mount_path${UNFORMAT}."
 if [ "$write" -gt 0 ]; then
     pacstrap "$mount_path" base linux linux-firmware;
 fi;

@@ -364,3 +364,11 @@ arch-chroot /chroots/installer-test /arch-setup/within-chroot.sh
 - Ahh...I've passed down the write flag in all the hardware-related scripts (which, really, are the ones that should've had it first!)
 
   - All that is left is `within-chroot`
+
+- But first, some fun with logs...I want to add colors, they're ugly!
+
+  - [Obligatory SO post about it](https://stackoverflow.com/a/20983251)
+
+- `tput` seems rad!
+
+- I might add the device path to the logs where it is used, too...that would clean things up a bit!

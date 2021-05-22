@@ -30,6 +30,9 @@ Help()
 ################################################################################
 ################################################################################
 
+BOLD=$(tput bold);
+UNFORMAT=$(tput sgr 0);
+
 swap=0;
 write=0;
 override_prompt=0;
@@ -57,13 +60,13 @@ while getopts "hswy" option; do
     esac;
 done;
 
-log "$context" "Received request to format partitions on '$device_path'.";
+log "$context" "Received request to format partitions on ${BOLD}$device_path${UNFORMAT}.";
 
 efi_path="${device_path}1";
 
 if [ "$override_prompt" -eq 0 ]
 then
-    prompt="($context) Enter target path '$device_path' to confirm formatting (-y to skip prompt): ";
+    prompt="($context) Enter target path ${BOLD}$device_path${UNFORMAT} to confirm formatting (-y to skip prompt): ";
 
     # shellcheck disable=SC2162
     read -p "$prompt" confirmation;
@@ -73,7 +76,7 @@ then
     fi;
 fi;
 
-log "$context" "Formatting EFI system partition as FAT32 at '$efi_path'.";
+log "$context" "Formatting EFI system partition as FAT32 at ${BOLD}$efi_path${UNFORMAT}.";
 if [ "$write" -gt 0 ]; then
     mkfs.fat -F32 "$efi_path";
 fi;
@@ -83,7 +86,7 @@ then
     swap_path="${device_path}2";
     root_path="${device_path}3";
 
-    log "$context" "Formatting swap partition at '$swap_path'.";
+    log "$context" "Formatting swap partition at ${BOLD}$swap_path${UNFORMAT}.";
     if [ "$write" -gt 0 ]; then
         mkswap "$swap_path";
     fi;
@@ -91,7 +94,7 @@ else
     root_path="${device_path}2";
 fi;
 
-log "$context" "Formatting root partition as ext4 at '$root_path'.";
+log "$context" "Formatting root partition as ext4 at ${BOLD}$root_path${UNFORMAT}.";
 if [ "$write" -gt 0 ]; then
     mke2fs -t ext4 -F "$root_path";
 fi;

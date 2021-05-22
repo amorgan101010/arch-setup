@@ -31,7 +31,9 @@ Help()
 # Main                                                                         #
 ################################################################################
 ################################################################################
-# Source: https://opensource.com/article/19/12/help-bash-program
+
+BOLD=$(tput bold);
+UNFORMAT=$(tput sgr 0);
 
 swap=0;
 write=0;
@@ -59,14 +61,14 @@ done;
 # TODO: Make this configurable
 mount_path="/mnt"
 
-log "$context" "Received request to mount '$device_path' to '$mount_path'.";
+log "$context" "Received request to mount ${BOLD}$device_path${UNFORMAT} to ${BOLD}$mount_path${UNFORMAT}.";
 
 if [ "$swap" -gt 0 ]
 then
     swap_path="${device_path}2";
     root_path="${device_path}3";
 
-    log "$context" "Turning on swap at '$swap_path'.";
+    log "$context" "Turning on swap at ${BOLD}$swap_path${UNFORMAT}.";
 
     if [ "$write" -gt 0 ]; then
         swapon "$swap_path";
@@ -77,7 +79,7 @@ fi;
 
 efi_path="${device_path}1";
 
-log "$context" "Mounting partitions of '$device_path' at '$mount_path'.";
+log "$context" "Mounting partitions of ${BOLD}$device_path${UNFORMAT} at ${BOLD}$mount_path${UNFORMAT}.";
 
 if [ "$write" -gt 0 ]; then
     mount "$root_path" "$mount_path";

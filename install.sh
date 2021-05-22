@@ -32,11 +32,16 @@ Help()
 ################################################################################
 ################################################################################
 
+BOLD=$(tput bold);
+UNFORMAT=$(tput sgr 0);
+
 swap_flag="";
 skip_flag="";
 write_flag="";
 gui_flag="";
+
 write=0;
+
 context=$(basename "$0");
 device_path="${*: -1}";
 
@@ -67,22 +72,25 @@ done
 flags="-$swap_flag$write_flag$skip_flag";
 
 if [ "$write" -gt 0 ]; then
-    log "$context" "Changes WILL BE WRITTEN, potential data loss imminent.";
+
+    red=$(tput setaf 1);
+    log "$context" "${red}Changes WILL BE WRITTEN, potential data loss imminent.";
 else
-    log "$context" "Changes will NOT be written, logging intents only.";
+    yellow=$(tput setaf 3);
+    log "$context" "${yellow}Changes will NOT be written, logging intents only.";
 fi;
 
-log "$context" "Attempting to install to '$device_path'.";
+log "$context" "Attempting to install to ${BOLD}$device_path${UNFORMAT}.";
 
-log "$context" "Attempting to prepare destination with 'prepare-chroot.sh'."
+log "$context" "Attempting to prepare destination with ${BOLD}prepare-chroot.sh${UNFORMAT}."
 ./prepare-chroot.sh "$flags" "$device_path";
 
-log "$context" "Attempting to enter chroot and set up system with 'within-chroot.sh'."
+log "$context" "Attempting to enter chroot and set up system with ${BOLD}within-chroot.sh${UNFORMAT}."
 if [ "$write" -gt 0 ]; then
     arch-chroot /mnt ./within-chroot.sh "-$gui_flag";
 fi;
 
 # TODO: Call unmount.sh
 
-log "$context" "Time to reboot and see if it worked!.";
+log "$context" "Time to reboot and see if it worked!";
 exit;
