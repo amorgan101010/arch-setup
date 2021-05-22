@@ -9,13 +9,14 @@ Help()
     # Display Help
     echo "Commands to run within a freshly set up Arch chroot. Must be root."
     echo
-    echo "Syntax: ./within-chroot.sh [-h]"
+    echo "Syntax: ./within-chroot.sh [-g|h]"
     echo
     echo "options:"
+    echo "-g  Install a GUI."
     echo "-h  Print this Help."
     echo
-    echo "# Ex: Run commands to prepare new Arch install from within."
-    echo "% sudo ./within-chroot.sh"
+    echo "# Ex: Run commands to prepare new GUI'd Arch install from within."
+    echo "% sudo ./within-chroot.sh -g"
     echo
 }
 
@@ -25,8 +26,13 @@ Help()
 ################################################################################
 ################################################################################
 
-while getopts "hy" option; do
+gui=0;
+
+while getopts "gh" option; do
     case $option in
+        g) # Set gui bool
+            gui=1;
+            ;;
         h) # display Help
             Help;
             exit;;
@@ -49,17 +55,20 @@ ln -sf /usr/share/zoneinfo/America/Detroit /etc/localtime;
 
 echo "(within-chroot.sh) Setting up hosts and hostname.";
 
-echo "TargetArch" >> /etc/hostname;
+# TODO: Allow passing in the name as a variable
+# AND/OR have a prompt
+host_name="FreshArch";
+echo "$host_name" >> /etc/hostname;
 
 {
     echo "127.0.0.1 localhost";
     echo "::1 localhost";
-    echo "127.0.1.1 TargetArch.localdomain TargetArch";
+    echo "127.0.1.1 $host_name.localdomain $host_name";
 } >> /etc/hosts;
 
 echo "(within-chroot.sh) Installing non-GUI base packages.";
 # Ignore comments
-grep -v "^#" /base-pkglist.txt | pacman -S --noconfirm --needed -;
+grep -v "^#" /arch-setup/base-pkglist.txt | pacman -S --noconfirm --needed -;
 
 echo "(within-chroot.sh) Installing GRUB to EFI partition.";
 # TODO: Flag to specify removable
@@ -77,19 +86,29 @@ passwd;
 echo "(within-chroot.sh) Granting superuser to members of wheel.";
 echo -e "%wheel ALL=(ALL) ALL" > /etc/sudoers.d/99_wheel;
 
+if [ "$gui" -gt 0 ]; then
+    echo "(within-chroot.sh) Installing X Windows System, GNOME DE, and misc graphical software.";
+
+    # Ignore comments
+    grep -v "^#" /arch-setup/gui-pkglist.txt | pacman -S --noconfirm --needed -;
+
+    echo "(within-chroot.sh) Enabling Greeter.";
+    systemctl enable gdm.service;
+fi;
+
+# TODO: Make this configurable
+# This'll require making it configurable in the next script...maybe?
+# No, in the next script I can use the env var "$USER"
+user_name="aileen";
+
 echo "(within-chroot.sh) Creating default non-root user.";
-useradd --create-home --shell /usr/bin/zsh --groups wheel,games,audio aileen;
-
-echo "(within-chroot.sh) Installing X Windows System, GNOME DE, and misc graphical software.";
-
-# Ignore comments
-grep -v "^#" /gui-pkglist.txt | pacman -S --noconfirm --needed -;
-
-echo "(within-chroot.sh) Enabling Greeter.";
-systemctl enable gdm.service;
+useradd --create-home --shell /usr/bin/zsh --groups wheel,games,audio "$user_name";
 
 echo "(within-chroot.sh) Running user script as non-root user.";
-su - aileen -c "/bin/bash /as-user.sh";
+su - "$user_name" -c "/bin/bash /arch-setup/as-user.sh";
+
+echo "(within-chroot.sh) Please set non-root user password."
+passwd $user_name;
 
 echo "(within-chroot.sh) Actions within chroot complete."
 exit;

@@ -282,3 +282,83 @@ context=$(basename "$0");
     - Which will require updating every reference to a file after chrooting in...
 
 - I think I have reached the point where I am reinventing state
+
+### 2021-05-21
+
+- The Auracle make process was failing because it wanted to install some dependencies...here's what it depends on:
+
+```bash
+Depends On     : pacman  libcurl.so  libsystemd
+Makedepends    : meson  git  perl  systemd
+Checkdepends   : gtest  gmock
+```
+
+- IDK what the difference between those three categories is...
+
+- Well, I can find out pretty quick...
+  
+  - but I want to set up a chroot for testing first.
+
+- If I set up `bootstrap.sh` to accept a destination mount, it'll do the thing...
+
+- It seems to be working properly with the custom chroot path I gave it!
+
+- Eventually, it'd be nice for the installer to have a `--prepare-hardware` flag that requires a device path
+
+  - If that's not provided, I guess it'd require a mount path? Or maybe it could be optionally specified with `/mnt` as default...
+
+- Another thing - I should probably call `unmount.sh` at the end of `install.sh`
+
+  - That would probably only occur if `--prepare-hardware` was specified, if that exists by then
+
+- A related-ish note about mounts and chroots:
+
+  - When I'm testing using a random directory, rather than a separate filesystem, I need to bind it to itself to make `pacstrap` happy
+
+  - `mount --bind /chroots/installer-test /chroots/installer-test`
+
+- All in all, going from an empty folder to running the installer inside a chroot created there requires:
+
+```bash
+mount --bind /chroots/installer-test /chroots/installer-test
+./bootstrap.sh -w /chroots/installer-test
+arch-chroot /chroots/installer-test /arch-setup/within-chroot.sh
+```
+
+- I got an error I'm not sure if is because of the chroot or what...
+
+  - "grub-install: error: failed to get canonical path of `/efi'"
+
+- Ohh, pacman kindly told me the missing dependencies of the aur helper
+
+  - meson
+
+  - gtest
+
+  - gmock
+
+- The user password stuff also kinda seems to be failing...
+
+  - Ahh, understandably so, I was setting it to the username
+
+- Even after installing the dependencies, the auracle build is failing on some arcane and ungoogleable error
+
+- I think I need a flag in `within-chroot` that determines whether grub stuff is set up or not
+
+  - Like half the stuff in that script is probably unnecessary for non-physical installs (AKA Docker or a test chroot)
+
+- I tried running everything against a flash drive, and it got pretty far!
+
+- I'm reading a bit about LVM, as I know nothing about it but I think it would be extra pro (and also maybe prevent partitioning issues like I have on both my laptops)
+
+- In the process, I learned `wipefs` exists to clean up pre-existing disk signatures...which might be the missing piece of my partition script!
+
+- Speaking of the partition script, I am trying to bring it up to snuff and pass in a write flag
+
+- It seems to have done a beautiful job re-partitioning the USB!
+
+- Wow, I found an explanation of the ~1MB of space between partitions from the author of `sgdisk`!
+
+  - <https://superuser.com/a/663870>
+
+

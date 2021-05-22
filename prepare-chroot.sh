@@ -34,7 +34,9 @@ Help()
 swap_flag="";
 skip_flag="";
 write_flag="";
+
 write=0;
+
 context=$(basename "$0");
 device_path="${*: -1}";
 
@@ -79,8 +81,11 @@ if [ "$write" -gt 0 ]; then
     ./mount.sh "$flags" "$device_path";
 fi;
 
+# TODO: Make this configurable
+mount_path="/mnt"
+
 log "$context" "Attempting to bootstrap device with root at '/mnt'."
-./bootstrap.sh "-$write_flag";
+./bootstrap.sh "-$write_flag" "$mount_path";
 
 log "$context" "Chroot preparations complete."
 exit;

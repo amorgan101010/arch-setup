@@ -15,13 +15,14 @@ Help()
     echo "Syntax: ./($context) [-swy|h] DEVICE_PATH"
     echo
     echo "options:"
+    echo "-g  Install a GUI."
     echo "-s  Format a swap partition as well as system and root."
     echo "-w  write changes, rather than just logging intents."
     echo "-y  Skip prompts."
     echo "-h  Print this Help."
     echo
     echo "# Ex: Installing Arch to a swapless device without confirmation prompts."
-    echo "% sudo ./($context) -wy /dev/sdb"
+    echo "% sudo ./($context) -gwy /dev/sdb"
     echo
 }
 
@@ -34,12 +35,16 @@ Help()
 swap_flag="";
 skip_flag="";
 write_flag="";
+gui_flag="";
 write=0;
 context=$(basename "$0");
 device_path="${*: -1}";
 
-while getopts "hswy" option; do
+while getopts "ghswy" option; do
     case $option in
+        g) # Set gui flag
+            gui_flag="g";
+            ;;
         h) # display Help
             Help;
             exit;;
@@ -72,11 +77,12 @@ log "$context" "Attempting to install to '$device_path'.";
 log "$context" "Attempting to prepare destination with 'prepare-chroot.sh'."
 ./prepare-chroot.sh "$flags" "$device_path";
 
-
 log "$context" "Attempting to enter chroot and set up system with 'within-chroot.sh'."
 if [ "$write" -gt 0 ]; then
-    arch-chroot /mnt ./within-chroot.sh;
+    arch-chroot /mnt ./within-chroot.sh "-$gui_flag";
 fi;
+
+# TODO: Call unmount.sh
 
 log "$context" "Time to reboot and see if it worked!.";
 exit;

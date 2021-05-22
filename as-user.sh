@@ -37,30 +37,31 @@ while getopts "hy" option; do
 done
 
 echo "(as-user.sh) Retrieving dotfiles.";
-cd /home/aileen||exit;
-git clone https://github.com/amorgan101010/dotfiles.git /home/aileen/dotfiles;
+cd "$HOME"||exit;
+git clone https://github.com/amorgan101010/dotfiles.git "$HOME"/dotfiles;
 
 echo "(as-user.sh) Installing oh-my-zsh and plugins.";
 # TODO: specify output location of curled script
-sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --keep-zshrc --unattended;
-git clone https://github.com/zsh-users/zsh-syntax-highlighting /home/aileen/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting;
-git clone https://github.com/zsh-users/zsh-autosuggestions /home/aileen/.oh-my-zsh/custom/plugins/zsh-autosuggestions;
-cd /home/aileen/dotfiles||exit;
+sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended;
+git clone https://github.com/zsh-users/zsh-syntax-highlighting "$HOME"/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting;
+git clone https://github.com/zsh-users/zsh-autosuggestions "$HOME"/.oh-my-zsh/custom/plugins/zsh-autosuggestions;
+rm "$HOME"/.zshrc;
+cd "$HOME"/dotfiles||exit;
 stow oh-my-zsh;
 stow vs-code;
 
-# TODO: Install the build dependencies first
-echo "(as-user.sh) Building basic AUR helper auracle.";
-mkdir /home/aileen/.aur;
-cd /home/aileen/.aur||exit;
-git clone https://aur.archlinux.org/auracle-git.git /home/aileen/.aur/auracle;
-cd /home/aileen/.aur/auracle||exit;
-makepkg -si;
+# Still not working after adding dependencies...
+#echo "(as-user.sh) Building basic AUR helper auracle.";
+#mkdir "$HOME"/.aur;
+#cd "$HOME"/.aur||exit;
+#git clone https://aur.archlinux.org/auracle-git.git "$HOME"/.aur/auracle;
+#cd "$HOME"/.aur/auracle||exit;
+#makepkg -si;
 
 # TODO: Add a check for an explicit flag to install yay(?)
 
-echo "(as-user.sh) Set user password.";
-passwd aileen;
+#echo "(as-user.sh) Set user password.";
+#passwd;
 
 echo "(as-user.sh) Actions as user complete."
 exit;
