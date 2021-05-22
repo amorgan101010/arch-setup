@@ -1,4 +1,6 @@
-# Dependencies
+# AUR Dependencies
+
+## auracle
 
 meson
 gtest
