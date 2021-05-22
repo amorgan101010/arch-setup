@@ -35,7 +35,7 @@ swap_flag="";
 skip_flag="";
 write_flag="";
 
-write=0;
+override_prompt=0;
 
 context=$(basename "$0");
 device_path="${*: -1}";
@@ -50,10 +50,10 @@ while getopts "hswy" option; do
             ;;
         w) # Set write flag
             write_flag="w";
-            write=1;
             ;;
         y) # Set SKIP flag
             skip_flag="y";
+            override_prompt=1;
             ;;
         *) # something invalid entered; display Help
             Help;
@@ -61,26 +61,36 @@ while getopts "hswy" option; do
     esac
 done
 
-flags="-$swap_flag$skip_flag"
 
-# TODO: Replace flags with this as writing flag is implemented in children
-flags_with_writing="-$swap_flag$write_flag$skip_flag";
+
+# TODO: This seems like a good candidate for refactoring into something sourcable
+if [ "$override_prompt" -eq 0 ]
+then
+    prompt="($context) Enter target '$device_path' to confirm partitioning and formatting (-y to skip prompt): ";
+
+    # shellcheck disable=SC2162
+    read -p "$prompt" confirmation;
+    if [ "$confirmation" != "$device_path" ]
+    then
+        exit;
+    fi;
+
+    skip_flag="y";
+fi;
 
 log "$context" "Attempting to partition '$device_path'.";
-./partition.sh "$flags_with_writing" "$device_path";
+./partition.sh "-$swap_flag$write_flag$skip_flag" "$device_path";
 
 log "$context" "Attempting to format '$device_path'.";
-./format.sh "$flags_with_writing" "$device_path";
-
-log "$context" "Attempting to mount '$device_path' to '/mnt'.";
-if [ "$write" -gt 0 ]; then
-    ./mount.sh "$flags" "$device_path";
-fi;
+./format.sh "-$swap_flag$write_flag$skip_flag" "$device_path";
 
 # TODO: Make this configurable
 mount_path="/mnt"
 
-log "$context" "Attempting to bootstrap device with root at '/mnt'."
+log "$context" "Attempting to mount '$device_path' to '$mount_path'.";
+./mount.sh "-$swap_flag$write_flag" "$device_path";
+
+log "$context" "Attempting to bootstrap device with root at '$mount_path'."
 ./bootstrap.sh "-$write_flag" "$mount_path";
 
 log "$context" "Chroot preparations complete."

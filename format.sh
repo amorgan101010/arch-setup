@@ -63,7 +63,7 @@ efi_path="${device_path}1";
 
 if [ "$override_prompt" -eq 0 ]
 then
-    prompt="($context) Enter target path '$device_path' to confirm formatting (use -y to skip prompt): ";
+    prompt="($context) Enter target path '$device_path' to confirm formatting (-y to skip prompt): ";
 
     # shellcheck disable=SC2162
     read -p "$prompt" confirmation;

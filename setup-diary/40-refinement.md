@@ -361,4 +361,6 @@ arch-chroot /chroots/installer-test /arch-setup/within-chroot.sh
 
   - <https://superuser.com/a/663870>
 
+- Ahh...I've passed down the write flag in all the hardware-related scripts (which, really, are the ones that should've had it first!)
 
+  - All that is left is `within-chroot`

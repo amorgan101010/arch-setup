@@ -12,10 +12,10 @@ Help()
     # Display Help
     echo "Mounts the specified device at /mnt, optionally turning on swap. Must be root."
     echo
-    echo "Syntax: ./mount.sh [-h|sy] DEVICE_PATH"
+    echo "Syntax: ./mount.sh [-sw|h] DEVICE_PATH"
     echo "options:"
     echo "-s  Turn on swap."
-    echo "-y  Skip prompts (there are none)."
+    echo "-w  write changes, rather than just logging intents."
     echo "-h  Print this Help."
     echo
     echo "Ex: Mount a device."
@@ -27,36 +27,6 @@ Help()
 }
 
 ################################################################################
-# Mount                                                                         #
-################################################################################
-Mount()
-{
-    swap="$1";
-    device_path="$2";
-
-    log "$context" "Received request to mount '$device_path'.";
-
-    if [ "$swap" -gt 0 ]
-    then
-        swap_path="${device_path}2";
-        root_path="${device_path}3";
-
-        log "$context" "Turning on swap at '$swap_path'.";
-        swapon "$swap_path";
-    else
-        root_path="${device_path}2";
-    fi;
-
-    efi_path="${device_path}1";
-
-    log "$context" "Mounting partitions of '$device_path' at '/mnt'.";
-
-    mount "$root_path" /mnt;
-    mkdir /mnt/efi;
-    mount "$efi_path" /mnt/efi;
-}
-
-################################################################################
 ################################################################################
 # Main                                                                         #
 ################################################################################
@@ -64,10 +34,12 @@ Mount()
 # Source: https://opensource.com/article/19/12/help-bash-program
 
 swap=0;
+write=0;
+
 context=$(basename "$0");
 device_path="${*: -1}";
 
-while getopts "hsy" option; do
+while getopts "hsw" option; do
     case $option in
         h) # display Help
             Help;
@@ -75,7 +47,8 @@ while getopts "hsy" option; do
         s) # Set swap flag
             swap=1;
             ;;
-        y) # Skip confirmation prompt (meaningless)
+        w) # Set write flag
+            write=1;
             ;;
         *) # something invalid entered; display Help
             Help;
@@ -83,4 +56,31 @@ while getopts "hsy" option; do
     esac;
 done;
 
-Mount "$swap" "$device_path";
+# TODO: Make this configurable
+mount_path="/mnt"
+
+log "$context" "Received request to mount '$device_path' to '$mount_path'.";
+
+if [ "$swap" -gt 0 ]
+then
+    swap_path="${device_path}2";
+    root_path="${device_path}3";
+
+    log "$context" "Turning on swap at '$swap_path'.";
+
+    if [ "$write" -gt 0 ]; then
+        swapon "$swap_path";
+    fi;
+else
+    root_path="${device_path}2";
+fi;
+
+efi_path="${device_path}1";
+
+log "$context" "Mounting partitions of '$device_path' at '$mount_path'.";
+
+if [ "$write" -gt 0 ]; then
+    mount "$root_path" "$mount_path";
+    mkdir "$mount_path"/efi;
+    mount "$efi_path" "$mount_path"/efi;
+fi;
