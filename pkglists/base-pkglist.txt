@@ -1,0 +1,40 @@
+# Dependencies
+
+meson
+gtest
+gmock
+
+# Documentation
+
+man-db
+man-pages
+texinfo
+
+# Favorites
+
+git
+lynx
+neofetch
+stow
+vi
+vim
+zsh
+
+# Networking
+
+curl
+networkmanager
+openssh
+
+# Management
+
+htop
+tlp
+
+# System
+
+base-devel
+efibootmgr
+grub
+linux
+linux-firmware
