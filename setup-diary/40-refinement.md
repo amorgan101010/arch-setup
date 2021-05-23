@@ -372,3 +372,69 @@ arch-chroot /chroots/installer-test /arch-setup/within-chroot.sh
 - `tput` seems rad!
 
 - I might add the device path to the logs where it is used, too...that would clean things up a bit!
+
+### 2021-05-23
+
+- Working on this Arch installer has reminded me of the fun of Linux tinkering in general...
+
+  - I'm thinking of my past attempts at setting up an audio/midi network (before I really used midi, but the audio definitely "worked")
+
+    - That is not a rabbit hole I feel comfortable going down until *at least* this installer has reached the point I call it 1.0.0
+
+- Home media networking is a bit easier, though!
+
+- I installed the program `chiaki` from the AUR, and it worked almost perfectly for streaming from my PS4
+
+  - It worked fine when I tested it in my room, but the signal was juuuust too weak to work well when gaming from the back deck
+
+    - Which kinda makes me want to set up a second router or reposition the current one, but that is off topic
+
+- Now I feel pretty confident about the utility of setting up my gaming laptop as a streaming device
+
+  - Both because I know the network is strong enough for it in-room, and because my Arch laptop is much easier to drop in to my desk setup thanks to similar size and port configuration
+
+- Also, I wanna check in on how Proton is doing!
+
+  - ...not that my gaming laptop works properly with Linux :'(
+
+- Well, one thing I am immediately remembering about Proton is its appetite for disk space...probably shouldn't mess with it on the arch laptop and stick to the in-home streaming
+
+- There are a few wrinkles in doing in-home streaming conveniently with what I have available to me right now...
+
+  - I can't find any unused ethernet cables
+
+  - Even if I did have one, I am out of free ports on the router
+
+- The latter problem *could* be pretty easily solved, *if* I had all of my electronics supplies with me
+
+  - Alas, I can picture exactly where my network switch is, at my mom's house...
+
+- Well, *another* fun networking idea I had was maybe setting up an Arch build server
+
+- As a sort of adjacent thought, I should pick up a few modern Raspberry Pis rather than continuing to use my first-gen one
+
+- Wowzer, there's a Pi 4 now and it has EIGHT GIGS OF RAM
+
+  - Mine has 512M...
+
+  - I think mine had less internal storage space than the new one has in RAM alone
+
+- All that being said, mine was also *far* cheaper than the newest pi 4
+
+  - I guess a 3 would *probably* do all I want...
+
+    - Which is primarily pi-hole, and other things from there
+
+- I also forgot the pain of having to buy a case...
+
+- Huh, I guess the 3B+ only has 1G of RAM, big jump!
+
+- I guess I don't have much choice but to hold off on advanced home networking, til I address the various issues above...
+
+- As for setting up my gaming laptop (AKA my PC from this point forward), I've decided to sacrifice the PlayStation's ethernet for now...
+
+  - For some reason, the laptop couldn't connect when I plugged the ethernet in directly...
+
+    - Luckily, I have a spare ethernet to USB adapter! (and even more, in a drawer near my network switch...)
+
+- A perk of having the PC in its own special place is that there is room to attach my funky little exhaust fan cooler

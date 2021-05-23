@@ -68,7 +68,7 @@ echo "$host_name" >> /etc/hostname;
 
 echo "(within-chroot.sh) Installing non-GUI base packages.";
 # Ignore comments
-grep -v "^#" /arch-setup/base-pkglist.txt | pacman -S --noconfirm --needed -;
+grep -v "^#" /arch-setup/base.pkglist | pacman -S --noconfirm --needed -;
 
 echo "(within-chroot.sh) Installing GRUB to EFI partition.";
 # TODO: Flag to specify removable
@@ -90,7 +90,7 @@ if [ "$gui" -gt 0 ]; then
     echo "(within-chroot.sh) Installing X Windows System, GNOME DE, and misc graphical software.";
 
     # Ignore comments
-    grep -v "^#" /arch-setup/gui-pkglist.txt | pacman -S --noconfirm --needed -;
+    grep -v "^#" /arch-setup/gui.pkglist | pacman -S --noconfirm --needed -;
 
     echo "(within-chroot.sh) Enabling Greeter.";
     systemctl enable gdm.service;
