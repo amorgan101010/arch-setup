@@ -12,15 +12,13 @@ Help()
     # Display Help
     echo "Sorts and converts categorical pkglists into groups expected by the installer."
     echo
-    echo "Syntax: ./generate-pkglists.sh [-gw|h]"
+    echo "Syntax: ./generate-pkglists.sh [-w|h]"
     echo "options:"
-    #echo "-a  Include AUR packages in the generated list."
-    echo "-g  Include GUI packages in the generated list."
     echo "-w  write changes, rather than just logging intents."
     echo "-h  Print this Help."
     echo
-    echo "Ex: Generate pkglist for installer including GUI packages."
-    echo "% ./generate-pkglists.sh -gw"
+    echo "Ex: Generate sorted and combined pkglists."
+    echo "% ./generate-pkglists.sh -w"
     echo
 }
 
@@ -56,35 +54,15 @@ Merge()
 
 ################################################################################
 ################################################################################
-# Sort                                                                         #
-################################################################################
-################################################################################
-
-Sort()
-{
-    dir="$pkglists_dir";
-
-    for file in "$dir"/*/*; do
-        log "$context" "Sorting file $file.";
-        if [ "$write" -gt 0 ]; then
-            sort "$file";
-        fi;
-    done;
-}
-
-
-################################################################################
-################################################################################
 # Main                                                                         #
 ################################################################################
 ################################################################################
 
-gui=0;
 write=0;
 
 context=$(basename "$0");
 
-while getopts "dhgw" option; do
+while getopts "hw" option; do
     case $option in
         h) # display Help
             Help;
@@ -100,16 +78,21 @@ done;
 
 log "$context" "Received request to generate a pkglist for installation.";
 
-# Sort all the individual pkglists, even if they're not part of this run
+# Alphabetize packages in all the individual pkglists
 
 pkglists_dir=./pkglists;
-base_dir="$pkglists_dir"/base;
-gui_dir="$pkglists_dir"/gui;
 
-Sort;
+for file in "$pkglists_dir"/*/*; do
+    log "$context" "Sorting file $file.";
+    if [ "$write" -gt 0 ]; then
+        sort "$file";
+    fi;
+done;
 
 # Combine categories into files with comments based on the individual pkglist file names
 
+base_dir="$pkglists_dir"/base;
+gui_dir="$pkglists_dir"/gui;
 base_filename="$pkglists_dir"/base.pkglist.test;
 gui_filename="$pkglists_dir"/gui.pkglist.test;
 
@@ -122,8 +105,8 @@ log "$context" "Generating base.pkglist.";
 Merge $base_dir $base_filename;
 
 log "$context" "Generating gui.pkglist.";
-if [ "$gui" -gt 0 ]; then
-    Merge $gui_dir $gui_filename;
-fi;
+Merge $gui_dir $gui_filename;
+
+# TODO: Something with the AUR?
 
 log "$context" "Pkglist generation complete.";
