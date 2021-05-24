@@ -546,3 +546,47 @@ arch-chroot /chroots/installer-test /arch-setup/within-chroot.sh
 - I think I will need to alter a few different scripts to support MBR...
 
 - All that said, MBR actually seems way simpler (fingers crossed)
+
+- Ugh, tweaking the partitioning script to do MBR is gonna be a pain and a half...
+
+- Hmmmm, the Arch Wiki claims I can covert the existing USB install to MBR with `sgdisk -m /dev/sda`
+
+- I have to assume I also need to do something with Grub...
+
+  - `grub-install --target=i386-pc /dev/sdb`
+
+    - When I tried this, I got an error like `grub-install: warning: this GPT partition label contains no BIOS Boot Partition; embedding won't be possible.`
+
+    - I found this SO: <https://superuser.com/questions/660309/live-resize-of-a-gpt-partition-on-linux>
+
+    - Adding a BIOS Boot type partition with `cfdisk` made the command work
+
+      - Also, I cheated and shrunk the existing root partition with GParted
+
+      - I think I am technically doing a BIOS/GPT setup now
+
+  - `grub-mkconfig -o /boot/grub/grub.cfg`
+
+    - This worked without issue, though I must say I feel wary about the fact I didn't have to mount the boot partition first...
+
+- OMG, it is booting now!!
+
+  - I still need to update the scripts...but knowing I can create bootable media with multiple partitioning schemes is pretty badass!
+
+- It even tried to check the journal on the shot disk in the PC (and gave up after a timeout)
+
+- The boot media is running quite slowly on the optiplex, which is not super surprising...
+
+- Like, logging in to the TTY is taking multiple minutes slow
+
+  - Actually, it kinda seems like my shell is broken
+
+- But still! These things are symptoms of running GNOME on an ancient Optiplex, I think
+
+- As a bit of a bookmark - I need to finish implementing BIOS stuff in `partition.sh` and then keep working my way down the scripts after it
+
+  - Also, maybe script the conversion between boot loaders?
+  
+    - Or make my install compatible with both by default?
+
+    - That would be a good place to have a `--removable` flag...

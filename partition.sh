@@ -10,23 +10,25 @@
 Help()
 {
     # Display Help
-    echo "Partition a device with GPT in preparation for installing Arch. Must be root."
+    echo "Partition a device in preparation for installing Arch. Must be root."
+    echo "Defaults to creating a UEFI/GPT setup with EFI and root partitions."
     echo
-    echo "Syntax: ./partition.sh"
+    echo "Syntax: ./partition.sh [-mswy|h] DEVICE_PATH"
     #echo "  [-r [ROOT_SIZE]] (not implemented)"
     #echo "  [-e [EFI_SIZE]] (not implemented)"
     #echo "  [-s [SWAP_SIZE (size specification not implemented)]]"
     #echo "  [-H [HOME_SIZE]] (not implemented)"
-    echo "  [-sy|h] DEVICE_PATH"
     echo
     echo "options:"
+    echo "-m  Use BIOS/MBR rather than UEFI/GPT."
+    echo "-s  Partition swap as well as system and root."
+    echo "-w  write changes, rather than just logging intents."
+    echo "-y  Skip prompts."
+    echo "-h  Print this Help."
     #echo "-r  Specify the root partition size in GB."
     #echo "-e  Specify the EFI System partition size in MB."
     #echo "-H  Create a home directory, optionally specifying size in GB."
     #echo "-s  Partition swap as well as system and root, optionally specifying its size in MB."
-    echo "-s  Partition swap as well as system and root."
-    echo "-y  Skip prompts."
-    echo "-h  Print this Help."
     echo
     echo "# Ex: Partition a device with EFI and root."
     echo "sudo ./partition.sh -y /dev/sdb"
@@ -48,6 +50,7 @@ Help()
 BOLD=$(tput bold);
 UNFORMAT=$(tput sgr 0);
 
+mbr=0;
 write=0;
 swap=0;
 override_prompt=0;
@@ -60,11 +63,14 @@ device_path="${*: -1}";
 efi_size_mb=549;
 swap_size_mb=512;
 
-while getopts "hswy" option; do
+while getopts "hmswy" option; do
     case $option in
         h) # display Help
             Help;
             exit;;
+        m) # Set mbr flag
+            mbr=1;
+            ;;
         s) # Set swap flag
             swap=1;
             ;;
@@ -86,7 +92,6 @@ done;
 
 log "$context" "Received request to partition ${BOLD}$device_path${UNFORMAT}.";
 
-efi_path="${device_path}1";
 
 if [ "$override_prompt" -eq 0 ]
 then
@@ -104,26 +109,51 @@ fi;
 log "$context" "Removing any existing partitioning from ${BOLD}$device_path${UNFORMAT}.";
 if [ "$write" -gt 0 ]; then
     wipefs --all "$device_path";
-    sgdisk --mbrtogpt "$device_path";
-    sgdisk --clear "$device_path";
+
+    if [ "$mbr" -eq 0 ]; then
+        sgdisk --mbrtogpt "$device_path";
+        sgdisk --clear "$device_path";
+    else
+        echo "I should do MBR here...";
+    fi;
 fi;
 
-log "$context" "partitioning EFI system partition at ${BOLD}$efi_path${UNFORMAT}.";
-if [ "$write" -gt 0 ]; then
-sgdisk --new=0:0:"$efi_size_mb"M --typecode=0:EF00 --change-name=0:efi "$device_path";
+
+if [ "$mbr" -eq 0 ]; then
+    efi_path="${device_path}1";
+
+    log "$context" "partitioning EFI system partition at ${BOLD}$efi_path${UNFORMAT}.";
+    if [ "$write" -gt 0 ]; then
+        sgdisk --new=0:0:"$efi_size_mb"M --typecode=0:EF00 --change-name=0:efi "$device_path";
+    fi;
 fi;
 
 if [ "$swap" -gt 0 ]
 then
-    swap_path="${device_path}2";
-    root_path="${device_path}3";
+    if [ "$mbr" -eq 0 ]; then
+        swap_path="${device_path}2";
+        root_path="${device_path}3";
 
-    log "$context" "Partitioning swap at ${BOLD}$swap_path${UNFORMAT}.";
-    if [ "$write" -gt 0 ]; then
-        sgdisk --new=0:0:+"$swap_size_mb"M --typecode=0:8200 --change-name=0:swap "$device_path";
+        log "$context" "Partitioning swap at ${BOLD}$swap_path${UNFORMAT}.";
+        if [ "$write" -gt 0 ]; then
+            sgdisk --new=0:0:+"$swap_size_mb"M --typecode=0:8200 --change-name=0:swap "$device_path";
+        fi;
+    else
+        swap_path="${device_path}2";
+        root_path="${device_path}3";
+
+        log "$context" "Partitioning swap at ${BOLD}$swap_path${UNFORMAT}.";
+        if [ "$write" -gt 0 ]; then
+            sfdisk "$device_path";
+        fi;
     fi;
+
 else
-    root_path="${device_path}2";
+    if [ "$mbr" -eq 0 ]; then
+        root_path="${device_path}2";
+    else
+        root_path="${device_path}1";
+    fi;
 fi;
 
 log "$context" "Partitioning root at ${BOLD}$root_path${UNFORMAT} using remaining disk space.";

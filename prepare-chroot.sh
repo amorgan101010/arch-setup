@@ -12,9 +12,10 @@ Help()
     # Display Help
     echo "Prepares hardware to install Arch and chroot in. Must be root."
     echo
-    echo "Syntax: ./prepare-chroot.sh [-swy|h] DEVICE_PATH"
+    echo "Syntax: ./prepare-chroot.sh [-mswy|h] DEVICE_PATH"
     echo
     echo "options:"
+    echo "-m  Use BIOS/MBR rather than UEFI/GPT."
     echo "-s  Format a swap partition as well as system and root."
     echo "-w  write changes, rather than just logging intents."
     echo "-y  Skip prompts."
@@ -34,6 +35,7 @@ Help()
 BOLD=$(tput bold);
 UNFORMAT=$(tput sgr 0);
 
+mbr_flag="";
 swap_flag="";
 skip_flag="";
 write_flag="";
@@ -43,11 +45,14 @@ override_prompt=0;
 context=$(basename "$0");
 device_path="${*: -1}";
 
-while getopts "hswy" option; do
+while getopts "hmswy" option; do
     case $option in
         h) # display Help
             Help;
             exit;;
+        m) # Set mbr flag
+            mbr_flag="m";
+            ;;
         s) # Set swap flag
             swap_flag="s";
             ;;
@@ -82,7 +87,7 @@ then
 fi;
 
 log "$context" "Attempting to partition ${BOLD}$device_path${UNFORMAT}.";
-./partition.sh "-$swap_flag$write_flag$skip_flag" "$device_path";
+./partition.sh "-$mbr_flag$swap_flag$write_flag$skip_flag" "$device_path";
 
 log "$context" "Attempting to format ${BOLD}$device_path${UNFORMAT}.";
 ./format.sh "-$swap_flag$write_flag$skip_flag" "$device_path";

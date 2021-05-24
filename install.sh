@@ -12,10 +12,11 @@ Help()
     # Display Help
     echo "Installs Arch Linux, just the way I like it. Must be root."
     echo
-    echo "Syntax: ./($context) [-swy|h] DEVICE_PATH"
+    echo "Syntax: ./($context) [-gmswy|h] DEVICE_PATH"
     echo
     echo "options:"
     echo "-g  Install a GUI."
+    echo "-m  Use BIOS/MBR rather than UEFI/GPT." # Will I ever support BIOS/GPT?
     echo "-s  Format a swap partition as well as system and root."
     echo "-w  write changes, rather than just logging intents."
     echo "-y  Skip prompts."
@@ -35,6 +36,7 @@ Help()
 BOLD=$(tput bold);
 UNFORMAT=$(tput sgr 0);
 
+mbr_flag="";
 swap_flag="";
 skip_flag="";
 write_flag="";
@@ -45,10 +47,13 @@ write=0;
 context=$(basename "$0");
 device_path="${*: -1}";
 
-while getopts "ghswy" option; do
+while getopts "ghmswy" option; do
     case $option in
         g) # Set gui flag
             gui_flag="g";
+            ;;
+        m) # Set mbr flag
+            mbr_flag="m";
             ;;
         h) # display Help
             Help;
@@ -69,10 +74,7 @@ while getopts "ghswy" option; do
     esac
 done
 
-flags="-$swap_flag$write_flag$skip_flag";
-
 if [ "$write" -gt 0 ]; then
-
     red=$(tput setaf 1);
     log "$context" "${red}Changes WILL BE WRITTEN, potential data loss imminent.";
 else
@@ -83,11 +85,11 @@ fi;
 log "$context" "Attempting to install to ${BOLD}$device_path${UNFORMAT}.";
 
 log "$context" "Attempting to prepare destination with ${BOLD}prepare-chroot.sh${UNFORMAT}."
-./prepare-chroot.sh "$flags" "$device_path";
+./prepare-chroot.sh "-$mbr_flag$swap_flag$write_flag$skip_flag" "$device_path";
 
 log "$context" "Attempting to enter chroot and set up system with ${BOLD}within-chroot.sh${UNFORMAT}."
 if [ "$write" -gt 0 ]; then
-    arch-chroot /mnt ./within-chroot.sh "-$gui_flag";
+    arch-chroot /mnt /arch-setup/within-chroot.sh "-$gui_flag";
 fi;
 
 # TODO: Call unmount.sh
