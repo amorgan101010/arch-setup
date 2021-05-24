@@ -438,3 +438,111 @@ arch-chroot /chroots/installer-test /arch-setup/within-chroot.sh
     - Luckily, I have a spare ethernet to USB adapter! (and even more, in a drawer near my network switch...)
 
 - A perk of having the PC in its own special place is that there is room to attach my funky little exhaust fan cooler
+
+- For some reason, I am receiving no audio when streaming...
+
+  - Is that true of every game?
+
+- Also, it doesn't seem to want to stay full screen...I think when the streaming resolution drops, things aren't adapting properly
+
+- Y'know, I am now remembering similar resolution issues in Dark Souls 2 when I tried hooking it up to other devices previously
+
+- Assuming I do get everything working, there's no real reason to keep the PC in my room - might as well move it to the front room
+
+  - I know it was at one point, I think I switched to Gnome specifically to play GTA Vice City with remote play
+
+  - Speaking of that game, I guess it might be more likely to be stolen from the front room...which I'd call a good thing, but I have a lot of files on there
+
+    - No reason to rush to things, I like having a flexible ethernet cable that can be swapped between the PS4 and PC (and any future devices I might try setting up)
+
+- Getting things to remain fullscreen was as easy as checking the Gnome keybindings and discovering it isn't F11 like I expected (and indeed, it is unset)
+
+- Hmm, the old optiplex that has been sitting in my closet for a year unexpectedly booted up when I turned it on...
+
+  - Last time I checked, it was dead!
+
+- It will be a nice candidate for my installer scripts :D
+
+  - Currently, it has Xubuntu...probably because I happened to have a Xubuntu disk laying around when I set it up
+
+    - The hard drive seems to be toast (it dropped me into recovery mode right after I tried booting), but that's no biggie
+
+- First, a nice motive to actually run the full installer AND attempt to boot it after...
+
+  - Second, a nice test of portability
+
+  - Third, I could maybe try installing to the toast drive just for lulz to see how the flash drive is as an installer
+
+    - I can see that going either way, it's possible my arch laptop has some subtle thing I'm not thinking of
+
+- It would be pretty sweet if I could use my old Optiplex as the server it was always meant to be!
+
+- Assuming everything "just works" to the point I can immediately access the network, I will need to set up the machine for SSH so I don't have to be next to it or plug in a keyboard or anything
+
+  - I will also want to document said process and incorporate it into the installer (probably part of `as-user`)
+
+- The installer made it to attempting to run `./within-chroot` and failed, because that is no longer where the file lives
+
+  - I updated the installer to point in the right place, and I'm running that step manually in the hopes everything past that is fine (I'm almost cert)
+
+    - Alas, no, my pkglist organization has come to bite me!
+
+- Dang, I need to restart :/
+
+- Maaaybe it'll work this time?
+
+- Something interesting I noticed is that the chroot logs aren't colorized...
+
+  - I wonder if they would become colorized after installing some particular package?
+
+- It would be nice to have "undo" scripts for this part of the process, though I fear they would become unmaintained
+
+- Presumably this install is going to take even longer, because it should actually get to the stage where it installs Gnome and such
+
+- I wonder if installing X is still "necessary" with Gnome, now that it uses Wayland?
+
+- I have been sorta looking at used computers on Craigslist, which is always a very dangerous game for me
+
+  - There are, of course, incredible sounding deals
+
+- Perhaps a more productive thing to do while I wait on the installer would be scripting some stuff around the package lists
+
+- The installer has gotten all the way to installing GUI packages without issue!
+
+- Bash fileparsing resources:
+
+  - <https://www.digitalocean.com/community/tutorials/workflow-loop-through-files-in-a-directory>
+
+  - <https://www.cyberciti.biz/faq/bash-get-basename-of-filename-or-directory-name/>
+
+  - <https://stackoverflow.com/questions/965053/extract-filename-and-extension-in-bash>
+
+  - <https://linuxhint.com/bash_lowercase_uppercase_strings/>
+
+- Wow, I forgot just how long the installer takes when it actually works...
+
+  - Code makes it much slower, unfortunately
+
+  - Hopefully it shares some dependencies with Chrome...which I wish I had included, now
+
+    - Oh that's right, it is AURful
+
+- Daaaang, I think the whole install worked...
+
+- This is worth sticking into a log file!
+
+  - Uhh, never mind, it is far longer than my history goes back
+
+- I guess it is time for the second moment of truth, plugging it in!
+
+- Somewhat unsurprisingly, it did not work
+
+  - I suppose I am a fool for thinking the optiplex would support GPT!
+
+- I...don't really want to re-do that whole hour + process...
+
+  - I guess I'll need to skip the GUI next time :P
+
+- I think I will need to alter a few different scripts to support MBR...
+
+- All that said, MBR actually seems way simpler (fingers crossed)
