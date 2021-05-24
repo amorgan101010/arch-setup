@@ -15,7 +15,7 @@ Help()
     echo "-h  Print this Help."
     echo
     echo "# Ex: Run commands to prepare user space for movein."
-    echo "% sudo ./as-user.sh"
+    echo "% ./as-user.sh"
     echo
 }
 
