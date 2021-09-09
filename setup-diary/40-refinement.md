@@ -590,3 +590,17 @@ arch-chroot /chroots/installer-test /arch-setup/within-chroot.sh
     - Or make my install compatible with both by default?
 
     - That would be a good place to have a `--removable` flag...
+
+### 2021-09-09
+
+- Something I am running into on my current install that should be mitigated by this installer:
+
+- The 96.1 MB `boot` partition only has about 4MB remaining, and I keep getting annoying warnings about it
+
+- Surely I can spare the space to (at least) double that going forward.
+
+- Also, that warning is kinda putting the heat back on to actually finish this project!
+
+- It would be kinda nice to do a trial run of this on my optiplex, but I'd prefer to get a proper disk drive for it rather than rely on USB long term
+
+- Ideally, the optiplex would not need a gui...it just needs to be a media server, and maybe a pi-hole
