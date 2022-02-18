@@ -10,7 +10,7 @@
 Help()
 {
     # Display Help
-    echo "Converts a directory of non-WAV audio files to WAV with FFmpeg."
+    echo "Converts a directory of non-WAV audio files to WAV with FFmpeg. Currently supports OGG, FLAC, and MP3."
     echo
     echo "Syntax: ./convert-to-wav.sh [-w|h] TARGET_DIR_PATH"
     echo "options:"
@@ -59,9 +59,10 @@ for file in "$target_dir_path"/*; do
     extension="${filename##*.}"
     log "$context" "Considering file $filename for WAV conversion. It has an extension of $extension.";
     #filename="${filename%.*}"
-    if [ "$extension" == "ogg" -o "$extension" == "flac" ]; then
-        output_name_with_old_extension=$(echo "$filename" | awk -F "_" '{print $NF}');
-        output_name_sans_extension=$(echo ${output_name_with_old_extension%.*});
+    if [ "$extension" == "ogg" -o "$extension" == "flac" -o "$extension" == "mp3" ]; then
+        #output_name_with_old_extension=$(echo "$filename" | awk -F "_" '{print $NF}');
+        #output_name_sans_extension=$(echo ${output_name_with_old_extension%.*});
+        output_name_sans_extension=$(echo ${filename%.*});
         output_name_with_wav_extension="${output_name_sans_extension}.wav";
         output_name_with_path="$target_dir_path/$output_name_with_wav_extension";
 
