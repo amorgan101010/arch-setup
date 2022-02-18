@@ -53,9 +53,21 @@ log "$context" "Received request to convert audio files to WAV.";
 # Go through all the files and convert them to WAVs
 
 
-for file in "$target_dir_path"/*/*; do
-    log "$context" "Converting file $file.";
-    if [ "$write" -gt 0 ]; then
-        sort "$file";
+for file in "$target_dir_path"/*; do
+    # Clean up file name for logging and validation
+    filename=$(basename -- "$file")
+    extension="${filename##*.}"
+    log "$context" "Considering file $filename for WAV conversion. It has an extension of $extension.";
+    #filename="${filename%.*}"
+    if [ "$extension" == "ogg" -o "$extension" == "flac" ]; then
+        output_name_with_old_extension=$(echo "$filename" | awk -F "_" '{print $NF}');
+        output_name_sans_extension=$(echo ${output_name_with_old_extension%.*});
+        output_name_with_wav_extension="${output_name_sans_extension}.wav";
+        output_name_with_path="$target_dir_path/$output_name_with_wav_extension";
+
+        if [ "$write" -gt 0 ]; then
+            log "$context" "Converting $filename to WAV with output name $output_name_with_wav_extension.";
+            ffmpeg -i "$file" "$output_name_with_path"
+        fi;
     fi;
 done;
