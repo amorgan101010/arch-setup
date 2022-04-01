@@ -51,14 +51,14 @@ done;
 
 log "$context" "Received request to rename all files in directory.";
 
+# Declare constants
+extension=".wav";
+abbreviated_leader="DWP-MnM-";
+
 # Go through all the files and rename them
-
-
 for file in "$target_dir_path"/*; do
     # Clean up file name for logging and validation
     filename=$(basename -- "$file");
-
-    extension="${filename##*.}";
 
     log "$context" "Considering file $filename for renaming.";
 
@@ -66,32 +66,33 @@ for file in "$target_dir_path"/*; do
 
     # split extensionless filename by dashes
     # Based on: https://stackoverflow.com/q/918886
-    OIFS=$IFS;
-    IFS='-';
+    # and https://stackoverflow.com/a/918931
+    IFS='-' read -ra filename_split_by_dashes <<< "$long_filename_sans_extension";
 
-    filename_split_by_dashes=$long_filename_sans_extension;
+    #filename_split_by_dashes=$long_filename_sans_extension;
+    log "$context" "Here's the unique part of the filename: ${filename_split_by_dashes[-1]}";
 
     # Remaining steps:
-    # 1. Get part of filename after the last dash
+    # 1. Get part of filename after the last dash.
 
-    # 2. Attach it to my abbreviated leader
+    # 1.1 Optionally remove whitespace from unique portion of filename.
+    # Doing this mandates the IFS stuff be inside the for loop, I think.
 
-    # 3. Stick the extension back on to the reformatted string
+    # 2. Attach it to my abbreviated leader.
 
-    # 4. `cp`/`mv` old file to new name
-    # 4.1 (I'm a little nervous to use `mv` for this)
-    # 4.2 Yeah, I'll use `cp` and delete the old files after.
+    # 3. Stick the extension back on to the reformatted string.
+
+    # 4. `cp`/`mv` old file to new name.
+    # 4.1 (I'm a little nervous to use `mv` for this).
+    # 4.2 Yeah, I'll use `cp` and delete the old files after...
 
     # Done! Move on to next file.
-
-    # I could probably do this once outside the top for loop
-    IFS=$OIFS;
 
     output_name_with_wav_extension="${long_filename_sans_extension}.wav";
     output_name_with_path="$target_dir_path/$output_name_with_wav_extension";
 
     if [ "$write" -gt 0 ]; then
         log "$context" "Duplicating $filename to WAV with reformatted name $output_name_with_wav_extension.";
-        ffmpeg -i "$file" "$output_name_with_path"
+        #ffmpeg -i "$file" "$output_name_with_path"
     fi;
 done;
